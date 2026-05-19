@@ -248,6 +248,26 @@
     padding:8px 14px; border-radius:999px;
   }
   .gift-card .gc-rm:active { color:var(--warn); border-color:var(--warn); }
+  .gc-qty {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin:2px 0 12px; padding-left:6px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:12.5px; font-weight:700; color:var(--ink-soft);
+  }
+  .stepper {
+    display:flex; align-items:center; border:1px solid var(--line);
+    border-radius:999px; background:var(--paper-warm); overflow:hidden;
+  }
+  .stepper button {
+    width:40px; height:40px; border:0; background:none; cursor:pointer;
+    font-size:19px; line-height:1; color:var(--magic-deep); touch-action:manipulation;
+  }
+  .stepper button:disabled { color:var(--line); cursor:not-allowed; }
+  .stepper button:active:not(:disabled) { background:rgba(123,79,196,.14); }
+  .stepper .qv {
+    min-width:36px; text-align:center; font-weight:700; font-size:15px;
+    color:var(--ink); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+  }
   .gift-empty {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink-soft);
     font-size:14px; text-align:center; padding:24px 6px; line-height:1.6;
@@ -418,9 +438,10 @@
     <div class="eyebrow"><span class="sp">✦</span> El Laboratorio de Oz <span class="sp">✦</span></div>
     <h1>Prepara la <span class="glow">fiesta de experimentos</span></h1>
     <p>En El Laboratorio de Oz, mamá y papá arman ingrediente a ingrediente las
-       bandejas sensoriales que los pequeños invitados explorarán durante la
-       fiesta de cumpleaños. Cada elemento despierta una capacidad. Cuando el
-       kit esté listo, programa la entrega antes del gran día y paga.</p>
+       bandejas sensoriales de la fiesta de cumpleaños. No es un regalo para el
+       cumpleañero: se reparte una a cada pequeño invitado para que todos
+       exploren. Elige cuántas unidades quieres de cada experimento, programa
+       la entrega antes del gran día y paga.</p>
   </header>
 
   <main class="studio">
@@ -481,10 +502,14 @@
   <section class="gift" aria-label="El kit de la fiesta">
     <div class="gift-wrap">
       <h2>3 · El Kit de la Fiesta</h2>
+      <p class="hint-line" style="margin-top:0;margin-bottom:18px">
+        Elige cuántas unidades quieres de cada experimento: se entrega una
+        bandeja a cada pequeño invitado para que todos jueguen y se la lleven a casa.
+      </p>
       <div class="gift-grid" id="giftTrays">
         <div class="gift-empty" id="giftEmpty">
-          Aún no hay experimentos en el kit. Crea uno arriba y súmalo —
-          añade varios para que ningún pequeño científico se quede sin explorar.
+          Aún no hay experimentos en el kit. Crea uno arriba y súmalo; luego
+          elige cuántas unidades preparar — idealmente una por invitado.
         </div>
       </div>
       <div class="gift-foot">
@@ -901,7 +926,7 @@
   function addTrayToGift() {
     if (Object.keys(current).length === 0) return;
     var nm = trayName.value.trim() || ("Experimento " + (gift.length + 1));
-    gift.push({ name: nm, scoops: Object.assign({}, current), price: priceOf(current) });
+    gift.push({ name: nm, scoops: Object.assign({}, current), price: priceOf(current), qty: 1 });
     current = {}; trayName.value = "";
     clearTrayVisual(); renderCurrent(); renderGift();
   }
@@ -928,31 +953,61 @@
       updateBar();
       return;
     }
-    var total = 0;
+    var total = 0, units = 0;
     gift.forEach(function (t, idx) {
-      total += t.price;
+      var line = t.price * t.qty;
+      total += line; units += t.qty;
       var card = document.createElement("div");
       card.className = "gift-card";
+
       var h = document.createElement("h3");
       h.textContent = t.name;
+
       var mats = document.createElement("div");
       mats.className = "mats";
       mats.textContent = Object.keys(t.scoops).map(function (id) {
         return byId[id].name + " ×" + t.scoops[id];
       }).join(" · ");
+
+      var qrow = document.createElement("div");
+      qrow.className = "gc-qty";
+      var qlab = document.createElement("span");
+      qlab.textContent = "Unidades para invitados";
+      var step = document.createElement("div");
+      step.className = "stepper";
+      var dec = document.createElement("button");
+      dec.type = "button"; dec.textContent = "−";
+      dec.setAttribute("aria-label", "Quitar una unidad de " + t.name);
+      dec.disabled = t.qty <= 1;
+      var qv = document.createElement("span");
+      qv.className = "qv"; qv.textContent = t.qty;
+      var inc = document.createElement("button");
+      inc.type = "button"; inc.textContent = "+";
+      inc.setAttribute("aria-label", "Añadir una unidad de " + t.name);
+      inc.disabled = t.qty >= 60;
+      dec.addEventListener("click", function () { if (t.qty > 1) { t.qty--; renderGift(); } });
+      inc.addEventListener("click", function () { if (t.qty < 60) { t.qty++; renderGift(); } });
+      step.appendChild(dec); step.appendChild(qv); step.appendChild(inc);
+      qrow.appendChild(qlab); qrow.appendChild(step);
+
       var foot = document.createElement("div");
       foot.className = "gc-foot";
       var pr = document.createElement("span");
-      pr.className = "gc-price"; pr.textContent = "$" + t.price;
+      pr.className = "gc-price";
+      pr.textContent = "$" + line + (t.qty > 1 ? "  ·  $" + t.price + " c/u" : "");
       var rm = document.createElement("button");
       rm.className = "gc-rm"; rm.type = "button";
       rm.textContent = "Quitar";
       rm.addEventListener("click", function () { gift.splice(idx, 1); renderGift(); });
       foot.appendChild(pr); foot.appendChild(rm);
-      card.appendChild(h); card.appendChild(mats); card.appendChild(foot);
+
+      card.appendChild(h); card.appendChild(mats);
+      card.appendChild(qrow); card.appendChild(foot);
       giftTrays.appendChild(card);
     });
-    giftCount.textContent = gift.length + (gift.length === 1 ? " experimento" : " experimentos");
+    giftCount.textContent =
+      gift.length + (gift.length === 1 ? " experimento · " : " experimentos · ") +
+      units + (units === 1 ? " bandeja" : " bandejas");
     giftTotal.textContent = "$" + total;
     checkoutBtn.disabled = false;
     updateBar();
@@ -1074,11 +1129,12 @@
     box.innerHTML = "";
     var total = 0;
     gift.forEach(function (t) {
-      total += t.price;
+      var line = t.price * t.qty;
+      total += line;
       var r = document.createElement("div");
       r.className = "ob-r";
-      var a = document.createElement("span"); a.textContent = t.name;
-      var b = document.createElement("span"); b.textContent = "$" + t.price;
+      var a = document.createElement("span"); a.textContent = t.name + " ×" + t.qty;
+      var b = document.createElement("span"); b.textContent = "$" + line;
       r.appendChild(a); r.appendChild(b); box.appendChild(r);
     });
     var tr = document.createElement("div");
@@ -1132,13 +1188,16 @@
     var d = $("deliveryDate").value, win = $("deliveryWindow").value;
     var bday = $("birthday").value, addr = $("address").value.trim();
     var msg = $("giftMsg").value.trim();
+    var units = gift.reduce(function (s, t) { return s + t.qty; }, 0);
 
     $("confTitle").textContent = "¡El laboratorio de " + child + " está listo!";
     $("confLead").textContent =
-      "Has preparado " + gift.length +
-      (gift.length === 1 ? " experimento sensorial" : " experimentos sensoriales") +
-      " para la fiesta de " + child + ". Sus " + guests +
-      " pequeños invitados van a explorar como auténticos científicos.";
+      "Has preparado " + units +
+      (units === 1 ? " bandeja sensorial" : " bandejas sensoriales") +
+      " (" + gift.length + (gift.length === 1 ? " experimento" : " experimentos") +
+      ") para repartir entre los " + guests +
+      " pequeños invitados de la fiesta de " + child +
+      ". Una para cada peque, para explorar y llevársela a casa.";
 
     var deliv = $("confDeliv");
     deliv.innerHTML = "";
