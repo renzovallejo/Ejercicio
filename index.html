@@ -2,93 +2,140 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Estudio de Bandejas Sensoriales · Un regalo de cumpleaños hecho a mano</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0f1f1b" />
+<title>El Laboratorio de Oz · Magia y experimentación sensorial</title>
 <style>
   :root {
-    --paper:#faf6f0; --paper-warm:#f3ece1; --ink:#3a352e; --ink-soft:#7a7163;
-    --line:#e4dccd; --wood:#c9a972; --wood-deep:#b08c54;
-    --accent:#8a9a7b; --accent-deep:#6f7f60; --warn:#b9794e;
-    --shadow:0 18px 40px -22px rgba(58,53,46,.45);
+    --bg-deep:#0f1f1b; --paper:#f6efdd; --paper-warm:#efe6cf;
+    --ink:#22302a; --ink-soft:#6f7a6b; --line:#ddd1b4;
+    --emerald:#2c8a6e; --emerald-deep:#1d5e4b; --emerald-glow:rgba(64,176,142,.45);
+    --gold:#c9a44c; --gold-soft:#e7cf8f;
+    --glass-1:#1c3b34; --glass-2:#15302a; --warn:#bd6f43;
+    --shadow:0 22px 48px -24px rgba(8,22,18,.7);
+    --sat:env(safe-area-inset-top,0px);
+    --sab:env(safe-area-inset-bottom,0px);
   }
-  * { box-sizing:border-box; margin:0; padding:0; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
   html,body { height:100%; }
   body {
     font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    background:radial-gradient(1200px 700px at 50% -10%,#fffdf9 0%,var(--paper) 55%,var(--paper-warm) 100%);
     color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility; overflow-x:hidden;
+    background:
+      radial-gradient(900px 520px at 50% -8%, rgba(64,176,142,.20), rgba(64,176,142,0) 60%),
+      radial-gradient(700px 460px at 85% 8%, rgba(201,164,76,.16), rgba(201,164,76,0) 55%),
+      radial-gradient(1100px 700px at 50% 120%, rgba(15,31,27,.10), rgba(15,31,27,0) 60%),
+      linear-gradient(180deg,#fbf6e9 0%, var(--paper) 45%, var(--paper-warm) 100%);
   }
+  body.lock { overflow:hidden; }
+  body.has-bar { padding-bottom:calc(92px + var(--sab)); }
   .ui { font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif; }
 
-  header { text-align:center; padding:46px 20px 8px; }
+  /* ---------- Cabecera ---------- */
+  header {
+    text-align:center; padding:calc(28px + var(--sat)) 20px 6px;
+    position:relative;
+  }
   header .eyebrow {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    text-transform:uppercase; letter-spacing:.34em; font-size:11px;
-    color:var(--ink-soft); margin-bottom:14px;
+    text-transform:uppercase; letter-spacing:.32em; font-size:10.5px;
+    color:var(--emerald-deep); margin-bottom:12px; font-weight:700;
   }
-  header h1 { font-weight:500; font-size:clamp(28px,4.4vw,46px); letter-spacing:.01em; }
+  header .eyebrow .sp { color:var(--gold); }
+  header h1 {
+    font-weight:500; font-size:clamp(26px,7.4vw,48px); letter-spacing:.01em;
+    line-height:1.16;
+  }
+  header h1 .glow { color:var(--emerald-deep); }
   header p {
-    margin:14px auto 0; max-width:580px; color:var(--ink-soft);
-    font-size:16px; line-height:1.65;
+    margin:12px auto 0; max-width:600px; color:var(--ink-soft);
+    font-size:14.5px; line-height:1.62; padding:0 4px;
   }
 
-  .studio {
-    max-width:1180px; margin:30px auto 30px; padding:0 24px;
-    display:grid; grid-template-columns:1fr 0.92fr; gap:54px; align-items:start;
-  }
+  /* ---------- Estudio (mobile-first) ---------- */
+  .studio { max-width:1180px; margin:22px auto; padding:0 16px; display:block; }
+  .pantry, .composer { margin-bottom:30px; }
   .pantry h2,.composer h2,.gift h2 {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:12px; text-transform:uppercase; letter-spacing:.26em;
-    color:var(--ink-soft); margin-bottom:22px; font-weight:600;
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.2em;
+    color:var(--ink-soft); margin-bottom:16px; font-weight:700;
+    display:flex; align-items:center; gap:9px;
+  }
+  .pantry h2::before,.composer h2::before,.gift h2::before {
+    content:"✦"; color:var(--gold); font-size:13px; -webkit-text-stroke:0;
   }
 
-  .shelf { display:grid; grid-template-columns:repeat(3,1fr); gap:24px 18px; }
+  .shelf { display:grid; grid-template-columns:repeat(2,1fr); gap:14px 12px; }
   .ing {
-    background:none; border:0; cursor:grab; text-align:center; padding:12px 8px;
-    border-radius:16px; transition:transform .25s ease,background .25s ease;
-    touch-action:none; -webkit-tap-highlight-color:transparent;
+    background:#fffaf0; border:1px solid var(--line); cursor:grab;
+    text-align:center; padding:16px 8px 14px; border-radius:18px;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    touch-action:none;
   }
-  .ing:hover { transform:translateY(-4px); background:rgba(255,255,255,.55); }
-  .ing:active { cursor:grabbing; }
+  .ing:active { cursor:grabbing; transform:scale(.97); }
   .ing.dragging { opacity:.35; }
   .dish {
-    width:84px; height:84px; margin:0 auto 12px; border-radius:50%;
+    width:74px; height:74px; margin:0 auto 11px; border-radius:50%;
     position:relative; overflow:hidden;
-    background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.55),rgba(255,255,255,0) 55%),var(--dish,#ddd);
-    box-shadow:inset 0 -8px 14px -8px rgba(0,0,0,.28),inset 0 4px 8px -4px rgba(255,255,255,.7),0 10px 18px -12px rgba(58,53,46,.5);
+    background:
+      radial-gradient(circle at 30% 24%, rgba(255,255,255,.7), rgba(255,255,255,0) 52%),
+      var(--dish,#ddd);
+    box-shadow:
+      inset 0 -9px 15px -8px rgba(8,22,18,.4),
+      inset 0 5px 9px -4px rgba(255,255,255,.85),
+      0 0 0 1px rgba(255,255,255,.25),
+      0 8px 16px -10px rgba(8,22,18,.5);
+  }
+  .dish::after {
+    content:""; position:absolute; inset:0; border-radius:50%;
+    box-shadow:inset 0 0 12px -3px var(--emerald-glow); opacity:.5;
   }
   .dish .speck { position:absolute; border-radius:50%; pointer-events:none; }
-  .ing .name { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px; font-weight:600; letter-spacing:.02em; }
-  .ing .skill { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; font-weight:600; color:var(--accent-deep); margin-top:5px; }
-  .ing .price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; color:var(--ink-soft); margin-top:4px; }
+  .ing .name { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px; font-weight:700; }
+  .ing .skill { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10.5px; font-weight:700; color:var(--emerald-deep); margin-top:5px; line-height:1.3; }
+  .ing .price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px; color:var(--ink-soft); margin-top:5px; }
+  .add-pill {
+    display:inline-block; margin-top:10px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:11px; font-weight:700; color:var(--bg-deep); background:var(--gold-soft);
+    border-radius:999px; padding:5px 13px; letter-spacing:.02em;
+  }
   .hint-line {
-    margin-top:26px; font-size:13.5px; color:var(--ink-soft);
-    line-height:1.6; border-left:2px solid var(--line); padding-left:14px;
+    margin-top:18px; font-size:13px; color:var(--ink-soft);
+    line-height:1.55; border-left:2px solid var(--gold); padding-left:12px;
+    font-style:italic;
   }
 
-  .composer { position:sticky; top:28px; }
   .tray-wrap { perspective:1200px; }
   .tray {
-    position:relative; width:100%; aspect-ratio:1/0.86; border-radius:30px;
-    background:linear-gradient(180deg,var(--wood) 0%,var(--wood-deep) 100%);
-    padding:22px; box-shadow:var(--shadow);
+    position:relative; width:100%; aspect-ratio:1/0.78; border-radius:26px;
+    background:linear-gradient(180deg,var(--glass-1) 0%,var(--glass-2) 100%);
+    padding:16px; box-shadow:var(--shadow);
     transition:transform .35s ease,box-shadow .35s ease;
   }
-  .tray.lift { transform:rotateX(3deg) scale(1.012); box-shadow:0 30px 55px -24px rgba(58,53,46,.6); }
+  .tray::before {
+    content:""; position:absolute; inset:0; border-radius:26px; pointer-events:none;
+    background:linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,0) 40%);
+  }
+  .tray.lift { transform:scale(1.014); box-shadow:0 0 0 2px var(--emerald-glow),var(--shadow); }
   .tray-inner {
-    position:relative; width:100%; height:100%; border-radius:18px; overflow:hidden;
-    background:radial-gradient(120% 90% at 50% 0%,#fcf8f1 0%,#efe6d4 70%,#e7dcc4 100%);
-    box-shadow:inset 0 10px 22px -12px rgba(138,107,60,.6),inset 0 -8px 16px -10px rgba(138,107,60,.45);
+    position:relative; width:100%; height:100%; border-radius:16px; overflow:hidden;
+    background:
+      radial-gradient(120% 95% at 50% 0%, #fffaf0 0%, #f0e7d0 68%, #e6dabd 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(201,164,76,.35),
+      inset 0 12px 24px -12px rgba(20,48,42,.55),
+      inset 0 -8px 16px -10px rgba(20,48,42,.4);
   }
   .empty {
     position:absolute; inset:0; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:10px; text-align:center;
-    color:var(--ink-soft); padding:30px; transition:opacity .4s ease;
+    align-items:center; justify-content:center; gap:9px; text-align:center;
+    color:var(--ink-soft); padding:26px; transition:opacity .4s ease;
   }
-  .empty svg { opacity:.5; }
-  .empty .big { font-size:18px; color:var(--ink); }
-  .empty .small { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px; letter-spacing:.04em; }
+  .empty svg { opacity:.55; color:var(--emerald-deep); }
+  .empty .big { font-size:17px; color:var(--ink); }
+  .empty .small { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; letter-spacing:.03em; }
   .tray.filled .empty { opacity:0; pointer-events:none; }
   .grain {
     position:absolute; border-radius:50%; pointer-events:none;
@@ -99,237 +146,300 @@
   @keyframes grainOut { to { transform:scale(0); opacity:0; } }
 
   .panel {
-    margin-top:26px; background:#fffdf9; border:1px solid var(--line);
-    border-radius:18px; padding:20px 22px;
+    margin-top:18px; background:#fffaf0; border:1px solid var(--line);
+    border-radius:18px; padding:18px;
   }
   .tray-name {
-    width:100%; padding:13px 16px; border:1px solid var(--line);
+    width:100%; padding:14px 15px; border:1px solid var(--line);
     border-radius:12px; background:#fff;
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px; color:var(--ink);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:16px; color:var(--ink);
   }
   .tray-name::placeholder { color:var(--ink-soft); }
-  .tray-name:focus { outline:2px solid var(--accent); outline-offset:1px; }
+  .tray-name:focus { outline:2px solid var(--emerald); outline-offset:1px; }
   .recipe-row {
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
-    padding:9px 0; border-bottom:1px dashed var(--line); animation:rowIn .3s ease;
+    padding:10px 0; border-bottom:1px dashed var(--line); animation:rowIn .3s ease;
   }
   @keyframes rowIn { from { opacity:0; transform:translateY(4px); } }
   .recipe-row:last-of-type { border-bottom:0; }
-  .recipe-row .label { display:flex; align-items:center; gap:11px; }
+  .recipe-row .label { display:flex; align-items:center; gap:10px; }
   .recipe-row .swatch { width:16px; height:16px; border-radius:50%; box-shadow:inset 0 -3px 4px -2px rgba(0,0,0,.3); flex:none; }
-  .recipe-row .qty { color:var(--ink-soft); font-size:12.5px; margin-left:2px; }
-  .recipe-row .right { display:flex; align-items:center; gap:12px; }
+  .recipe-row .qty { color:var(--ink-soft); font-size:12.5px; }
+  .recipe-row .right { display:flex; align-items:center; gap:10px; }
   .recipe-row .lp { color:var(--ink-soft); }
   .recipe-row button.rm {
     border:0; background:none; cursor:pointer; color:var(--ink-soft);
-    font-size:17px; line-height:1; width:24px; height:24px; border-radius:50%;
+    font-size:20px; line-height:1; width:32px; height:32px; border-radius:50%;
     transition:background .2s,color .2s;
   }
-  .recipe-row button.rm:hover { background:var(--paper-warm); color:var(--ink); }
+  .recipe-row button.rm:active { background:var(--paper-warm); color:var(--ink); }
   .empty-recipe {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13.5px;
-    color:var(--ink-soft); text-align:center; padding:14px 0;
+    color:var(--ink-soft); text-align:center; padding:16px 0;
   }
   .totals {
     display:flex; align-items:baseline; justify-content:space-between;
-    margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+    margin-top:14px; padding-top:14px; border-top:1px solid var(--line);
   }
-  .totals .t-label { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-soft); }
-  .totals .t-value { font-size:22px; font-weight:500; }
+  .totals .t-label { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
+  .totals .t-value { font-size:22px; font-weight:700; color:var(--emerald-deep); }
 
-  .dev { margin-top:16px; border-top:1px solid var(--line); padding-top:16px; }
+  .dev { margin-top:14px; border-top:1px solid var(--line); padding-top:14px; }
   .dev[hidden]{ display:none; }
   .dev .dev-title {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px;
-    text-transform:uppercase; letter-spacing:.2em; color:var(--accent-deep);
+    text-transform:uppercase; letter-spacing:.14em; color:var(--emerald-deep);
     font-weight:700; margin-bottom:12px;
   }
   .dev ul { list-style:none; }
   .dev li {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; display:flex;
-    gap:11px; padding:7px 0; font-size:12.5px; line-height:1.5; animation:rowIn .3s ease;
+    gap:10px; padding:7px 0; font-size:12.5px; line-height:1.5; animation:rowIn .3s ease;
   }
-  .dev li .dot { width:9px; height:9px; border-radius:50%; margin-top:4px; flex:none; background:var(--accent); }
+  .dev li .dot { width:9px; height:9px; border-radius:50%; margin-top:4px; flex:none; }
   .dev li b { color:var(--ink); font-weight:700; }
   .dev li span { color:var(--ink-soft); }
 
-  .actions { display:flex; gap:12px; margin-top:16px; }
+  .actions { display:flex; gap:10px; margin-top:16px; }
   .btn {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
-    font-weight:600; letter-spacing:.02em; border-radius:13px; padding:15px 22px;
-    cursor:pointer; border:1px solid transparent;
-    transition:transform .15s ease,background .25s ease,opacity .25s ease;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:15px;
+    font-weight:700; letter-spacing:.01em; border-radius:14px; padding:16px 20px;
+    cursor:pointer; border:1px solid transparent; touch-action:manipulation;
+    transition:transform .12s ease,background .25s ease,opacity .25s ease,box-shadow .25s ease;
   }
   .btn:active { transform:translateY(1px); }
-  .btn-primary { flex:1; background:var(--accent); color:#fff; box-shadow:0 12px 22px -14px var(--accent-deep); }
-  .btn-primary:hover { background:var(--accent-deep); }
-  .btn-primary:disabled { background:var(--line); color:var(--ink-soft); cursor:not-allowed; box-shadow:none; }
+  .btn-primary {
+    flex:1; color:#fff;
+    background:linear-gradient(180deg,var(--emerald) 0%,var(--emerald-deep) 100%);
+    box-shadow:0 0 0 1px rgba(201,164,76,.35), 0 14px 24px -14px var(--emerald-deep);
+  }
+  .btn-primary:disabled { background:var(--line); color:var(--ink-soft); box-shadow:none; cursor:not-allowed; }
   .btn-ghost { background:transparent; color:var(--ink-soft); border-color:var(--line); }
-  .btn-ghost:hover { color:var(--ink); border-color:var(--ink-soft); }
 
-  /* ----- Regalo (varias bandejas) ----- */
-  .gift {
-    max-width:1180px; margin:0 auto 90px; padding:0 24px;
-  }
-  .gift-wrap { background:#fffdf9; border:1px solid var(--line); border-radius:22px; padding:28px 28px 30px; }
-  .gift-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px; }
+  /* ---------- Kit de la fiesta ---------- */
+  .gift { max-width:1180px; margin:0 auto 30px; padding:0 16px; }
+  .gift-wrap { background:#fffaf0; border:1px solid var(--line); border-radius:20px; padding:22px 18px 24px; }
+  .gift-grid { display:grid; grid-template-columns:1fr; gap:14px; }
   .gift-card {
-    border:1px solid var(--line); border-radius:16px; padding:16px 16px 14px;
-    background:var(--paper); position:relative; animation:rowIn .3s ease;
+    border:1px solid var(--line); border-radius:16px; padding:16px;
+    background:var(--paper); animation:rowIn .3s ease; position:relative; overflow:hidden;
   }
-  .gift-card h3 { font-size:17px; font-weight:500; margin-bottom:4px; }
+  .gift-card::before {
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background:linear-gradient(180deg,var(--emerald),var(--gold));
+  }
+  .gift-card h3 { font-size:18px; font-weight:500; padding-left:6px; }
   .gift-card .mats {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px;
-    color:var(--ink-soft); line-height:1.55; margin:8px 0 12px;
-  }
-  .gift-card .gc-foot { display:flex; align-items:center; justify-content:space-between; }
-  .gift-card .gc-price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-weight:600; font-size:14px; }
-  .gift-card .gc-rm {
-    border:0; background:none; cursor:pointer; color:var(--ink-soft);
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
+    color:var(--ink-soft); line-height:1.55; margin:8px 0 14px; padding-left:6px;
   }
-  .gift-card .gc-rm:hover { color:var(--warn); }
+  .gift-card .gc-foot { display:flex; align-items:center; justify-content:space-between; padding-left:6px; }
+  .gift-card .gc-price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-weight:700; font-size:15px; color:var(--emerald-deep); }
+  .gift-card .gc-rm {
+    border:1px solid var(--line); background:none; cursor:pointer; color:var(--ink-soft);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px;
+    padding:8px 14px; border-radius:999px;
+  }
+  .gift-card .gc-rm:active { color:var(--warn); border-color:var(--warn); }
   .gift-empty {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink-soft);
-    font-size:14px; text-align:center; padding:26px 0;
+    font-size:14px; text-align:center; padding:24px 6px; line-height:1.6;
   }
   .gift-foot {
-    margin-top:24px; padding-top:22px; border-top:1px solid var(--line);
-    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    margin-top:20px; padding-top:18px; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:14px;
   }
-  .gift-foot .sum { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; }
-  .gift-foot .sum .n { font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
-  .gift-foot .sum .v { font-size:26px; font-weight:600; margin-top:4px; }
-  .gift-foot .btn-primary { flex:0 0 auto; min-width:260px; }
+  .gift-foot .sum { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; display:flex; align-items:baseline; justify-content:space-between; }
+  .gift-foot .sum .n { font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); }
+  .gift-foot .sum .v { font-size:26px; font-weight:700; color:var(--emerald-deep); }
+  .gift-foot .btn-primary { width:100%; }
 
-  /* ----- Fantasma de arrastre ----- */
+  /* ---------- Barra fija (mobile) ---------- */
+  .bar {
+    position:fixed; left:0; right:0; bottom:0; z-index:900;
+    background:rgba(20,40,35,.92);
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    border-top:1px solid rgba(201,164,76,.4);
+    padding:12px 16px calc(12px + var(--sab));
+    display:flex; align-items:center; gap:14px;
+    box-shadow:0 -10px 30px -20px rgba(8,22,18,.8);
+    transform:translateY(120%); transition:transform .3s ease;
+  }
+  .bar.show { transform:translateY(0); }
+  .bar .bar-info { flex:1; min-width:0; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:#f6efdd; }
+  .bar .bar-label { display:block; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold-soft); }
+  .bar .bar-val { display:block; font-size:20px; font-weight:700; margin-top:2px; }
+  .bar .btn { flex:0 0 auto; padding:15px 22px; }
+
   .ghost {
-    position:fixed; z-index:999; pointer-events:none; width:70px; height:70px;
+    position:fixed; z-index:999; pointer-events:none; width:64px; height:64px;
     border-radius:50%; transform:translate(-50%,-50%) scale(1.05);
-    box-shadow:0 16px 28px -14px rgba(58,53,46,.6); opacity:.96;
+    box-shadow:0 0 16px -2px var(--emerald-glow),0 16px 28px -14px rgba(8,22,18,.7); opacity:.96;
   }
 
-  /* ----- Checkout overlay ----- */
+  /* ---------- Checkout ---------- */
   .overlay {
-    position:fixed; inset:0; background:rgba(43,39,33,.46); backdrop-filter:blur(3px);
-    display:flex; align-items:flex-start; justify-content:center; padding:32px 20px;
-    opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:1000; overflow-y:auto;
+    position:fixed; inset:0;
+    background:linear-gradient(180deg,#fbf6e9 0%, var(--paper) 60%, var(--paper-warm) 100%);
+    opacity:0; pointer-events:none; transition:opacity .28s ease;
+    z-index:1000; overflow-y:auto; -webkit-overflow-scrolling:touch;
   }
   .overlay.show { opacity:1; pointer-events:auto; }
   .sheet {
-    background:var(--paper); border-radius:22px; max-width:560px; width:100%;
-    padding:34px 34px 30px; box-shadow:0 40px 70px -30px rgba(0,0,0,.5);
-    transform:translateY(16px) scale(.985); transition:transform .35s cubic-bezier(.22,.61,.36,1);
-    margin:auto;
+    min-height:100%; width:100%; max-width:620px; margin:0 auto;
+    padding:calc(18px + var(--sat)) 18px calc(24px + var(--sab));
+    display:flex; flex-direction:column;
   }
-  .overlay.show .sheet { transform:none; }
-
-  .steps { display:flex; gap:8px; margin-bottom:26px; }
+  .sheet-top { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+  .sheet-top .back {
+    border:1px solid var(--line); background:#fffaf0; border-radius:50%;
+    width:40px; height:40px; font-size:18px; color:var(--ink-soft);
+    cursor:pointer; flex:none; line-height:1;
+  }
+  .steps { display:flex; gap:6px; flex:1; }
   .steps .st {
     flex:1; text-align:center; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:11px; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--ink-soft); padding-bottom:10px; border-bottom:2px solid var(--line);
+    font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--ink-soft); padding-bottom:9px; border-bottom:2px solid var(--line);
     transition:color .3s,border-color .3s;
   }
-  .steps .st.active { color:var(--accent-deep); border-color:var(--accent); font-weight:700; }
-  .steps .st.done { color:var(--accent-deep); border-color:var(--accent); }
+  .steps .st.active { color:var(--emerald-deep); border-color:var(--emerald); font-weight:700; }
+  .steps .st.done { color:var(--emerald-deep); border-color:var(--gold); }
 
-  .sheet h3 { font-size:23px; font-weight:500; margin-bottom:6px; }
-  .sheet .lead { color:var(--ink-soft); font-size:14.5px; line-height:1.6; margin-bottom:22px; }
-  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; }
+  .sheet h3 { font-size:22px; font-weight:500; margin-bottom:6px; }
+  .sheet h3 .glow { color:var(--emerald-deep); }
+  .sheet .lead { color:var(--ink-soft); font-size:14px; line-height:1.6; margin-bottom:20px; }
+  .form-grid { display:grid; grid-template-columns:1fr; gap:14px; }
   .field { display:flex; flex-direction:column; }
-  .field.full { grid-column:1 / -1; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   .field label {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px;
-    font-weight:600; color:var(--ink-soft); margin-bottom:7px; letter-spacing:.02em;
+    font-weight:700; color:var(--ink-soft); margin-bottom:7px;
   }
   .field input, .field select, .field textarea {
-    border:1px solid var(--line); border-radius:11px; padding:12px 14px;
-    background:#fffdf9; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:14px; color:var(--ink); width:100%;
+    border:1px solid var(--line); border-radius:12px; padding:14px 15px;
+    background:#fffaf0; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:16px; color:var(--ink); width:100%;
   }
-  .field textarea { resize:vertical; min-height:64px; }
-  .field input:focus,.field select:focus,.field textarea:focus { outline:2px solid var(--accent); outline-offset:1px; }
+  .field textarea { resize:vertical; min-height:70px; }
+  .field input:focus,.field select:focus,.field textarea:focus { outline:2px solid var(--emerald); outline-offset:1px; }
   .field input.bad,.field select.bad { border-color:var(--warn); }
   .field .err {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px;
-    color:var(--warn); margin-top:6px; min-height:14px;
+    color:var(--warn); margin-top:6px; min-height:13px;
   }
   .note {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
     color:var(--warn); margin-top:14px; line-height:1.5;
+    background:rgba(189,111,67,.09); border-radius:10px; padding:12px 14px;
   }
   .note[hidden]{ display:none; }
 
   .order-box {
-    background:#fffdf9; border:1px solid var(--line); border-radius:14px;
-    padding:16px 18px; margin:6px 0 20px;
+    background:#fffaf0; border:1px solid var(--line); border-radius:14px;
+    padding:16px 18px; margin:6px 0 18px;
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
   }
-  .order-box .ob-r { display:flex; justify-content:space-between; font-size:13px; padding:4px 0; color:var(--ink); }
+  .order-box .ob-r { display:flex; justify-content:space-between; font-size:13.5px; padding:5px 0; color:var(--ink); }
   .order-box .ob-r span:last-child { color:var(--ink-soft); }
   .order-box .ob-r.tot { font-weight:700; font-size:15px; border-top:1px dashed var(--line); margin-top:8px; padding-top:10px; }
-  .order-box .ob-r.tot span:last-child { color:var(--ink); }
+  .order-box .ob-r.tot span:last-child { color:var(--emerald-deep); }
 
-  .sheet-actions { display:flex; gap:12px; margin-top:24px; }
+  .sheet-actions { display:flex; gap:10px; margin-top:auto; padding-top:24px; }
+  .sheet-actions .btn { flex:1; }
 
   .seal {
-    width:64px; height:64px; border-radius:50%; margin:0 auto 20px;
-    background:var(--accent); color:#fff; display:flex; align-items:center;
+    width:66px; height:66px; border-radius:50%; margin:8px auto 18px;
+    background:linear-gradient(180deg,var(--emerald),var(--emerald-deep));
+    color:var(--gold-soft); display:flex; align-items:center;
     justify-content:center; font-size:30px;
+    box-shadow:0 0 0 6px rgba(201,164,76,.18), 0 0 28px -6px var(--emerald-glow);
   }
   .conf-center { text-align:center; }
   .conf-deliv {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
-    background:#fffdf9; border:1px solid var(--line); border-radius:12px;
-    padding:14px 16px; margin:18px 0; color:var(--ink);
+    background:#fffaf0; border:1px solid var(--line); border-radius:14px;
+    padding:16px; margin:18px 0; color:var(--ink); line-height:1.55;
   }
-  .conf-deliv b { color:var(--accent-deep); }
+  .conf-deliv b { color:var(--emerald-deep); }
 
-  @media (max-width:860px) {
-    .studio { grid-template-columns:1fr; gap:40px; }
-    .composer { position:static; order:-1; }
-    header { padding-top:34px; }
-    .form-grid { grid-template-columns:1fr; }
-    .gift-foot .btn-primary { min-width:0; width:100%; }
+  @media (min-width:620px) {
+    .shelf { grid-template-columns:repeat(3,1fr); }
+    .gift-grid { grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
+  }
+  @media (min-width:861px) {
+    body.has-bar { padding-bottom:0; }
+    header { padding-top:48px; }
+    header p { font-size:16px; }
+    .studio {
+      display:grid; grid-template-columns:1fr 0.92fr; gap:54px;
+      align-items:start; padding:0 24px; margin:30px auto;
+    }
+    .pantry, .composer { margin-bottom:0; }
+    .composer { position:sticky; top:28px; }
+    .gift { padding:0 24px; margin-bottom:80px; }
+    .gift-wrap { padding:28px; }
+    .gift-foot { flex-direction:row; align-items:center; justify-content:space-between; }
+    .gift-foot .sum { display:block; }
+    .gift-foot .sum .n { display:block; }
+    .gift-foot .sum .v { margin-top:4px; }
+    .gift-foot .btn-primary { width:auto; min-width:260px; flex:0 0 auto; }
+    .bar { display:none; }
+    .ing { background:none; border:0; padding:12px 8px; }
+    .ing:hover { transform:translateY(-4px); background:rgba(255,255,255,.55); border-radius:16px; }
+    .add-pill { display:none; }
+    .overlay {
+      background:rgba(15,31,27,.55); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+      display:flex; align-items:flex-start; justify-content:center; padding:34px 20px;
+    }
+    .sheet {
+      background:var(--paper); border-radius:22px; min-height:0;
+      max-width:560px; padding:32px 34px; margin:auto;
+      box-shadow:0 0 0 1px rgba(201,164,76,.3), 0 40px 70px -30px rgba(8,22,18,.7);
+    }
+    .sheet-top .back { display:none; }
+    .field input,.field select,.field textarea,.tray-name { font-size:14px; }
   }
 </style>
 </head>
 <body>
 
   <header>
-    <div class="eyebrow">Estudio de Bandejas Sensoriales</div>
-    <h1>Crea el regalo de cumpleaños</h1>
-    <p>Compón tú mismo una o varias bandejas sensoriales para tu peque.
-       Cada material desarrolla una capacidad distinta. Cuando tengas el
-       regalo listo, programa el envío para el día del cumpleaños y paga.</p>
+    <div class="eyebrow"><span class="sp">✦</span> El Laboratorio de Oz <span class="sp">✦</span></div>
+    <h1>Prepara la <span class="glow">fiesta de experimentos</span></h1>
+    <p>En El Laboratorio de Oz, mamá y papá arman ingrediente a ingrediente las
+       bandejas sensoriales que los pequeños invitados explorarán durante la
+       fiesta de cumpleaños. Cada elemento despierta una capacidad. Cuando el
+       kit esté listo, programa la entrega antes del gran día y paga.</p>
   </header>
 
   <main class="studio">
 
-    <section class="pantry" aria-label="Despensa de materiales">
-      <h2>1 · La Despensa</h2>
+    <section class="pantry" aria-label="Almacén de ingredientes">
+      <h2>1 · El Almacén</h2>
       <div class="shelf" id="shelf"></div>
       <p class="hint-line">
-        Arrastra un material hasta la bandeja, o simplemente tócalo.
-        Combinar texturas y estímulos es lo que enriquece el juego.
+        Toca un ingrediente para verterlo en la bandeja (o arrástralo).
+        Mezclar texturas y estímulos es la verdadera alquimia del juego.
       </p>
     </section>
 
-    <section class="composer" aria-label="Compón una bandeja">
-      <h2>2 · Compón una bandeja</h2>
+    <section class="composer" aria-label="Tu experimento">
+      <h2>2 · Tu Experimento</h2>
 
       <div class="tray-wrap">
         <div class="tray" id="tray">
           <div class="tray-inner" id="trayInner">
             <div class="empty" id="emptyState">
-              <svg width="46" height="46" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-                <path d="M3 9h18M3 9l1.6 9.2A2 2 0 0 0 6.57 20h10.86a2 2 0 0 0 1.97-1.8L21 9M3 9l2-5h14l2 5"/>
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3h6M10 3v6.2L5.3 17a2 2 0 0 0 1.7 3h10a2 2 0 0 0 1.7-3L14 9.2V3"/>
+                <path d="M8.5 14h7"/>
               </svg>
-              <div class="big">Tu bandeja está esperando</div>
-              <div class="small ui">Arrastra o toca un material para empezar</div>
+              <div class="big">La bandeja del laboratorio espera</div>
+              <div class="small ui">Toca un ingrediente para empezar el experimento</div>
             </div>
           </div>
         </div>
@@ -337,22 +447,22 @@
 
       <div class="panel">
         <input class="tray-name" id="trayName" type="text" maxlength="28"
-               placeholder="Nombre de esta bandeja (p. ej. Bosque, Océano)" />
-        <div id="recipeRows" style="margin-top:16px">
-          <div class="empty-recipe">Aún no has añadido materiales</div>
+               placeholder="Nombra tu experimento (p. ej. Poción del Bosque)" />
+        <div id="recipeRows" style="margin-top:14px">
+          <div class="empty-recipe">Aún no has vertido ningún ingrediente</div>
         </div>
         <div class="totals">
-          <span class="t-label">Esta bandeja</span>
+          <span class="t-label">Este experimento</span>
           <span class="t-value" id="trayTotal">$0</span>
         </div>
         <div class="dev" id="devSummary" hidden>
-          <div class="dev-title">Capacidades de esta bandeja</div>
+          <div class="dev-title">Lo que despierta este experimento</div>
           <ul id="devList"></ul>
         </div>
         <div class="actions">
           <button class="btn btn-ghost ui" id="clearBtn">Vaciar</button>
           <button class="btn btn-primary ui" id="addTrayBtn" disabled>
-            Añadir bandeja al regalo
+            Sumar al kit
           </button>
         </div>
       </div>
@@ -360,119 +470,143 @@
 
   </main>
 
-  <section class="gift" aria-label="Tu regalo de cumpleaños">
+  <section class="gift" aria-label="El kit de la fiesta">
     <div class="gift-wrap">
-      <h2>3 · Tu regalo de cumpleaños</h2>
+      <h2>3 · El Kit de la Fiesta</h2>
       <div class="gift-grid" id="giftTrays">
         <div class="gift-empty" id="giftEmpty">
-          Aún no has añadido bandejas. Compón una arriba y añádela aquí —
-          puedes incluir varias en un mismo regalo.
+          Aún no hay experimentos en el kit. Crea uno arriba y súmalo —
+          añade varios para que ningún pequeño científico se quede sin explorar.
         </div>
       </div>
       <div class="gift-foot">
         <div class="sum">
-          <div class="n" id="giftCount">0 bandejas</div>
-          <div class="v" id="giftTotal">$0</div>
+          <span class="n" id="giftCount">0 experimentos</span>
+          <span class="v" id="giftTotal">$0</span>
         </div>
         <button class="btn btn-primary ui" id="checkoutBtn" disabled>
-          Programar envío y pagar
+          Programar entrega y pagar
         </button>
       </div>
     </div>
   </section>
 
+  <div class="bar" id="bar">
+    <div class="bar-info">
+      <span class="bar-label" id="barLabel"></span>
+      <span class="bar-val" id="barVal"></span>
+    </div>
+    <button class="btn btn-primary ui" id="barBtn"></button>
+  </div>
+
   <div class="overlay" id="overlay">
     <div class="sheet" role="dialog" aria-modal="true">
 
-      <div class="steps">
-        <div class="st active" data-st="1">Cumpleaños</div>
-        <div class="st" data-st="2">Pago</div>
-        <div class="st" data-st="3">Listo</div>
+      <div class="sheet-top">
+        <button class="back ui" id="topBack" aria-label="Atrás">‹</button>
+        <div class="steps">
+          <div class="st active" data-st="1">La Fiesta</div>
+          <div class="st" data-st="2">Pago</div>
+          <div class="st" data-st="3">¡Listo!</div>
+        </div>
       </div>
 
-      <!-- Paso 1 · Cumpleaños y envío -->
+      <!-- Paso 1 -->
       <div id="step1">
-        <h3>El cumpleaños de tu peque</h3>
-        <p class="lead">Dinos para quién es y cuándo quieres que llegue.
-           Programaremos el envío para esa fecha.</p>
+        <h3>La <span class="glow">fiesta</span> de cumpleaños</h3>
+        <p class="lead">Cuéntanos de quién es la fiesta y cuándo.
+           Programaremos la entrega para que el laboratorio llegue antes del gran día.</p>
         <div class="form-grid">
-          <div class="field">
-            <label for="childName">Nombre del peque</label>
-            <input id="childName" type="text" maxlength="40" placeholder="p. ej. Mateo" />
-            <div class="err" id="e-childName"></div>
+          <div class="field-row">
+            <div class="field">
+              <label for="childName">Cumpleañera/o</label>
+              <input id="childName" type="text" maxlength="40" placeholder="p. ej. Mateo" />
+              <div class="err" id="e-childName"></div>
+            </div>
+            <div class="field">
+              <label for="childAge">Cumple (años)</label>
+              <input id="childAge" type="number" min="0" max="12" placeholder="6" />
+              <div class="err" id="e-childAge"></div>
+            </div>
           </div>
           <div class="field">
-            <label for="childAge">Cumple (años)</label>
-            <input id="childAge" type="number" min="0" max="12" placeholder="p. ej. 2" />
-            <div class="err" id="e-childAge"></div>
+            <label for="guests">Pequeños científicos (invitados que lo usarán)</label>
+            <input id="guests" type="number" min="1" max="60" placeholder="p. ej. 12" />
+            <div class="err" id="e-guests"></div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="birthday">Fecha de la fiesta</label>
+              <input id="birthday" type="date" />
+              <div class="err" id="e-birthday"></div>
+            </div>
+            <div class="field">
+              <label for="deliveryDate">Fecha de entrega</label>
+              <input id="deliveryDate" type="date" />
+              <div class="err" id="e-deliveryDate"></div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="deliveryWindow">Franja de entrega</label>
+              <select id="deliveryWindow">
+                <option value="Mañana (9–13 h)">Mañana (9–13 h)</option>
+                <option value="Tarde (16–20 h)">Tarde (16–20 h)</option>
+              </select>
+              <div class="err"></div>
+            </div>
+            <div class="field">
+              <label for="phone">Teléfono</label>
+              <input id="phone" type="tel" maxlength="20" placeholder="Avisos de entrega" />
+              <div class="err" id="e-phone"></div>
+            </div>
           </div>
           <div class="field">
-            <label for="birthday">Fecha del cumpleaños</label>
-            <input id="birthday" type="date" />
-            <div class="err" id="e-birthday"></div>
-          </div>
-          <div class="field">
-            <label for="deliveryDate">Fecha de entrega (programar envío)</label>
-            <input id="deliveryDate" type="date" />
-            <div class="err" id="e-deliveryDate"></div>
-          </div>
-          <div class="field">
-            <label for="deliveryWindow">Franja de entrega</label>
-            <select id="deliveryWindow">
-              <option value="Mañana (9–13 h)">Mañana (9–13 h)</option>
-              <option value="Tarde (16–20 h)">Tarde (16–20 h)</option>
-            </select>
-            <div class="err"></div>
-          </div>
-          <div class="field">
-            <label for="phone">Teléfono de contacto</label>
-            <input id="phone" type="tel" maxlength="20" placeholder="Para avisos de entrega" />
-            <div class="err" id="e-phone"></div>
-          </div>
-          <div class="field full">
-            <label for="address">Dirección de entrega</label>
+            <label for="address">Dirección de la fiesta</label>
             <input id="address" type="text" maxlength="120" placeholder="Calle, número, ciudad, código postal" />
             <div class="err" id="e-address"></div>
           </div>
-          <div class="field full">
-            <label for="giftMsg">Mensaje de regalo (opcional)</label>
-            <textarea id="giftMsg" maxlength="160" placeholder="Una nota cariñosa que irá con el regalo"></textarea>
+          <div class="field">
+            <label for="giftMsg">Cartel del laboratorio (opcional)</label>
+            <textarea id="giftMsg" maxlength="160" placeholder="Un lema para la mesa de experimentos de la fiesta"></textarea>
             <div class="err"></div>
           </div>
         </div>
         <div class="note" id="dateNote" hidden></div>
         <div class="sheet-actions">
-          <button class="btn btn-ghost ui" id="cancelBtn">Volver</button>
+          <button class="btn btn-ghost ui" id="cancelBtn">Cancelar</button>
           <button class="btn btn-primary ui" id="toStep2">Continuar al pago</button>
         </div>
       </div>
 
-      <!-- Paso 2 · Pago -->
+      <!-- Paso 2 -->
       <div id="step2" hidden>
-        <h3>Pago seguro</h3>
-        <p class="lead">Revisa tu regalo y completa el pago. Es una demo:
-           no se cobra ni se envía ningún dato real.</p>
+        <h3>Pago <span class="glow">seguro</span></h3>
+        <p class="lead">Revisa el kit de la fiesta y completa el pago.
+           Es una demo: no se cobra nada real.</p>
         <div class="order-box" id="orderBox"></div>
         <div class="form-grid">
-          <div class="field full">
+          <div class="field">
             <label for="cardName">Titular de la tarjeta</label>
             <input id="cardName" type="text" maxlength="40" placeholder="Nombre y apellidos" />
             <div class="err" id="e-cardName"></div>
           </div>
-          <div class="field full">
+          <div class="field">
             <label for="cardNumber">Número de tarjeta</label>
             <input id="cardNumber" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" />
             <div class="err" id="e-cardNumber"></div>
           </div>
-          <div class="field">
-            <label for="cardExp">Caducidad (MM/AA)</label>
-            <input id="cardExp" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" />
-            <div class="err" id="e-cardExp"></div>
-          </div>
-          <div class="field">
-            <label for="cardCvc">CVC</label>
-            <input id="cardCvc" type="text" inputmode="numeric" placeholder="000" maxlength="4" />
-            <div class="err" id="e-cardCvc"></div>
+          <div class="field-row">
+            <div class="field">
+              <label for="cardExp">Caducidad</label>
+              <input id="cardExp" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" />
+              <div class="err" id="e-cardExp"></div>
+            </div>
+            <div class="field">
+              <label for="cardCvc">CVC</label>
+              <input id="cardCvc" type="text" inputmode="numeric" placeholder="000" maxlength="4" />
+              <div class="err" id="e-cardCvc"></div>
+            </div>
           </div>
         </div>
         <div class="sheet-actions">
@@ -481,21 +615,21 @@
         </div>
       </div>
 
-      <!-- Paso 3 · Confirmación -->
+      <!-- Paso 3 -->
       <div id="step3" hidden>
         <div class="conf-center">
-          <div class="seal">✓</div>
-          <h3 id="confTitle">¡Regalo confirmado!</h3>
+          <div class="seal">✦</div>
+          <h3 id="confTitle">¡Laboratorio listo!</h3>
           <p class="lead" id="confLead"></p>
         </div>
         <div class="conf-deliv" id="confDeliv"></div>
         <div class="order-box" id="confOrder"></div>
         <div class="dev" id="confDev">
-          <div class="dev-title">Lo que tu peque desarrollará con este regalo</div>
+          <div class="dev-title">Lo que despertará en los pequeños científicos</div>
           <ul id="confDevList"></ul>
         </div>
         <div class="sheet-actions">
-          <button class="btn btn-primary ui" id="finishBtn">Crear otro regalo</button>
+          <button class="btn btn-primary ui" id="finishBtn">Preparar otra fiesta</button>
         </div>
       </div>
 
@@ -541,9 +675,8 @@
   var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
                "agosto","septiembre","octubre","noviembre","diciembre"];
 
-  // --- estado ---
-  var current = {};   // scoops de la bandeja en construcción
-  var gift = [];      // [{ name, scoops:{}, price }]
+  var current = {};
+  var gift = [];
 
   var $ = function (id) { return document.getElementById(id); };
   var shelf=$("shelf"), tray=$("tray"), trayInner=$("trayInner"),
@@ -552,7 +685,8 @@
       trayName=$("trayName"), clearBtn=$("clearBtn"), addTrayBtn=$("addTrayBtn"),
       giftTrays=$("giftTrays"), giftEmpty=$("giftEmpty"),
       giftCount=$("giftCount"), giftTotal=$("giftTotal"),
-      checkoutBtn=$("checkoutBtn"), overlay=$("overlay");
+      checkoutBtn=$("checkoutBtn"), overlay=$("overlay"),
+      bar=$("bar"), barLabel=$("barLabel"), barVal=$("barVal"), barBtn=$("barBtn");
 
   function shade(hex, amt) {
     var n = parseInt(hex.slice(1), 16);
@@ -579,12 +713,12 @@
     return Number(p[2]) + " de " + MESES[Number(p[1]) - 1] + " de " + p[0];
   }
 
-  // --- despensa ---
+  // --- almacén ---
   INGREDIENTS.forEach(function (ing) {
     var btn = document.createElement("button");
     btn.className = "ing ui"; btn.type = "button";
     btn.setAttribute("data-id", ing.id);
-    btn.setAttribute("aria-label", "Añadir " + ing.name + " — desarrolla " + ing.skill);
+    btn.setAttribute("aria-label", "Verter " + ing.name + " — despierta " + ing.skill);
 
     var dish = document.createElement("div");
     dish.className = "dish";
@@ -592,7 +726,7 @@
     for (var s = 0; s < 11; s++) {
       var sp = document.createElement("span");
       sp.className = "speck";
-      var d = rand(7, 14);
+      var d = rand(7, 13);
       sp.style.width = d + "px"; sp.style.height = d + "px";
       sp.style.left = rand(8, 76) + "%"; sp.style.top = rand(8, 76) + "%";
       sp.style.background = shade(ing.color, Math.random() < .5 ? -26 : 22);
@@ -602,17 +736,18 @@
     var name = document.createElement("div");
     name.className = "name"; name.textContent = ing.name;
     var skill = document.createElement("div");
-    skill.className = "skill"; skill.textContent = "Desarrolla · " + ing.skill;
+    skill.className = "skill"; skill.textContent = "Despierta · " + ing.skill;
     var price = document.createElement("div");
-    price.className = "price"; price.textContent = "$" + ing.price + " · por cucharada";
+    price.className = "price"; price.textContent = "$" + ing.price + " · por dosis";
+    var pill = document.createElement("span");
+    pill.className = "add-pill"; pill.textContent = "+ Verter";
 
     btn.appendChild(dish); btn.appendChild(name);
-    btn.appendChild(skill); btn.appendChild(price);
+    btn.appendChild(skill); btn.appendChild(price); btn.appendChild(pill);
     shelf.appendChild(btn);
     attachDrag(btn, ing);
   });
 
-  // --- arrastre (ratón + táctil) ---
   function attachDrag(el, ing) {
     var ghost = null, startX = 0, startY = 0, moved = false, dragging = false;
     el.addEventListener("pointerdown", function (e) {
@@ -625,7 +760,7 @@
     el.addEventListener("pointermove", function (e) {
       if (!dragging) return;
       var dx = e.clientX - startX, dy = e.clientY - startY;
-      if (!moved && Math.hypot(dx, dy) < 7) return;
+      if (!moved && Math.hypot(dx, dy) < 8) return;
       if (!moved) {
         moved = true; el.classList.add("dragging");
         ghost = document.createElement("div");
@@ -656,7 +791,6 @@
     return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
   }
 
-  // --- bandeja en construcción ---
   function addScoop(id) {
     current[id] = (current[id] || 0) + 1;
     tray.classList.add("filled");
@@ -673,11 +807,11 @@
     renderCurrent();
   }
   function spawnGrains(id, count) {
-    var ing = byId[id], rect = trayInner.getBoundingClientRect(), pad = 16;
+    var ing = byId[id], rect = trayInner.getBoundingClientRect(), pad = 14;
     for (var i = 0; i < count; i++) {
       var g = document.createElement("div");
       g.className = "grain"; g.setAttribute("data-id", id);
-      var size = rand(8, 17);
+      var size = rand(8, 16);
       g.style.width = size + "px"; g.style.height = size + "px";
       g.style.left = rand(pad, rect.width - pad - size) + "px";
       g.style.top  = rand(pad, rect.height - pad - size) + "px";
@@ -703,11 +837,12 @@
     if (ids.length === 0) {
       var e = document.createElement("div");
       e.className = "empty-recipe";
-      e.textContent = "Aún no has añadido materiales";
+      e.textContent = "Aún no has vertido ningún ingrediente";
       recipeRows.appendChild(e);
       trayTotal.textContent = "$0";
       devSummary.hidden = true;
       addTrayBtn.disabled = true;
+      updateBar();
       return;
     }
     var total = 0;
@@ -722,7 +857,7 @@
       sw.className = "swatch"; sw.style.background = ing.color;
       var nm = document.createElement("span");
       nm.innerHTML = ing.name + ' <span class="qty">×' + qty +
-        " cucharada" + (qty > 1 ? "s" : "") + "</span>";
+        " dosis</span>";
       label.appendChild(sw); label.appendChild(nm);
       var right = document.createElement("div");
       right.className = "right";
@@ -748,21 +883,22 @@
     trayTotal.textContent = "$" + total;
     devSummary.hidden = false;
     addTrayBtn.disabled = false;
+    updateBar();
   }
 
   clearBtn.addEventListener("click", function () {
     current = {}; clearTrayVisual(); renderCurrent();
   });
 
-  addTrayBtn.addEventListener("click", function () {
+  function addTrayToGift() {
     if (Object.keys(current).length === 0) return;
-    var nm = trayName.value.trim() || ("Bandeja " + (gift.length + 1));
+    var nm = trayName.value.trim() || ("Experimento " + (gift.length + 1));
     gift.push({ name: nm, scoops: Object.assign({}, current), price: priceOf(current) });
     current = {}; trayName.value = "";
     clearTrayVisual(); renderCurrent(); renderGift();
-  });
+  }
+  addTrayBtn.addEventListener("click", addTrayToGift);
 
-  // --- regalo (varias bandejas) ---
   function uniqueSkills(scoopsList) {
     var seen = {}, out = [];
     scoopsList.forEach(function (sc) {
@@ -778,9 +914,10 @@
     giftTrays.innerHTML = "";
     if (gift.length === 0) {
       giftTrays.appendChild(giftEmpty);
-      giftCount.textContent = "0 bandejas";
+      giftCount.textContent = "0 experimentos";
       giftTotal.textContent = "$0";
       checkoutBtn.disabled = true;
+      updateBar();
       return;
     }
     var total = 0;
@@ -807,12 +944,38 @@
       card.appendChild(h); card.appendChild(mats); card.appendChild(foot);
       giftTrays.appendChild(card);
     });
-    giftCount.textContent = gift.length + (gift.length === 1 ? " bandeja" : " bandejas");
+    giftCount.textContent = gift.length + (gift.length === 1 ? " experimento" : " experimentos");
     giftTotal.textContent = "$" + total;
     checkoutBtn.disabled = false;
+    updateBar();
   }
 
-  // --- checkout por pasos ---
+  var barMode = null;
+  function updateBar() {
+    if (overlay.classList.contains("show")) { bar.classList.remove("show"); document.body.classList.remove("has-bar"); return; }
+    if (Object.keys(current).length > 0) {
+      barMode = "add";
+      barLabel.textContent = "Este experimento";
+      barVal.textContent = trayTotal.textContent;
+      barBtn.textContent = "Sumar al kit";
+      bar.classList.add("show");
+    } else if (gift.length > 0) {
+      barMode = "checkout";
+      barLabel.textContent = gift.length + (gift.length === 1 ? " experimento" : " experimentos");
+      barVal.textContent = giftTotal.textContent;
+      barBtn.textContent = "Programar y pagar";
+      bar.classList.add("show");
+    } else {
+      barMode = null;
+      bar.classList.remove("show");
+    }
+    document.body.classList.toggle("has-bar", bar.classList.contains("show"));
+  }
+  barBtn.addEventListener("click", function () {
+    if (barMode === "add") addTrayToGift();
+    else if (barMode === "checkout") openCheckout();
+  });
+
   var step1=$("step1"), step2=$("step2"), step3=$("step3");
   var stEls = document.querySelectorAll(".steps .st");
 
@@ -823,21 +986,32 @@
       el.classList.toggle("active", s === n);
       el.classList.toggle("done", s < n);
     });
+    overlay.scrollTop = 0;
   }
-
-  checkoutBtn.addEventListener("click", function () {
+  function openCheckout() {
     if (gift.length === 0) return;
     var t = todayISO();
     $("birthday").min = t;
     $("deliveryDate").min = t;
     showStep(1);
     overlay.classList.add("show");
-  });
+    document.body.classList.add("lock");
+    updateBar();
+  }
+  checkoutBtn.addEventListener("click", openCheckout);
+  function closeOverlay() {
+    overlay.classList.remove("show");
+    document.body.classList.remove("lock");
+    updateBar();
+  }
   $("cancelBtn").addEventListener("click", closeOverlay);
-  function closeOverlay() { overlay.classList.remove("show"); }
-  overlay.addEventListener("click", function (e) { if (e.target === overlay) closeOverlay(); });
+  $("topBack").addEventListener("click", function () {
+    if (!step2.hidden) showStep(1);
+    else if (!step3.hidden) return;
+    else closeOverlay();
+  });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeOverlay();
+    if (e.key === "Escape" && step3.hidden) closeOverlay();
   });
 
   function setErr(id, msg) {
@@ -846,8 +1020,7 @@
     if (input) input.classList.toggle("bad", !!msg);
     return !msg;
   }
-
-  ["childName","childAge","birthday","deliveryDate","phone","address",
+  ["childName","childAge","guests","birthday","deliveryDate","phone","address",
    "cardName","cardNumber","cardExp","cardCvc"].forEach(function (id) {
     var el = $(id);
     var clear = function () { setErr(id, ""); };
@@ -858,34 +1031,35 @@
   $("deliveryDate").addEventListener("change", checkDateNote);
   $("birthday").addEventListener("change", checkDateNote);
   function checkDateNote() {
-    var b = $("birthday").value, d = $("deliveryDate").value;
-    var note = $("dateNote");
+    var b = $("birthday").value, d = $("deliveryDate").value, note = $("dateNote");
     if (b && d && d > b) {
       note.hidden = false;
-      note.textContent = "La entrega (" + fmtES(d) + ") es posterior al cumpleaños (" +
-        fmtES(b) + "). Puedes adelantarla para que llegue a tiempo.";
+      note.textContent = "La entrega (" + fmtES(d) + ") es posterior a la fiesta (" +
+        fmtES(b) + "). Adelántala para que el laboratorio llegue a tiempo.";
     } else { note.hidden = true; }
   }
 
   $("toStep2").addEventListener("click", function () {
     var ok = true, t = todayISO();
-    ok &= setErr("childName", $("childName").value.trim() ? "" : "Indica el nombre del peque.");
+    ok &= setErr("childName", $("childName").value.trim() ? "" : "Indica de quién es la fiesta.");
     var age = $("childAge").value.trim();
     ok &= setErr("childAge", age === "" || (Number(age) >= 0 && Number(age) <= 12)
-      ? "" : "Introduce una edad válida (0–12).");
-    ok &= setErr("birthday", $("birthday").value ? "" : "Elige la fecha del cumpleaños.");
+      ? "" : "Edad 0–12.");
+    var g = $("guests").value.trim();
+    ok &= setErr("guests", g !== "" && Number(g) >= 1 && Number(g) <= 60
+      ? "" : "¿Cuántos peques lo usarán? (1–60)");
+    ok &= setErr("birthday", $("birthday").value ? "" : "Elige la fecha de la fiesta.");
     var d = $("deliveryDate").value;
     ok &= setErr("deliveryDate",
       !d ? "Elige la fecha de entrega." :
-      d < t ? "La entrega no puede ser en el pasado." : "");
-    ok &= setErr("phone", $("phone").value.trim() ? "" : "Necesitamos un teléfono de contacto.");
+      d < t ? "No puede ser en el pasado." : "");
+    ok &= setErr("phone", $("phone").value.trim() ? "" : "Necesitamos un teléfono.");
     ok &= setErr("address", $("address").value.trim().length >= 6
-      ? "" : "Indica una dirección completa.");
+      ? "" : "Indica la dirección de la fiesta.");
     if (!ok) return;
     fillOrderBox($("orderBox"));
     showStep(2);
   });
-
   $("backTo1").addEventListener("click", function () { showStep(1); });
 
   function fillOrderBox(box) {
@@ -907,7 +1081,6 @@
     return total;
   }
 
-  // formato tarjeta
   $("cardNumber").addEventListener("input", function () {
     var v = this.value.replace(/\D/g, "").slice(0, 19);
     this.value = v.replace(/(.{4})/g, "$1 ").trim();
@@ -924,12 +1097,10 @@
     var ok = true;
     ok &= setErr("cardName", $("cardName").value.trim() ? "" : "Indica el titular.");
     var num = $("cardNumber").value.replace(/\s/g, "");
-    ok &= setErr("cardNumber", /^\d{15,19}$/.test(num) ? "" : "Número de tarjeta no válido.");
-    var exp = $("cardExp").value, m = exp.match(/^(\d{2})\/(\d{2})$/);
-    var expOk = false;
+    ok &= setErr("cardNumber", /^\d{15,19}$/.test(num) ? "" : "Número no válido.");
+    var exp = $("cardExp").value, m = exp.match(/^(\d{2})\/(\d{2})$/), expOk = false;
     if (m) {
-      var mm = Number(m[1]), yy = 2000 + Number(m[2]);
-      var now = new Date();
+      var mm = Number(m[1]), yy = 2000 + Number(m[2]), now = new Date();
       if (mm >= 1 && mm <= 12) {
         var last = new Date(yy, mm, 0);
         expOk = last >= new Date(now.getFullYear(), now.getMonth(), 1);
@@ -938,9 +1109,8 @@
     ok &= setErr("cardExp", expOk ? "" : "Caducidad no válida.");
     ok &= setErr("cardCvc", /^\d{3,4}$/.test($("cardCvc").value) ? "" : "CVC no válido.");
     if (!ok) return;
-
     var self = this;
-    self.disabled = true; self.textContent = "Procesando…";
+    self.disabled = true; self.textContent = "Destilando el pago…";
     setTimeout(function () {
       self.disabled = false; self.textContent = "Pagar y programar";
       confirmOrder();
@@ -950,35 +1120,33 @@
 
   function confirmOrder() {
     var child = $("childName").value.trim();
-    var d = $("deliveryDate").value;
-    var win = $("deliveryWindow").value;
-    var bday = $("birthday").value;
-    var addr = $("address").value.trim();
+    var guests = $("guests").value.trim();
+    var d = $("deliveryDate").value, win = $("deliveryWindow").value;
+    var bday = $("birthday").value, addr = $("address").value.trim();
     var msg = $("giftMsg").value.trim();
 
-    $("confTitle").textContent = "¡El regalo de " + child + " está en camino!";
+    $("confTitle").textContent = "¡El laboratorio de " + child + " está listo!";
     $("confLead").textContent =
-      "Has co-creado " + gift.length + (gift.length === 1 ? " bandeja sensorial" : " bandejas sensoriales") +
-      " para el cumpleaños de " + child + ". Gracias por este regalo con tanto cariño.";
+      "Has preparado " + gift.length +
+      (gift.length === 1 ? " experimento sensorial" : " experimentos sensoriales") +
+      " para la fiesta de " + child + ". Sus " + guests +
+      " pequeños invitados van a explorar como auténticos científicos.";
 
     var deliv = $("confDeliv");
     deliv.innerHTML = "";
     var l1 = document.createElement("div");
-    l1.innerHTML = "Envío programado para el <b>" + fmtES(d) + "</b>, " +
-      win.toLowerCase() + ".";
+    l1.innerHTML = "Entrega programada para el <b>" + fmtES(d) + "</b>, " + win.toLowerCase() + ".";
     var l2 = document.createElement("div");
-    l2.style.marginTop = "6px";
-    l2.style.color = "var(--ink-soft)";
-    l2.textContent = "Cumpleaños: " + fmtES(bday) + " · Entrega en: " + addr;
+    l2.style.marginTop = "6px"; l2.style.color = "var(--ink-soft)";
+    l2.textContent = "Fiesta: " + fmtES(bday) + " · " + guests +
+      " pequeños científicos · Entregar en: " + addr;
     deliv.appendChild(l1); deliv.appendChild(l2);
     if (msg) {
       var l3 = document.createElement("div");
-      l3.style.marginTop = "8px";
-      l3.style.fontStyle = "italic";
+      l3.style.marginTop = "8px"; l3.style.fontStyle = "italic";
       l3.textContent = "“" + msg + "”";
       deliv.appendChild(l3);
     }
-
     fillOrderBox($("confOrder"));
 
     var list = $("confDevList");
@@ -996,7 +1164,7 @@
 
   $("finishBtn").addEventListener("click", function () {
     gift = []; current = {};
-    ["childName","childAge","birthday","deliveryDate","phone","address","giftMsg",
+    ["childName","childAge","guests","birthday","deliveryDate","phone","address","giftMsg",
      "cardName","cardNumber","cardExp","cardCvc"].forEach(function (id) { $(id).value = ""; });
     $("dateNote").hidden = true;
     renderGift(); renderCurrent();
