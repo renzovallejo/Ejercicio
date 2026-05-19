@@ -3,509 +3,322 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Estudio de Bandeja Sensorial · Juego en calma, inspirado en Montessori</title>
+<title>Estudio de Bandejas Sensoriales · Un regalo de cumpleaños hecho a mano</title>
 <style>
   :root {
-    --paper:        #faf6f0;
-    --paper-warm:   #f3ece1;
-    --ink:          #3a352e;
-    --ink-soft:     #7a7163;
-    --line:         #e4dccd;
-    --wood:         #c9a972;
-    --wood-deep:    #b08c54;
-    --wood-shadow:  #8a6b3c;
-    --accent:       #8a9a7b;
-    --accent-deep:  #6f7f60;
-    --shadow:       0 18px 40px -22px rgba(58, 53, 46, .45);
+    --paper:#faf6f0; --paper-warm:#f3ece1; --ink:#3a352e; --ink-soft:#7a7163;
+    --line:#e4dccd; --wood:#c9a972; --wood-deep:#b08c54;
+    --accent:#8a9a7b; --accent-deep:#6f7f60; --warn:#b9794e;
+    --shadow:0 18px 40px -22px rgba(58,53,46,.45);
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body { height: 100%; }
-
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; }
   body {
-    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    background:
-      radial-gradient(1200px 700px at 50% -10%, #fffdf9 0%, var(--paper) 55%, var(--paper-warm) 100%);
-    color: var(--ink);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    background:radial-gradient(1200px 700px at 50% -10%,#fffdf9 0%,var(--paper) 55%,var(--paper-warm) 100%);
+    color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility; overflow-x:hidden;
   }
+  .ui { font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif; }
 
-  .ui { font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif; }
-
-  header {
-    text-align: center;
-    padding: 46px 20px 8px;
-  }
+  header { text-align:center; padding:46px 20px 8px; }
   header .eyebrow {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: .34em;
-    font-size: 11px;
-    color: var(--ink-soft);
-    margin-bottom: 14px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    text-transform:uppercase; letter-spacing:.34em; font-size:11px;
+    color:var(--ink-soft); margin-bottom:14px;
   }
-  header h1 {
-    font-weight: 500;
-    font-size: clamp(28px, 4.4vw, 46px);
-    letter-spacing: .01em;
-  }
+  header h1 { font-weight:500; font-size:clamp(28px,4.4vw,46px); letter-spacing:.01em; }
   header p {
-    margin: 14px auto 0;
-    max-width: 560px;
-    color: var(--ink-soft);
-    font-size: 16px;
-    line-height: 1.65;
+    margin:14px auto 0; max-width:580px; color:var(--ink-soft);
+    font-size:16px; line-height:1.65;
   }
 
   .studio {
-    max-width: 1180px;
-    margin: 30px auto 80px;
-    padding: 0 24px;
-    display: grid;
-    grid-template-columns: 1fr 0.92fr;
-    gap: 54px;
-    align-items: start;
+    max-width:1180px; margin:30px auto 30px; padding:0 24px;
+    display:grid; grid-template-columns:1fr 0.92fr; gap:54px; align-items:start;
+  }
+  .pantry h2,.composer h2,.gift h2 {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:12px; text-transform:uppercase; letter-spacing:.26em;
+    color:var(--ink-soft); margin-bottom:22px; font-weight:600;
   }
 
-  /* ---------- Despensa / materiales ---------- */
-  .pantry h2, .checkout h2 {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: .26em;
-    color: var(--ink-soft);
-    margin-bottom: 22px;
-    font-weight: 600;
-  }
-
-  .shelf {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px 18px;
-  }
-
+  .shelf { display:grid; grid-template-columns:repeat(3,1fr); gap:24px 18px; }
   .ing {
-    background: none;
-    border: 0;
-    cursor: grab;
-    text-align: center;
-    padding: 12px 8px;
-    border-radius: 16px;
-    transition: transform .25s ease, background .25s ease;
-    touch-action: none;
-    -webkit-tap-highlight-color: transparent;
+    background:none; border:0; cursor:grab; text-align:center; padding:12px 8px;
+    border-radius:16px; transition:transform .25s ease,background .25s ease;
+    touch-action:none; -webkit-tap-highlight-color:transparent;
   }
-  .ing:hover { transform: translateY(-4px); background: rgba(255,255,255,.55); }
-  .ing:active { cursor: grabbing; }
-  .ing.dragging { opacity: .35; }
-
+  .ing:hover { transform:translateY(-4px); background:rgba(255,255,255,.55); }
+  .ing:active { cursor:grabbing; }
+  .ing.dragging { opacity:.35; }
   .dish {
-    width: 84px;
-    height: 84px;
-    margin: 0 auto 12px;
-    border-radius: 50%;
-    position: relative;
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 32% 28%, rgba(255,255,255,.55), rgba(255,255,255,0) 55%),
-      var(--dish, #ddd);
-    box-shadow:
-      inset 0 -8px 14px -8px rgba(0,0,0,.28),
-      inset 0 4px 8px -4px rgba(255,255,255,.7),
-      0 10px 18px -12px rgba(58,53,46,.5);
+    width:84px; height:84px; margin:0 auto 12px; border-radius:50%;
+    position:relative; overflow:hidden;
+    background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.55),rgba(255,255,255,0) 55%),var(--dish,#ddd);
+    box-shadow:inset 0 -8px 14px -8px rgba(0,0,0,.28),inset 0 4px 8px -4px rgba(255,255,255,.7),0 10px 18px -12px rgba(58,53,46,.5);
   }
-  .dish .speck {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .ing .name {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: .02em;
-  }
-  .ing .skill {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent-deep);
-    margin-top: 5px;
-    letter-spacing: .02em;
-  }
-  .ing .price {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-top: 4px;
-  }
-
+  .dish .speck { position:absolute; border-radius:50%; pointer-events:none; }
+  .ing .name { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px; font-weight:600; letter-spacing:.02em; }
+  .ing .skill { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; font-weight:600; color:var(--accent-deep); margin-top:5px; }
+  .ing .price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; color:var(--ink-soft); margin-top:4px; }
   .hint-line {
-    margin-top: 26px;
-    font-size: 13.5px;
-    color: var(--ink-soft);
-    line-height: 1.6;
-    border-left: 2px solid var(--line);
-    padding-left: 14px;
+    margin-top:26px; font-size:13.5px; color:var(--ink-soft);
+    line-height:1.6; border-left:2px solid var(--line); padding-left:14px;
   }
 
-  /* ---------- Bandeja ---------- */
-  .checkout { position: sticky; top: 28px; }
-
-  .tray-wrap { perspective: 1200px; }
-
+  .composer { position:sticky; top:28px; }
+  .tray-wrap { perspective:1200px; }
   .tray {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 0.86;
-    border-radius: 30px;
-    background:
-      linear-gradient(180deg, var(--wood) 0%, var(--wood-deep) 100%);
-    padding: 22px;
-    box-shadow: var(--shadow);
-    transition: transform .35s ease, box-shadow .35s ease;
+    position:relative; width:100%; aspect-ratio:1/0.86; border-radius:30px;
+    background:linear-gradient(180deg,var(--wood) 0%,var(--wood-deep) 100%);
+    padding:22px; box-shadow:var(--shadow);
+    transition:transform .35s ease,box-shadow .35s ease;
   }
-  .tray.lift {
-    transform: rotateX(3deg) scale(1.012);
-    box-shadow: 0 30px 55px -24px rgba(58,53,46,.6);
-  }
-
+  .tray.lift { transform:rotateX(3deg) scale(1.012); box-shadow:0 30px 55px -24px rgba(58,53,46,.6); }
   .tray-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 18px;
-    overflow: hidden;
-    background:
-      radial-gradient(120% 90% at 50% 0%, #fcf8f1 0%, #efe6d4 70%, #e7dcc4 100%);
-    box-shadow:
-      inset 0 10px 22px -12px rgba(138,107,60,.6),
-      inset 0 -8px 16px -10px rgba(138,107,60,.45);
+    position:relative; width:100%; height:100%; border-radius:18px; overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 0%,#fcf8f1 0%,#efe6d4 70%,#e7dcc4 100%);
+    box-shadow:inset 0 10px 22px -12px rgba(138,107,60,.6),inset 0 -8px 16px -10px rgba(138,107,60,.45);
   }
-
   .empty {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-align: center;
-    color: var(--ink-soft);
-    padding: 30px;
-    transition: opacity .4s ease;
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:10px; text-align:center;
+    color:var(--ink-soft); padding:30px; transition:opacity .4s ease;
   }
-  .empty svg { opacity: .5; }
-  .empty .big {
-    font-size: 18px;
-    color: var(--ink);
-    letter-spacing: .01em;
-  }
-  .empty .small {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 12.5px;
-    letter-spacing: .04em;
-  }
-  .tray.filled .empty { opacity: 0; pointer-events: none; }
-
+  .empty svg { opacity:.5; }
+  .empty .big { font-size:18px; color:var(--ink); }
+  .empty .small { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px; letter-spacing:.04em; }
+  .tray.filled .empty { opacity:0; pointer-events:none; }
   .grain {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    will-change: transform, opacity;
-    animation: drop .5s cubic-bezier(.22,.61,.36,1) backwards;
+    position:absolute; border-radius:50%; pointer-events:none;
+    will-change:transform,opacity; animation:drop .5s cubic-bezier(.22,.61,.36,1) backwards;
   }
-  @keyframes drop {
-    0%   { transform: translateY(-26px) scale(.2); opacity: 0; }
-    60%  { opacity: 1; }
-    100% { transform: translateY(0) scale(1); opacity: 1; }
-  }
-  .grain.out { animation: grainOut .35s ease forwards; }
-  @keyframes grainOut {
-    to { transform: scale(0); opacity: 0; }
-  }
+  @keyframes drop { 0%{transform:translateY(-26px) scale(.2);opacity:0;} 60%{opacity:1;} 100%{transform:translateY(0) scale(1);opacity:1;} }
+  .grain.out { animation:grainOut .35s ease forwards; }
+  @keyframes grainOut { to { transform:scale(0); opacity:0; } }
 
-  /* ---------- Receta + resumen + regalo ---------- */
-  .recipe {
-    margin-top: 26px;
-    background: #fffdf9;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 20px 22px;
+  .panel {
+    margin-top:26px; background:#fffdf9; border:1px solid var(--line);
+    border-radius:18px; padding:20px 22px;
   }
+  .tray-name {
+    width:100%; padding:13px 16px; border:1px solid var(--line);
+    border-radius:12px; background:#fff;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px; color:var(--ink);
+  }
+  .tray-name::placeholder { color:var(--ink-soft); }
+  .tray-name:focus { outline:2px solid var(--accent); outline-offset:1px; }
   .recipe-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 14px;
-    padding: 9px 0;
-    border-bottom: 1px dashed var(--line);
-    animation: rowIn .3s ease;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
+    padding:9px 0; border-bottom:1px dashed var(--line); animation:rowIn .3s ease;
   }
-  @keyframes rowIn { from { opacity: 0; transform: translateY(4px); } }
-  .recipe-row:last-of-type { border-bottom: 0; }
-  .recipe-row .label { display: flex; align-items: center; gap: 11px; }
-  .recipe-row .swatch {
-    width: 16px; height: 16px; border-radius: 50%;
-    box-shadow: inset 0 -3px 4px -2px rgba(0,0,0,.3);
-    flex: none;
-  }
-  .recipe-row .qty {
-    color: var(--ink-soft);
-    font-size: 12.5px;
-    margin-left: 2px;
-  }
-  .recipe-row .right { display: flex; align-items: center; gap: 12px; }
-  .recipe-row .lp { color: var(--ink-soft); }
+  @keyframes rowIn { from { opacity:0; transform:translateY(4px); } }
+  .recipe-row:last-of-type { border-bottom:0; }
+  .recipe-row .label { display:flex; align-items:center; gap:11px; }
+  .recipe-row .swatch { width:16px; height:16px; border-radius:50%; box-shadow:inset 0 -3px 4px -2px rgba(0,0,0,.3); flex:none; }
+  .recipe-row .qty { color:var(--ink-soft); font-size:12.5px; margin-left:2px; }
+  .recipe-row .right { display:flex; align-items:center; gap:12px; }
+  .recipe-row .lp { color:var(--ink-soft); }
   .recipe-row button.rm {
-    border: 0; background: none; cursor: pointer;
-    color: var(--ink-soft); font-size: 17px; line-height: 1;
-    width: 24px; height: 24px; border-radius: 50%;
-    transition: background .2s, color .2s;
+    border:0; background:none; cursor:pointer; color:var(--ink-soft);
+    font-size:17px; line-height:1; width:24px; height:24px; border-radius:50%;
+    transition:background .2s,color .2s;
   }
-  .recipe-row button.rm:hover { background: var(--paper-warm); color: var(--ink); }
-
-  .recipe .empty-recipe {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 13.5px;
-    color: var(--ink-soft);
-    text-align: center;
-    padding: 8px 0 4px;
+  .recipe-row button.rm:hover { background:var(--paper-warm); color:var(--ink); }
+  .empty-recipe {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13.5px;
+    color:var(--ink-soft); text-align:center; padding:14px 0;
   }
-
   .totals {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
   }
-  .totals .t-label {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .totals .t-value { font-size: 26px; font-weight: 500; }
+  .totals .t-label { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-soft); }
+  .totals .t-value { font-size:22px; font-weight:500; }
 
-  /* Resumen de capacidades */
-  .dev {
-    margin-top: 18px;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-  }
-  .dev[hidden] { display: none; }
+  .dev { margin-top:16px; border-top:1px solid var(--line); padding-top:16px; }
+  .dev[hidden]{ display:none; }
   .dev .dev-title {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .2em;
-    color: var(--accent-deep);
-    font-weight: 700;
-    margin-bottom: 14px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px;
+    text-transform:uppercase; letter-spacing:.2em; color:var(--accent-deep);
+    font-weight:700; margin-bottom:12px;
   }
-  .dev ul { list-style: none; }
+  .dev ul { list-style:none; }
   .dev li {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    display: flex;
-    gap: 11px;
-    padding: 8px 0;
-    font-size: 13px;
-    line-height: 1.55;
-    animation: rowIn .3s ease;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; display:flex;
+    gap:11px; padding:7px 0; font-size:12.5px; line-height:1.5; animation:rowIn .3s ease;
   }
-  .dev li .dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    margin-top: 5px; flex: none;
-    background: var(--accent);
-  }
-  .dev li b {
-    color: var(--ink);
-    font-weight: 700;
-  }
-  .dev li span { color: var(--ink-soft); }
+  .dev li .dot { width:9px; height:9px; border-radius:50%; margin-top:4px; flex:none; background:var(--accent); }
+  .dev li b { color:var(--ink); font-weight:700; }
+  .dev li span { color:var(--ink-soft); }
 
-  .gift-name {
-    width: 100%;
-    margin-top: 18px;
-    padding: 13px 16px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: #fffdf9;
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 14px;
-    color: var(--ink);
-  }
-  .gift-name::placeholder { color: var(--ink-soft); }
-  .gift-name:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-
-  .actions { display: flex; gap: 12px; margin-top: 16px; }
-
+  .actions { display:flex; gap:12px; margin-top:16px; }
   .btn {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .02em;
-    border-radius: 13px;
-    padding: 15px 22px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: transform .15s ease, background .25s ease, opacity .25s ease;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
+    font-weight:600; letter-spacing:.02em; border-radius:13px; padding:15px 22px;
+    cursor:pointer; border:1px solid transparent;
+    transition:transform .15s ease,background .25s ease,opacity .25s ease;
   }
-  .btn:active { transform: translateY(1px); }
-  .btn-primary {
-    flex: 1;
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 12px 22px -14px var(--accent-deep);
-  }
-  .btn-primary:hover { background: var(--accent-deep); }
-  .btn-primary:disabled {
-    background: var(--line);
-    color: var(--ink-soft);
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink-soft);
-    border-color: var(--line);
-  }
-  .btn-ghost:hover { color: var(--ink); border-color: var(--ink-soft); }
+  .btn:active { transform:translateY(1px); }
+  .btn-primary { flex:1; background:var(--accent); color:#fff; box-shadow:0 12px 22px -14px var(--accent-deep); }
+  .btn-primary:hover { background:var(--accent-deep); }
+  .btn-primary:disabled { background:var(--line); color:var(--ink-soft); cursor:not-allowed; box-shadow:none; }
+  .btn-ghost { background:transparent; color:var(--ink-soft); border-color:var(--line); }
+  .btn-ghost:hover { color:var(--ink); border-color:var(--ink-soft); }
 
-  /* ---------- Fantasma de arrastre ---------- */
+  /* ----- Regalo (varias bandejas) ----- */
+  .gift {
+    max-width:1180px; margin:0 auto 90px; padding:0 24px;
+  }
+  .gift-wrap { background:#fffdf9; border:1px solid var(--line); border-radius:22px; padding:28px 28px 30px; }
+  .gift-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px; }
+  .gift-card {
+    border:1px solid var(--line); border-radius:16px; padding:16px 16px 14px;
+    background:var(--paper); position:relative; animation:rowIn .3s ease;
+  }
+  .gift-card h3 { font-size:17px; font-weight:500; margin-bottom:4px; }
+  .gift-card .mats {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px;
+    color:var(--ink-soft); line-height:1.55; margin:8px 0 12px;
+  }
+  .gift-card .gc-foot { display:flex; align-items:center; justify-content:space-between; }
+  .gift-card .gc-price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-weight:600; font-size:14px; }
+  .gift-card .gc-rm {
+    border:0; background:none; cursor:pointer; color:var(--ink-soft);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
+  }
+  .gift-card .gc-rm:hover { color:var(--warn); }
+  .gift-empty {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink-soft);
+    font-size:14px; text-align:center; padding:26px 0;
+  }
+  .gift-foot {
+    margin-top:24px; padding-top:22px; border-top:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  }
+  .gift-foot .sum { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; }
+  .gift-foot .sum .n { font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
+  .gift-foot .sum .v { font-size:26px; font-weight:600; margin-top:4px; }
+  .gift-foot .btn-primary { flex:0 0 auto; min-width:260px; }
+
+  /* ----- Fantasma de arrastre ----- */
   .ghost {
-    position: fixed;
-    z-index: 999;
-    pointer-events: none;
-    width: 70px; height: 70px;
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 16px 28px -14px rgba(58,53,46,.6);
-    opacity: .96;
+    position:fixed; z-index:999; pointer-events:none; width:70px; height:70px;
+    border-radius:50%; transform:translate(-50%,-50%) scale(1.05);
+    box-shadow:0 16px 28px -14px rgba(58,53,46,.6); opacity:.96;
   }
 
-  /* ---------- Modal ---------- */
+  /* ----- Checkout overlay ----- */
   .overlay {
-    position: fixed; inset: 0;
-    background: rgba(43, 39, 33, .42);
-    backdrop-filter: blur(3px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 24px;
-    opacity: 0; pointer-events: none;
-    transition: opacity .3s ease;
-    z-index: 1000;
+    position:fixed; inset:0; background:rgba(43,39,33,.46); backdrop-filter:blur(3px);
+    display:flex; align-items:flex-start; justify-content:center; padding:32px 20px;
+    opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:1000; overflow-y:auto;
   }
-  .overlay.show { opacity: 1; pointer-events: auto; }
-  .modal {
-    background: var(--paper);
-    border-radius: 22px;
-    max-width: 440px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 38px 34px;
-    text-align: center;
-    box-shadow: 0 40px 70px -30px rgba(0,0,0,.5);
-    transform: translateY(14px) scale(.98);
-    transition: transform .35s cubic-bezier(.22,.61,.36,1);
+  .overlay.show { opacity:1; pointer-events:auto; }
+  .sheet {
+    background:var(--paper); border-radius:22px; max-width:560px; width:100%;
+    padding:34px 34px 30px; box-shadow:0 40px 70px -30px rgba(0,0,0,.5);
+    transform:translateY(16px) scale(.985); transition:transform .35s cubic-bezier(.22,.61,.36,1);
+    margin:auto;
   }
-  .overlay.show .modal { transform: none; }
-  .modal .seal {
-    width: 64px; height: 64px; border-radius: 50%;
-    margin: 0 auto 22px;
-    background: var(--accent);
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px;
-  }
-  .modal h3 { font-size: 24px; font-weight: 500; margin-bottom: 12px; }
-  .modal p {
-    color: var(--ink-soft);
-    font-size: 15px; line-height: 1.7;
-    margin-bottom: 8px;
-  }
-  .modal .receipt {
-    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
-    text-align: left;
-    margin: 22px 0 0;
-    border-top: 1px solid var(--line);
-    padding: 16px 0;
-  }
-  .modal .receipt .r {
-    display: flex; justify-content: space-between;
-    font-size: 13.5px; padding: 5px 0; color: var(--ink);
-  }
-  .modal .receipt .r span:last-child { color: var(--ink-soft); }
-  .modal .receipt .r.tot {
-    font-weight: 700; font-size: 15px;
-    margin-top: 8px; padding-top: 12px;
-    border-top: 1px dashed var(--line);
-  }
-  .modal .receipt .r.tot span:last-child { color: var(--ink); }
+  .overlay.show .sheet { transform:none; }
 
-  .modal .m-dev {
-    text-align: left;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-    margin-bottom: 22px;
+  .steps { display:flex; gap:8px; margin-bottom:26px; }
+  .steps .st {
+    flex:1; text-align:center; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-soft); padding-bottom:10px; border-bottom:2px solid var(--line);
+    transition:color .3s,border-color .3s;
   }
-  .modal .m-dev .dev-title {
-    font-size: 11px; text-transform: uppercase; letter-spacing: .2em;
-    color: var(--accent-deep); font-weight: 700; margin-bottom: 12px;
-  }
-  .modal .m-dev ul { list-style: none; }
-  .modal .m-dev li {
-    display: flex; gap: 10px; padding: 7px 0;
-    font-size: 12.5px; line-height: 1.5;
-  }
-  .modal .m-dev li .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    margin-top: 5px; flex: none; background: var(--accent);
-  }
-  .modal .m-dev li b { color: var(--ink); }
-  .modal .m-dev li span { color: var(--ink-soft); }
+  .steps .st.active { color:var(--accent-deep); border-color:var(--accent); font-weight:700; }
+  .steps .st.done { color:var(--accent-deep); border-color:var(--accent); }
 
-  .modal .btn-primary { width: 100%; margin-top: 6px; }
+  .sheet h3 { font-size:23px; font-weight:500; margin-bottom:6px; }
+  .sheet .lead { color:var(--ink-soft); font-size:14.5px; line-height:1.6; margin-bottom:22px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; }
+  .field { display:flex; flex-direction:column; }
+  .field.full { grid-column:1 / -1; }
+  .field label {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px;
+    font-weight:600; color:var(--ink-soft); margin-bottom:7px; letter-spacing:.02em;
+  }
+  .field input, .field select, .field textarea {
+    border:1px solid var(--line); border-radius:11px; padding:12px 14px;
+    background:#fffdf9; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:14px; color:var(--ink); width:100%;
+  }
+  .field textarea { resize:vertical; min-height:64px; }
+  .field input:focus,.field select:focus,.field textarea:focus { outline:2px solid var(--accent); outline-offset:1px; }
+  .field input.bad,.field select.bad { border-color:var(--warn); }
+  .field .err {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px;
+    color:var(--warn); margin-top:6px; min-height:14px;
+  }
+  .note {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
+    color:var(--warn); margin-top:14px; line-height:1.5;
+  }
+  .note[hidden]{ display:none; }
 
-  @media (max-width: 860px) {
-    .studio { grid-template-columns: 1fr; gap: 40px; }
-    .checkout { position: static; order: -1; }
-    header { padding-top: 34px; }
+  .order-box {
+    background:#fffdf9; border:1px solid var(--line); border-radius:14px;
+    padding:16px 18px; margin:6px 0 20px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+  }
+  .order-box .ob-r { display:flex; justify-content:space-between; font-size:13px; padding:4px 0; color:var(--ink); }
+  .order-box .ob-r span:last-child { color:var(--ink-soft); }
+  .order-box .ob-r.tot { font-weight:700; font-size:15px; border-top:1px dashed var(--line); margin-top:8px; padding-top:10px; }
+  .order-box .ob-r.tot span:last-child { color:var(--ink); }
+
+  .sheet-actions { display:flex; gap:12px; margin-top:24px; }
+
+  .seal {
+    width:64px; height:64px; border-radius:50%; margin:0 auto 20px;
+    background:var(--accent); color:#fff; display:flex; align-items:center;
+    justify-content:center; font-size:30px;
+  }
+  .conf-center { text-align:center; }
+  .conf-deliv {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
+    background:#fffdf9; border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; margin:18px 0; color:var(--ink);
+  }
+  .conf-deliv b { color:var(--accent-deep); }
+
+  @media (max-width:860px) {
+    .studio { grid-template-columns:1fr; gap:40px; }
+    .composer { position:static; order:-1; }
+    header { padding-top:34px; }
+    .form-grid { grid-template-columns:1fr; }
+    .gift-foot .btn-primary { min-width:0; width:100%; }
   }
 </style>
 </head>
 <body>
 
   <header>
-    <div class="eyebrow">Estudio de Bandeja Sensorial</div>
-    <h1>Compón un pequeño mundo en calma</h1>
-    <p>Arrastra materiales naturales de la despensa hasta la bandeja. Cada
-       material desarrolla una capacidad distinta en tu peque — compón la
-       bandeja y regálasela.</p>
+    <div class="eyebrow">Estudio de Bandejas Sensoriales</div>
+    <h1>Crea el regalo de cumpleaños</h1>
+    <p>Compón tú mismo una o varias bandejas sensoriales para tu peque.
+       Cada material desarrolla una capacidad distinta. Cuando tengas el
+       regalo listo, programa el envío para el día del cumpleaños y paga.</p>
   </header>
 
   <main class="studio">
 
     <section class="pantry" aria-label="Despensa de materiales">
-      <h2>La Despensa</h2>
+      <h2>1 · La Despensa</h2>
       <div class="shelf" id="shelf"></div>
       <p class="hint-line">
-        Arrastra un material hasta la bandeja, o simplemente tócalo. Añade
-        varios — combinar texturas y estímulos es lo que enriquece el juego.
+        Arrastra un material hasta la bandeja, o simplemente tócalo.
+        Combinar texturas y estímulos es lo que enriquece el juego.
       </p>
     </section>
 
-    <section class="checkout" aria-label="Tu bandeja">
-      <h2>Tu Bandeja</h2>
+    <section class="composer" aria-label="Compón una bandeja">
+      <h2>2 · Compón una bandeja</h2>
 
       <div class="tray-wrap">
         <div class="tray" id="tray">
@@ -522,26 +335,24 @@
         </div>
       </div>
 
-      <div class="recipe" id="recipe">
-        <div id="recipeRows">
-          <div class="empty-recipe" id="emptyRecipe">Aún no has añadido nada</div>
+      <div class="panel">
+        <input class="tray-name" id="trayName" type="text" maxlength="28"
+               placeholder="Nombre de esta bandeja (p. ej. Bosque, Océano)" />
+        <div id="recipeRows" style="margin-top:16px">
+          <div class="empty-recipe">Aún no has añadido materiales</div>
         </div>
         <div class="totals">
-          <span class="t-label">Total</span>
-          <span class="t-value" id="totalValue">$0</span>
+          <span class="t-label">Esta bandeja</span>
+          <span class="t-value" id="trayTotal">$0</span>
         </div>
-
         <div class="dev" id="devSummary" hidden>
-          <div class="dev-title">Capacidades que desarrolla esta bandeja</div>
+          <div class="dev-title">Capacidades de esta bandeja</div>
           <ul id="devList"></ul>
         </div>
-
-        <input class="gift-name" id="giftName" type="text"
-               placeholder="¿Para quién es esta bandeja? (opcional)" maxlength="24" />
         <div class="actions">
-          <button class="btn btn-ghost ui" id="resetBtn">Vaciar bandeja</button>
-          <button class="btn btn-primary ui" id="buyBtn" disabled>
-            Regalar esta bandeja
+          <button class="btn btn-ghost ui" id="clearBtn">Vaciar</button>
+          <button class="btn btn-primary ui" id="addTrayBtn" disabled>
+            Añadir bandeja al regalo
           </button>
         </div>
       </div>
@@ -549,17 +360,145 @@
 
   </main>
 
-  <div class="overlay" id="overlay">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div class="seal">✓</div>
-      <h3 id="modalTitle">Una bandeja en camino</h3>
-      <p id="modalText"></p>
-      <div class="receipt" id="modalReceipt"></div>
-      <div class="m-dev" id="modalDev">
-        <div class="dev-title">Lo que tu peque desarrollará</div>
-        <ul id="modalDevList"></ul>
+  <section class="gift" aria-label="Tu regalo de cumpleaños">
+    <div class="gift-wrap">
+      <h2>3 · Tu regalo de cumpleaños</h2>
+      <div class="gift-grid" id="giftTrays">
+        <div class="gift-empty" id="giftEmpty">
+          Aún no has añadido bandejas. Compón una arriba y añádela aquí —
+          puedes incluir varias en un mismo regalo.
+        </div>
       </div>
-      <button class="btn btn-primary ui" id="modalClose">Qué bonito — cerrar</button>
+      <div class="gift-foot">
+        <div class="sum">
+          <div class="n" id="giftCount">0 bandejas</div>
+          <div class="v" id="giftTotal">$0</div>
+        </div>
+        <button class="btn btn-primary ui" id="checkoutBtn" disabled>
+          Programar envío y pagar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="overlay" id="overlay">
+    <div class="sheet" role="dialog" aria-modal="true">
+
+      <div class="steps">
+        <div class="st active" data-st="1">Cumpleaños</div>
+        <div class="st" data-st="2">Pago</div>
+        <div class="st" data-st="3">Listo</div>
+      </div>
+
+      <!-- Paso 1 · Cumpleaños y envío -->
+      <div id="step1">
+        <h3>El cumpleaños de tu peque</h3>
+        <p class="lead">Dinos para quién es y cuándo quieres que llegue.
+           Programaremos el envío para esa fecha.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="childName">Nombre del peque</label>
+            <input id="childName" type="text" maxlength="40" placeholder="p. ej. Mateo" />
+            <div class="err" id="e-childName"></div>
+          </div>
+          <div class="field">
+            <label for="childAge">Cumple (años)</label>
+            <input id="childAge" type="number" min="0" max="12" placeholder="p. ej. 2" />
+            <div class="err" id="e-childAge"></div>
+          </div>
+          <div class="field">
+            <label for="birthday">Fecha del cumpleaños</label>
+            <input id="birthday" type="date" />
+            <div class="err" id="e-birthday"></div>
+          </div>
+          <div class="field">
+            <label for="deliveryDate">Fecha de entrega (programar envío)</label>
+            <input id="deliveryDate" type="date" />
+            <div class="err" id="e-deliveryDate"></div>
+          </div>
+          <div class="field">
+            <label for="deliveryWindow">Franja de entrega</label>
+            <select id="deliveryWindow">
+              <option value="Mañana (9–13 h)">Mañana (9–13 h)</option>
+              <option value="Tarde (16–20 h)">Tarde (16–20 h)</option>
+            </select>
+            <div class="err"></div>
+          </div>
+          <div class="field">
+            <label for="phone">Teléfono de contacto</label>
+            <input id="phone" type="tel" maxlength="20" placeholder="Para avisos de entrega" />
+            <div class="err" id="e-phone"></div>
+          </div>
+          <div class="field full">
+            <label for="address">Dirección de entrega</label>
+            <input id="address" type="text" maxlength="120" placeholder="Calle, número, ciudad, código postal" />
+            <div class="err" id="e-address"></div>
+          </div>
+          <div class="field full">
+            <label for="giftMsg">Mensaje de regalo (opcional)</label>
+            <textarea id="giftMsg" maxlength="160" placeholder="Una nota cariñosa que irá con el regalo"></textarea>
+            <div class="err"></div>
+          </div>
+        </div>
+        <div class="note" id="dateNote" hidden></div>
+        <div class="sheet-actions">
+          <button class="btn btn-ghost ui" id="cancelBtn">Volver</button>
+          <button class="btn btn-primary ui" id="toStep2">Continuar al pago</button>
+        </div>
+      </div>
+
+      <!-- Paso 2 · Pago -->
+      <div id="step2" hidden>
+        <h3>Pago seguro</h3>
+        <p class="lead">Revisa tu regalo y completa el pago. Es una demo:
+           no se cobra ni se envía ningún dato real.</p>
+        <div class="order-box" id="orderBox"></div>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="cardName">Titular de la tarjeta</label>
+            <input id="cardName" type="text" maxlength="40" placeholder="Nombre y apellidos" />
+            <div class="err" id="e-cardName"></div>
+          </div>
+          <div class="field full">
+            <label for="cardNumber">Número de tarjeta</label>
+            <input id="cardNumber" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" />
+            <div class="err" id="e-cardNumber"></div>
+          </div>
+          <div class="field">
+            <label for="cardExp">Caducidad (MM/AA)</label>
+            <input id="cardExp" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" />
+            <div class="err" id="e-cardExp"></div>
+          </div>
+          <div class="field">
+            <label for="cardCvc">CVC</label>
+            <input id="cardCvc" type="text" inputmode="numeric" placeholder="000" maxlength="4" />
+            <div class="err" id="e-cardCvc"></div>
+          </div>
+        </div>
+        <div class="sheet-actions">
+          <button class="btn btn-ghost ui" id="backTo1">Atrás</button>
+          <button class="btn btn-primary ui" id="payBtn">Pagar y programar</button>
+        </div>
+      </div>
+
+      <!-- Paso 3 · Confirmación -->
+      <div id="step3" hidden>
+        <div class="conf-center">
+          <div class="seal">✓</div>
+          <h3 id="confTitle">¡Regalo confirmado!</h3>
+          <p class="lead" id="confLead"></p>
+        </div>
+        <div class="conf-deliv" id="confDeliv"></div>
+        <div class="order-box" id="confOrder"></div>
+        <div class="dev" id="confDev">
+          <div class="dev-title">Lo que tu peque desarrollará con este regalo</div>
+          <ul id="confDevList"></ul>
+        </div>
+        <div class="sheet-actions">
+          <button class="btn btn-primary ui" id="finishBtn">Crear otro regalo</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -568,57 +507,52 @@
   "use strict";
 
   var INGREDIENTS = [
-    { id: "rice",     name: "Arroz Orgánico",  price: 4, color: "#efe2c6",
-      skill: "Discriminación táctil",
-      desc: "Trasvases y tacto fino: el peque siente el flujo del material y afina la sensibilidad de sus manos." },
-    { id: "lentils",  name: "Lentejas Rojas",  price: 4, color: "#cf8163",
-      skill: "Pinza fina",
-      desc: "Recoger piezas pequeñas fortalece el agarre de pinza y la concentración, base para la escritura." },
-    { id: "beads",    name: "Cuentas de Madera", price: 7, color: "#c39257",
-      skill: "Coordinación ojo-mano",
-      desc: "Manipular y ensartar cuentas desarrolla la coordinación óculo-manual y la planificación motriz." },
-    { id: "pebbles",  name: "Piedras de Río",  price: 6, color: "#a7a097",
-      skill: "Percepción de peso",
-      desc: "Comparar peso y tamaño introduce nociones de clasificación, orden y causa-efecto." },
-    { id: "lavender", name: "Lavanda Seca",    price: 8, color: "#9586a6",
-      skill: "Estímulo olfativo",
-      desc: "El aroma invita a la calma y la autorregulación, y activa la memoria sensorial." },
-    { id: "shells",   name: "Conchas de Mar",  price: 9, color: "#e7d4bd",
-      skill: "Lenguaje y vocabulario",
-      desc: "Texturas y formas variadas que enriquecen el lenguaje descriptivo y la exploración táctil." },
-    { id: "chickpea", name: "Garbanzos",       price: 4, color: "#d8c08f",
-      skill: "Motricidad fina",
-      desc: "Trasvasar con cuchara o pinza fortalece la mano y la coordinación de ambos lados del cuerpo." },
-    { id: "pinecone", name: "Piñas",           price: 5, color: "#7c5d43",
-      skill: "Curiosidad natural",
-      desc: "Estructuras naturales que despiertan la observación, el asombro y el contacto con la naturaleza." },
-    { id: "felt",     name: "Bolas de Fieltro", price: 6, color: "#94a785",
-      skill: "Discriminación de color",
-      desc: "Clasificar por color afina la percepción visual y el pensamiento lógico inicial." }
+    { id:"rice",     name:"Arroz Orgánico",   price:4, color:"#efe2c6",
+      skill:"Discriminación táctil",
+      desc:"Trasvases y tacto fino: el peque siente el flujo del material y afina la sensibilidad de sus manos." },
+    { id:"lentils",  name:"Lentejas Rojas",   price:4, color:"#cf8163",
+      skill:"Pinza fina",
+      desc:"Recoger piezas pequeñas fortalece el agarre de pinza y la concentración, base para la escritura." },
+    { id:"beads",    name:"Cuentas de Madera",price:7, color:"#c39257",
+      skill:"Coordinación ojo-mano",
+      desc:"Manipular y ensartar cuentas desarrolla la coordinación óculo-manual y la planificación motriz." },
+    { id:"pebbles",  name:"Piedras de Río",   price:6, color:"#a7a097",
+      skill:"Percepción de peso",
+      desc:"Comparar peso y tamaño introduce nociones de clasificación, orden y causa-efecto." },
+    { id:"lavender", name:"Lavanda Seca",     price:8, color:"#9586a6",
+      skill:"Estímulo olfativo",
+      desc:"El aroma invita a la calma y la autorregulación, y activa la memoria sensorial." },
+    { id:"shells",   name:"Conchas de Mar",   price:9, color:"#e7d4bd",
+      skill:"Lenguaje y vocabulario",
+      desc:"Texturas y formas variadas que enriquecen el lenguaje descriptivo y la exploración táctil." },
+    { id:"chickpea", name:"Garbanzos",        price:4, color:"#d8c08f",
+      skill:"Motricidad fina",
+      desc:"Trasvasar con cuchara o pinza fortalece la mano y la coordinación de ambos lados del cuerpo." },
+    { id:"pinecone", name:"Piñas",            price:5, color:"#7c5d43",
+      skill:"Curiosidad natural",
+      desc:"Estructuras naturales que despiertan la observación, el asombro y el contacto con la naturaleza." },
+    { id:"felt",     name:"Bolas de Fieltro", price:6, color:"#94a785",
+      skill:"Discriminación de color",
+      desc:"Clasificar por color afina la percepción visual y el pensamiento lógico inicial." }
   ];
-
   var byId = {};
   INGREDIENTS.forEach(function (i) { byId[i.id] = i; });
 
-  // scoops[id] = número de veces añadido
-  var scoops = {};
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
+               "agosto","septiembre","octubre","noviembre","diciembre"];
 
-  var shelf       = document.getElementById("shelf");
-  var tray        = document.getElementById("tray");
-  var trayInner   = document.getElementById("trayInner");
-  var recipeRows  = document.getElementById("recipeRows");
-  var totalValue  = document.getElementById("totalValue");
-  var devSummary  = document.getElementById("devSummary");
-  var devList     = document.getElementById("devList");
-  var buyBtn      = document.getElementById("buyBtn");
-  var resetBtn    = document.getElementById("resetBtn");
-  var giftName    = document.getElementById("giftName");
-  var overlay     = document.getElementById("overlay");
-  var modalText   = document.getElementById("modalText");
-  var modalTitle  = document.getElementById("modalTitle");
-  var modalReceipt= document.getElementById("modalReceipt");
-  var modalDevList= document.getElementById("modalDevList");
-  var modalClose  = document.getElementById("modalClose");
+  // --- estado ---
+  var current = {};   // scoops de la bandeja en construcción
+  var gift = [];      // [{ name, scoops:{}, price }]
+
+  var $ = function (id) { return document.getElementById(id); };
+  var shelf=$("shelf"), tray=$("tray"), trayInner=$("trayInner"),
+      recipeRows=$("recipeRows"), trayTotal=$("trayTotal"),
+      devSummary=$("devSummary"), devList=$("devList"),
+      trayName=$("trayName"), clearBtn=$("clearBtn"), addTrayBtn=$("addTrayBtn"),
+      giftTrays=$("giftTrays"), giftEmpty=$("giftEmpty"),
+      giftCount=$("giftCount"), giftTotal=$("giftTotal"),
+      checkoutBtn=$("checkoutBtn"), overlay=$("overlay");
 
   function shade(hex, amt) {
     var n = parseInt(hex.slice(1), 16);
@@ -628,58 +562,59 @@
     return "rgb(" + r + "," + g + "," + b + ")";
   }
   function rand(a, b) { return a + Math.random() * (b - a); }
+  function priceOf(scoops) {
+    var t = 0;
+    Object.keys(scoops).forEach(function (k) { t += byId[k].price * scoops[k]; });
+    return t;
+  }
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + "-" +
+      String(d.getMonth() + 1).padStart(2, "0") + "-" +
+      String(d.getDate()).padStart(2, "0");
+  }
+  function fmtES(iso) {
+    if (!iso) return "";
+    var p = iso.split("-");
+    return Number(p[2]) + " de " + MESES[Number(p[1]) - 1] + " de " + p[0];
+  }
 
-  // ---- Construir la despensa ----
+  // --- despensa ---
   INGREDIENTS.forEach(function (ing) {
     var btn = document.createElement("button");
-    btn.className = "ing ui";
-    btn.type = "button";
+    btn.className = "ing ui"; btn.type = "button";
     btn.setAttribute("data-id", ing.id);
     btn.setAttribute("aria-label", "Añadir " + ing.name + " — desarrolla " + ing.skill);
 
     var dish = document.createElement("div");
     dish.className = "dish";
     dish.style.setProperty("--dish", ing.color);
-
     for (var s = 0; s < 11; s++) {
       var sp = document.createElement("span");
       sp.className = "speck";
       var d = rand(7, 14);
-      sp.style.width = d + "px";
-      sp.style.height = d + "px";
-      sp.style.left = rand(8, 76) + "%";
-      sp.style.top = rand(8, 76) + "%";
+      sp.style.width = d + "px"; sp.style.height = d + "px";
+      sp.style.left = rand(8, 76) + "%"; sp.style.top = rand(8, 76) + "%";
       sp.style.background = shade(ing.color, Math.random() < .5 ? -26 : 22);
       sp.style.opacity = 0.85;
       dish.appendChild(sp);
     }
-
     var name = document.createElement("div");
-    name.className = "name";
-    name.textContent = ing.name;
-
+    name.className = "name"; name.textContent = ing.name;
     var skill = document.createElement("div");
-    skill.className = "skill";
-    skill.textContent = "Desarrolla · " + ing.skill;
-
+    skill.className = "skill"; skill.textContent = "Desarrolla · " + ing.skill;
     var price = document.createElement("div");
-    price.className = "price";
-    price.textContent = "$" + ing.price + " · por cucharada";
+    price.className = "price"; price.textContent = "$" + ing.price + " · por cucharada";
 
-    btn.appendChild(dish);
-    btn.appendChild(name);
-    btn.appendChild(skill);
-    btn.appendChild(price);
+    btn.appendChild(dish); btn.appendChild(name);
+    btn.appendChild(skill); btn.appendChild(price);
     shelf.appendChild(btn);
-
     attachDrag(btn, ing);
   });
 
-  // ---- Arrastre con puntero (ratón + táctil) ----
+  // --- arrastre (ratón + táctil) ---
   function attachDrag(el, ing) {
-    var ghost = null;
-    var startX = 0, startY = 0, moved = false, dragging = false;
-
+    var ghost = null, startX = 0, startY = 0, moved = false, dragging = false;
     el.addEventListener("pointerdown", function (e) {
       if (e.button !== undefined && e.button !== 0) return;
       dragging = true; moved = false;
@@ -687,238 +622,391 @@
       el.setPointerCapture(e.pointerId);
       e.preventDefault();
     });
-
     el.addEventListener("pointermove", function (e) {
       if (!dragging) return;
       var dx = e.clientX - startX, dy = e.clientY - startY;
       if (!moved && Math.hypot(dx, dy) < 7) return;
-
       if (!moved) {
-        moved = true;
-        el.classList.add("dragging");
+        moved = true; el.classList.add("dragging");
         ghost = document.createElement("div");
         ghost.className = "ghost";
         ghost.style.background =
-          "radial-gradient(circle at 32% 28%, rgba(255,255,255,.5), rgba(255,255,255,0) 55%), " + ing.color;
+          "radial-gradient(circle at 32% 28%,rgba(255,255,255,.5),rgba(255,255,255,0) 55%)," + ing.color;
         document.body.appendChild(ghost);
       }
       ghost.style.left = e.clientX + "px";
       ghost.style.top  = e.clientY + "px";
       tray.classList.toggle("lift", overTray(e.clientX, e.clientY));
     });
-
     el.addEventListener("pointerup", function (e) {
       if (!dragging) return;
-      dragging = false;
-      el.classList.remove("dragging");
+      dragging = false; el.classList.remove("dragging");
       tray.classList.remove("lift");
       if (ghost) { ghost.remove(); ghost = null; }
-
-      // soltado sobre la bandeja, o un toque simple → añade una cucharada
-      if (overTray(e.clientX, e.clientY) || !moved) {
-        addScoop(ing.id);
-      }
+      if (overTray(e.clientX, e.clientY) || !moved) addScoop(ing.id);
     });
-
     el.addEventListener("pointercancel", function () {
-      dragging = false;
-      el.classList.remove("dragging");
+      dragging = false; el.classList.remove("dragging");
       tray.classList.remove("lift");
       if (ghost) { ghost.remove(); ghost = null; }
     });
   }
-
   function overTray(x, y) {
     var r = tray.getBoundingClientRect();
     return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
   }
 
-  // ---- Añadir / quitar materiales ----
+  // --- bandeja en construcción ---
   function addScoop(id) {
-    scoops[id] = (scoops[id] || 0) + 1;
+    current[id] = (current[id] || 0) + 1;
     tray.classList.add("filled");
     spawnGrains(id, 13);
-    renderRecipe();
+    renderCurrent();
   }
-
-  function removeIngredient(id) {
-    delete scoops[id];
-    var gs = trayInner.querySelectorAll('.grain[data-id="' + id + '"]');
-    gs.forEach(function (g) {
-      g.classList.add("out");
-      setTimeout(function () { g.remove(); }, 340);
+  function removeCurrent(id) {
+    delete current[id];
+    trayInner.querySelectorAll('.grain[data-id="' + id + '"]').forEach(function (g) {
+      g.classList.add("out"); setTimeout(function () { g.remove(); }, 340);
     });
-    if (Object.keys(scoops).length === 0) {
+    if (Object.keys(current).length === 0)
       setTimeout(function () { tray.classList.remove("filled"); }, 200);
-    }
-    renderRecipe();
+    renderCurrent();
   }
-
   function spawnGrains(id, count) {
-    var ing = byId[id];
-    var rect = trayInner.getBoundingClientRect();
-    var pad = 16;
+    var ing = byId[id], rect = trayInner.getBoundingClientRect(), pad = 16;
     for (var i = 0; i < count; i++) {
       var g = document.createElement("div");
-      g.className = "grain";
-      g.setAttribute("data-id", id);
+      g.className = "grain"; g.setAttribute("data-id", id);
       var size = rand(8, 17);
-      g.style.width = size + "px";
-      g.style.height = size + "px";
+      g.style.width = size + "px"; g.style.height = size + "px";
       g.style.left = rand(pad, rect.width - pad - size) + "px";
       g.style.top  = rand(pad, rect.height - pad - size) + "px";
       g.style.background = shade(ing.color, (Math.random() < .5 ? -1 : 1) * rand(6, 30));
       g.style.borderRadius = (id === "pinecone" || id === "shells")
-        ? rand(20, 45) + "% " + rand(40, 60) + "%"
-        : "50%";
+        ? rand(20, 45) + "% " + rand(40, 60) + "%" : "50%";
       g.style.boxShadow = "inset 0 -3px 5px -2px rgba(0,0,0,.3)";
       g.style.animationDelay = (i * 0.018) + "s";
       g.style.zIndex = String(Math.floor(rand(1, 50)));
       trayInner.appendChild(g);
     }
   }
+  function clearTrayVisual() {
+    trayInner.querySelectorAll(".grain").forEach(function (g) {
+      g.classList.add("out"); setTimeout(function () { g.remove(); }, 340);
+    });
+    setTimeout(function () { tray.classList.remove("filled"); }, 220);
+  }
 
-  function renderRecipe() {
-    var ids = Object.keys(scoops);
-    recipeRows.innerHTML = "";
-    devList.innerHTML = "";
-
+  function renderCurrent() {
+    var ids = Object.keys(current);
+    recipeRows.innerHTML = ""; devList.innerHTML = "";
     if (ids.length === 0) {
       var e = document.createElement("div");
       e.className = "empty-recipe";
-      e.textContent = "Aún no has añadido nada";
+      e.textContent = "Aún no has añadido materiales";
       recipeRows.appendChild(e);
-      buyBtn.disabled = true;
-      totalValue.textContent = "$0";
+      trayTotal.textContent = "$0";
       devSummary.hidden = true;
+      addTrayBtn.disabled = true;
       return;
     }
-
     var total = 0;
     ids.forEach(function (id) {
-      var ing = byId[id];
-      var qty = scoops[id];
-      var line = ing.price * qty;
+      var ing = byId[id], qty = current[id], line = ing.price * qty;
       total += line;
-
       var row = document.createElement("div");
       row.className = "recipe-row";
-
       var label = document.createElement("div");
       label.className = "label";
       var sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = ing.color;
+      sw.className = "swatch"; sw.style.background = ing.color;
       var nm = document.createElement("span");
-      nm.innerHTML = ing.name +
-        ' <span class="qty">×' + qty + " cucharada" + (qty > 1 ? "s" : "") + "</span>";
-      label.appendChild(sw);
-      label.appendChild(nm);
-
+      nm.innerHTML = ing.name + ' <span class="qty">×' + qty +
+        " cucharada" + (qty > 1 ? "s" : "") + "</span>";
+      label.appendChild(sw); label.appendChild(nm);
       var right = document.createElement("div");
       right.className = "right";
       var lp = document.createElement("span");
-      lp.className = "lp";
-      lp.textContent = "$" + line;
+      lp.className = "lp"; lp.textContent = "$" + line;
       var rm = document.createElement("button");
-      rm.className = "rm";
-      rm.type = "button";
+      rm.className = "rm"; rm.type = "button";
       rm.setAttribute("aria-label", "Quitar " + ing.name);
       rm.textContent = "×";
-      rm.addEventListener("click", function () { removeIngredient(id); });
-      right.appendChild(lp);
-      right.appendChild(rm);
-
-      row.appendChild(label);
-      row.appendChild(right);
+      rm.addEventListener("click", function () { removeCurrent(id); });
+      right.appendChild(lp); right.appendChild(rm);
+      row.appendChild(label); row.appendChild(right);
       recipeRows.appendChild(row);
 
-      // fila del resumen de capacidades
       var li = document.createElement("li");
       var dot = document.createElement("span");
-      dot.className = "dot";
-      dot.style.background = ing.color;
+      dot.className = "dot"; dot.style.background = ing.color;
       var txt = document.createElement("div");
       txt.innerHTML = "<b>" + ing.skill + "</b> · <span>" + ing.desc + "</span>";
-      li.appendChild(dot);
-      li.appendChild(txt);
+      li.appendChild(dot); li.appendChild(txt);
       devList.appendChild(li);
     });
-
-    totalValue.textContent = "$" + total;
-    buyBtn.disabled = false;
+    trayTotal.textContent = "$" + total;
     devSummary.hidden = false;
+    addTrayBtn.disabled = false;
   }
 
-  // ---- Vaciar ----
-  resetBtn.addEventListener("click", function () {
-    scoops = {};
-    trayInner.querySelectorAll(".grain").forEach(function (g) {
-      g.classList.add("out");
-      setTimeout(function () { g.remove(); }, 340);
-    });
-    setTimeout(function () { tray.classList.remove("filled"); }, 220);
-    renderRecipe();
+  clearBtn.addEventListener("click", function () {
+    current = {}; clearTrayVisual(); renderCurrent();
   });
 
-  // ---- Regalar ----
-  buyBtn.addEventListener("click", function () {
-    var ids = Object.keys(scoops);
-    if (ids.length === 0) return;
+  addTrayBtn.addEventListener("click", function () {
+    if (Object.keys(current).length === 0) return;
+    var nm = trayName.value.trim() || ("Bandeja " + (gift.length + 1));
+    gift.push({ name: nm, scoops: Object.assign({}, current), price: priceOf(current) });
+    current = {}; trayName.value = "";
+    clearTrayVisual(); renderCurrent(); renderGift();
+  });
 
-    var total = 0;
-    modalReceipt.innerHTML = "";
-    modalDevList.innerHTML = "";
-
-    ids.forEach(function (id) {
-      var ing = byId[id];
-      var line = ing.price * scoops[id];
-      total += line;
-
-      var r = document.createElement("div");
-      r.className = "r";
-      r.innerHTML = "<span>" + ing.name + " ×" + scoops[id] +
-                    "</span><span>$" + line + "</span>";
-      modalReceipt.appendChild(r);
-
-      var li = document.createElement("li");
-      var dot = document.createElement("span");
-      dot.className = "dot";
-      dot.style.background = ing.color;
-      var txt = document.createElement("div");
-      txt.innerHTML = "<b>" + ing.name + " — " + ing.skill + "</b><br>" +
-                      "<span>" + ing.desc + "</span>";
-      li.appendChild(dot);
-      li.appendChild(txt);
-      modalDevList.appendChild(li);
+  // --- regalo (varias bandejas) ---
+  function uniqueSkills(scoopsList) {
+    var seen = {}, out = [];
+    scoopsList.forEach(function (sc) {
+      Object.keys(sc).forEach(function (id) {
+        var ing = byId[id];
+        if (!seen[ing.skill]) { seen[ing.skill] = true; out.push(ing); }
+      });
     });
+    return out;
+  }
 
-    var t = document.createElement("div");
-    t.className = "r tot";
-    t.innerHTML = "<span>Total</span><span>$" + total + "</span>";
-    modalReceipt.appendChild(t);
+  function renderGift() {
+    giftTrays.innerHTML = "";
+    if (gift.length === 0) {
+      giftTrays.appendChild(giftEmpty);
+      giftCount.textContent = "0 bandejas";
+      giftTotal.textContent = "$0";
+      checkoutBtn.disabled = true;
+      return;
+    }
+    var total = 0;
+    gift.forEach(function (t, idx) {
+      total += t.price;
+      var card = document.createElement("div");
+      card.className = "gift-card";
+      var h = document.createElement("h3");
+      h.textContent = t.name;
+      var mats = document.createElement("div");
+      mats.className = "mats";
+      mats.textContent = Object.keys(t.scoops).map(function (id) {
+        return byId[id].name + " ×" + t.scoops[id];
+      }).join(" · ");
+      var foot = document.createElement("div");
+      foot.className = "gc-foot";
+      var pr = document.createElement("span");
+      pr.className = "gc-price"; pr.textContent = "$" + t.price;
+      var rm = document.createElement("button");
+      rm.className = "gc-rm"; rm.type = "button";
+      rm.textContent = "Quitar";
+      rm.addEventListener("click", function () { gift.splice(idx, 1); renderGift(); });
+      foot.appendChild(pr); foot.appendChild(rm);
+      card.appendChild(h); card.appendChild(mats); card.appendChild(foot);
+      giftTrays.appendChild(card);
+    });
+    giftCount.textContent = gift.length + (gift.length === 1 ? " bandeja" : " bandejas");
+    giftTotal.textContent = "$" + total;
+    checkoutBtn.disabled = false;
+  }
 
-    var who = giftName.value.trim();
-    modalTitle.textContent = who ? "Para " + who + ", con cariño" : "Una bandeja en camino";
-    modalText.textContent = who
-      ? "Estamos preparando una bandeja sensorial hecha a mano para " + who +
-        ". Estas son las capacidades que ayudará a desarrollar:"
-      : "Estamos preparando tu bandeja sensorial hecha a mano. Estas son las " +
-        "capacidades que ayudará a desarrollar en tu peque:";
+  // --- checkout por pasos ---
+  var step1=$("step1"), step2=$("step2"), step3=$("step3");
+  var stEls = document.querySelectorAll(".steps .st");
 
+  function showStep(n) {
+    step1.hidden = n !== 1; step2.hidden = n !== 2; step3.hidden = n !== 3;
+    stEls.forEach(function (el) {
+      var s = Number(el.getAttribute("data-st"));
+      el.classList.toggle("active", s === n);
+      el.classList.toggle("done", s < n);
+    });
+  }
+
+  checkoutBtn.addEventListener("click", function () {
+    if (gift.length === 0) return;
+    var t = todayISO();
+    $("birthday").min = t;
+    $("deliveryDate").min = t;
+    showStep(1);
     overlay.classList.add("show");
   });
-
-  function closeModal() { overlay.classList.remove("show"); }
-  modalClose.addEventListener("click", closeModal);
-  overlay.addEventListener("click", function (e) {
-    if (e.target === overlay) closeModal();
-  });
+  $("cancelBtn").addEventListener("click", closeOverlay);
+  function closeOverlay() { overlay.classList.remove("show"); }
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) closeOverlay(); });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeModal();
+    if (e.key === "Escape") closeOverlay();
   });
 
-  renderRecipe();
+  function setErr(id, msg) {
+    var input = $(id), box = $("e-" + id);
+    if (box) box.textContent = msg || "";
+    if (input) input.classList.toggle("bad", !!msg);
+    return !msg;
+  }
+
+  ["childName","childAge","birthday","deliveryDate","phone","address",
+   "cardName","cardNumber","cardExp","cardCvc"].forEach(function (id) {
+    var el = $(id);
+    var clear = function () { setErr(id, ""); };
+    el.addEventListener("input", clear);
+    el.addEventListener("change", clear);
+  });
+
+  $("deliveryDate").addEventListener("change", checkDateNote);
+  $("birthday").addEventListener("change", checkDateNote);
+  function checkDateNote() {
+    var b = $("birthday").value, d = $("deliveryDate").value;
+    var note = $("dateNote");
+    if (b && d && d > b) {
+      note.hidden = false;
+      note.textContent = "La entrega (" + fmtES(d) + ") es posterior al cumpleaños (" +
+        fmtES(b) + "). Puedes adelantarla para que llegue a tiempo.";
+    } else { note.hidden = true; }
+  }
+
+  $("toStep2").addEventListener("click", function () {
+    var ok = true, t = todayISO();
+    ok &= setErr("childName", $("childName").value.trim() ? "" : "Indica el nombre del peque.");
+    var age = $("childAge").value.trim();
+    ok &= setErr("childAge", age === "" || (Number(age) >= 0 && Number(age) <= 12)
+      ? "" : "Introduce una edad válida (0–12).");
+    ok &= setErr("birthday", $("birthday").value ? "" : "Elige la fecha del cumpleaños.");
+    var d = $("deliveryDate").value;
+    ok &= setErr("deliveryDate",
+      !d ? "Elige la fecha de entrega." :
+      d < t ? "La entrega no puede ser en el pasado." : "");
+    ok &= setErr("phone", $("phone").value.trim() ? "" : "Necesitamos un teléfono de contacto.");
+    ok &= setErr("address", $("address").value.trim().length >= 6
+      ? "" : "Indica una dirección completa.");
+    if (!ok) return;
+    fillOrderBox($("orderBox"));
+    showStep(2);
+  });
+
+  $("backTo1").addEventListener("click", function () { showStep(1); });
+
+  function fillOrderBox(box) {
+    box.innerHTML = "";
+    var total = 0;
+    gift.forEach(function (t) {
+      total += t.price;
+      var r = document.createElement("div");
+      r.className = "ob-r";
+      var a = document.createElement("span"); a.textContent = t.name;
+      var b = document.createElement("span"); b.textContent = "$" + t.price;
+      r.appendChild(a); r.appendChild(b); box.appendChild(r);
+    });
+    var tr = document.createElement("div");
+    tr.className = "ob-r tot";
+    var ta = document.createElement("span"); ta.textContent = "Total a pagar";
+    var tb = document.createElement("span"); tb.textContent = "$" + total;
+    tr.appendChild(ta); tr.appendChild(tb); box.appendChild(tr);
+    return total;
+  }
+
+  // formato tarjeta
+  $("cardNumber").addEventListener("input", function () {
+    var v = this.value.replace(/\D/g, "").slice(0, 19);
+    this.value = v.replace(/(.{4})/g, "$1 ").trim();
+  });
+  $("cardExp").addEventListener("input", function () {
+    var v = this.value.replace(/\D/g, "").slice(0, 4);
+    this.value = v.length > 2 ? v.slice(0, 2) + "/" + v.slice(2) : v;
+  });
+  $("cardCvc").addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 4);
+  });
+
+  $("payBtn").addEventListener("click", function () {
+    var ok = true;
+    ok &= setErr("cardName", $("cardName").value.trim() ? "" : "Indica el titular.");
+    var num = $("cardNumber").value.replace(/\s/g, "");
+    ok &= setErr("cardNumber", /^\d{15,19}$/.test(num) ? "" : "Número de tarjeta no válido.");
+    var exp = $("cardExp").value, m = exp.match(/^(\d{2})\/(\d{2})$/);
+    var expOk = false;
+    if (m) {
+      var mm = Number(m[1]), yy = 2000 + Number(m[2]);
+      var now = new Date();
+      if (mm >= 1 && mm <= 12) {
+        var last = new Date(yy, mm, 0);
+        expOk = last >= new Date(now.getFullYear(), now.getMonth(), 1);
+      }
+    }
+    ok &= setErr("cardExp", expOk ? "" : "Caducidad no válida.");
+    ok &= setErr("cardCvc", /^\d{3,4}$/.test($("cardCvc").value) ? "" : "CVC no válido.");
+    if (!ok) return;
+
+    var self = this;
+    self.disabled = true; self.textContent = "Procesando…";
+    setTimeout(function () {
+      self.disabled = false; self.textContent = "Pagar y programar";
+      confirmOrder();
+      showStep(3);
+    }, 850);
+  });
+
+  function confirmOrder() {
+    var child = $("childName").value.trim();
+    var d = $("deliveryDate").value;
+    var win = $("deliveryWindow").value;
+    var bday = $("birthday").value;
+    var addr = $("address").value.trim();
+    var msg = $("giftMsg").value.trim();
+
+    $("confTitle").textContent = "¡El regalo de " + child + " está en camino!";
+    $("confLead").textContent =
+      "Has co-creado " + gift.length + (gift.length === 1 ? " bandeja sensorial" : " bandejas sensoriales") +
+      " para el cumpleaños de " + child + ". Gracias por este regalo con tanto cariño.";
+
+    var deliv = $("confDeliv");
+    deliv.innerHTML = "";
+    var l1 = document.createElement("div");
+    l1.innerHTML = "Envío programado para el <b>" + fmtES(d) + "</b>, " +
+      win.toLowerCase() + ".";
+    var l2 = document.createElement("div");
+    l2.style.marginTop = "6px";
+    l2.style.color = "var(--ink-soft)";
+    l2.textContent = "Cumpleaños: " + fmtES(bday) + " · Entrega en: " + addr;
+    deliv.appendChild(l1); deliv.appendChild(l2);
+    if (msg) {
+      var l3 = document.createElement("div");
+      l3.style.marginTop = "8px";
+      l3.style.fontStyle = "italic";
+      l3.textContent = "“" + msg + "”";
+      deliv.appendChild(l3);
+    }
+
+    fillOrderBox($("confOrder"));
+
+    var list = $("confDevList");
+    list.innerHTML = "";
+    uniqueSkills(gift.map(function (t) { return t.scoops; })).forEach(function (ing) {
+      var li = document.createElement("li");
+      var dot = document.createElement("span");
+      dot.className = "dot"; dot.style.background = ing.color;
+      var txt = document.createElement("div");
+      txt.innerHTML = "<b>" + ing.skill + "</b> · <span>" + ing.desc + "</span>";
+      li.appendChild(dot); li.appendChild(txt);
+      list.appendChild(li);
+    });
+  }
+
+  $("finishBtn").addEventListener("click", function () {
+    gift = []; current = {};
+    ["childName","childAge","birthday","deliveryDate","phone","address","giftMsg",
+     "cardName","cardNumber","cardExp","cardCvc"].forEach(function (id) { $(id).value = ""; });
+    $("dateNote").hidden = true;
+    renderGift(); renderCurrent();
+    closeOverlay();
+    showStep(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  renderCurrent();
+  renderGift();
 })();
 </script>
 </body>
