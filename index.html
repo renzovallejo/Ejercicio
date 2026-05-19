@@ -3,16 +3,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#ffffff" />
-<title>El Laboratorio de Oz · Magia y experimentación sensorial</title>
+<meta name="theme-color" content="#c77f55" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Lab de Oz" />
+<link rel="manifest" href='data:application/manifest+json,{"name":"El Laboratorio de Oz","short_name":"Lab de Oz","display":"standalone","background_color":"%23f6efe2","theme_color":"%23c77f55","start_url":"."}' />
+<title>El Laboratorio de Oz · Bandejas sensoriales artesanales</title>
 <style>
   :root {
-    --bg-deep:#2a1747; --paper:#ffffff; --paper-warm:#f5f1ff;
-    --ink:#2a2340; --ink-soft:#6f6885; --line:#ece5f7;
-    --magic:#7b4fc4; --magic-deep:#5a32a3; --magic-glow:rgba(140,90,220,.5);
-    --gold:#e0b340; --gold-soft:#f4d98a; --teal:#34a8c4; --pink:#d96bb8;
-    --glass-1:#3a2363; --glass-2:#241247; --warn:#c0568f;
-    --shadow:0 22px 48px -24px rgba(60,30,110,.45);
+    --bg:#f6efe2; --paper:#fffdf7; --paper-2:#f1e7d4;
+    --ink:#392f24; --ink-soft:#8a7c66; --line:#e6dcc4;
+    --clay:#c77f55; --clay-deep:#a9633f; --clay-soft:#e7b58c;
+    --sage:#7e8b59; --sage-deep:#5f6a40;
+    --plum:#7c5285; --plum-deep:#5f3d68; --plum-soft:#cdb6d6;
+    --gold:#d8a64a; --warn:#b9683f;
+    --shadow:0 18px 36px -22px rgba(70,52,30,.5);
     --sat:env(safe-area-inset-top,0px);
     --sab:env(safe-area-inset-bottom,0px);
   }
@@ -23,471 +29,463 @@
     color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility; overflow-x:hidden;
     background:
-      radial-gradient(820px 540px at 50% -6%, rgba(140,90,220,.18), rgba(140,90,220,0) 60%),
-      radial-gradient(680px 460px at 88% 4%, rgba(224,179,64,.16), rgba(224,179,64,0) 55%),
-      radial-gradient(720px 540px at 4% 26%, rgba(52,168,196,.14), rgba(52,168,196,0) 55%),
-      radial-gradient(760px 580px at 50% 116%, rgba(217,107,184,.12), rgba(217,107,184,0) 60%),
-      #ffffff;
+      radial-gradient(680px 460px at 88% 2%, rgba(199,127,85,.16), transparent 60%),
+      radial-gradient(620px 460px at 6% 14%, rgba(126,139,89,.16), transparent 58%),
+      radial-gradient(720px 540px at 50% 116%, rgba(124,82,133,.12), transparent 60%),
+      var(--bg);
+  }
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:.5; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
   }
   body.lock { overflow:hidden; }
-  body.has-bar { padding-bottom:calc(92px + var(--sab)); }
   .ui { font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif; }
+  main, .appbar, .tabbar { position:relative; z-index:1; }
 
-  /* ---------- Cabecera ---------- */
-  header {
-    text-align:center; padding:calc(28px + var(--sat)) 20px 6px;
-    position:relative;
+  /* ---------- App bar ---------- */
+  .appbar {
+    position:sticky; top:0; z-index:50;
+    padding:calc(12px + var(--sat)) 18px 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    background:linear-gradient(180deg, rgba(246,239,226,.96), rgba(246,239,226,.82));
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
   }
-  header .eyebrow {
+  .brand { display:flex; align-items:center; gap:11px; }
+  .brand .mark {
+    width:38px; height:38px; border-radius:14px 13px 15px 12px;
+    background:linear-gradient(150deg,var(--clay),var(--clay-deep));
+    display:flex; align-items:center; justify-content:center; color:#fff8ec;
+    font-size:19px; box-shadow:0 6px 14px -8px var(--clay-deep);
+  }
+  .brand .bn { line-height:1.1; }
+  .brand .bn b { font-size:16px; font-weight:600; letter-spacing:.01em; }
+  .brand .bn span {
+    display:block; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-soft);
+  }
+  .cart-btn {
+    position:relative; width:44px; height:44px; border:1px solid var(--line);
+    background:var(--paper); border-radius:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; color:var(--ink);
+  }
+  .cart-btn svg { width:22px; height:22px; }
+  .badge {
+    position:absolute; top:-7px; right:-7px; min-width:21px; height:21px;
+    padding:0 5px; border-radius:999px; background:var(--clay); color:#fff;
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    text-transform:uppercase; letter-spacing:.32em; font-size:10.5px;
-    color:var(--magic-deep); margin-bottom:12px; font-weight:700;
+    font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 8px -3px var(--clay-deep);
   }
-  header .eyebrow .sp { color:var(--gold); }
-  header .eyebrow .sp:last-child { color:var(--pink); }
-  header h1 {
-    font-weight:500; font-size:clamp(26px,7.4vw,48px); letter-spacing:.01em;
-    line-height:1.16;
+  .badge[hidden] { display:none; }
+
+  main { max-width:1080px; margin:0 auto; padding:0 16px calc(96px + var(--sab)); }
+  .view[hidden] { display:none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    margin:20px 0 26px; padding:26px 22px;
+    background:
+      radial-gradient(120% 90% at 12% 0%, rgba(216,166,74,.18), transparent 55%),
+      var(--paper);
+    border:1px solid var(--line); border-radius:30px 24px 32px 22px;
+    box-shadow:var(--shadow); position:relative; overflow:hidden;
   }
-  header h1 .glow { color:var(--magic-deep); }
-  header p {
-    margin:12px auto 0; max-width:600px; color:var(--ink-soft);
-    font-size:14.5px; line-height:1.62; padding:0 4px;
+  .hero .kic {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10.5px;
+    letter-spacing:.26em; text-transform:uppercase; color:var(--clay-deep);
+    font-weight:700; margin-bottom:10px;
+  }
+  .hero h1 { font-size:clamp(24px,6.6vw,38px); font-weight:500; line-height:1.18; }
+  .hero h1 em { font-style:normal; color:var(--clay-deep); }
+  .hero p { color:var(--ink-soft); font-size:14px; line-height:1.6; margin-top:10px; }
+  .hero .leaf {
+    position:absolute; right:-26px; bottom:-30px; width:130px; height:130px;
+    opacity:.18; color:var(--sage); transform:rotate(-12deg);
   }
 
-  /* ---------- Estudio (mobile-first) ---------- */
-  .studio { max-width:1180px; margin:22px auto; padding:0 16px; display:block; }
-  .pantry, .composer { margin-bottom:30px; }
-  .pantry h2,.composer h2,.gift h2 {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:11.5px; text-transform:uppercase; letter-spacing:.2em;
-    color:var(--ink-soft); margin-bottom:16px; font-weight:700;
-    display:flex; align-items:center; gap:9px;
+  .sec-h {
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin:6px 2px 14px;
   }
-  .pantry h2::before,.composer h2::before,.gift h2::before {
-    content:"✦"; font-size:13px; -webkit-text-stroke:0;
+  .sec-h h2 {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px;
+    text-transform:uppercase; letter-spacing:.18em; color:var(--ink-soft); font-weight:700;
+    display:flex; align-items:center; gap:8px;
   }
-  .pantry h2::before { color:var(--magic); }
-  .composer h2::before { color:var(--teal); }
-  .gift h2::before { color:var(--pink); }
+  .sec-h h2::before { content:"❧"; color:var(--clay); font-size:15px; }
+  .sec-h .link {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
+    color:var(--plum-deep); font-weight:700; background:none; border:0; cursor:pointer;
+  }
 
-  .shelf { display:grid; grid-template-columns:repeat(2,1fr); gap:14px 12px; }
+  /* ---------- Tienda / productos ---------- */
+  .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .product {
+    background:var(--paper); border:1px solid var(--line);
+    border-radius:24px 20px 26px 18px; padding:16px 14px 14px;
+    box-shadow:var(--shadow); position:relative; display:flex; flex-direction:column;
+  }
+  .product .tag {
+    position:absolute; top:10px; right:-6px; transform:rotate(4deg);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:9.5px;
+    font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--sage); color:#fff; padding:4px 9px; border-radius:6px 6px 6px 2px;
+    box-shadow:0 4px 9px -5px var(--sage-deep);
+  }
+  .preview {
+    width:96px; height:96px; margin:4px auto 12px; border-radius:50%;
+    position:relative; overflow:hidden;
+    background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.7), rgba(255,255,255,0) 52%), var(--pv,#ddd);
+    box-shadow:inset 0 -10px 16px -9px rgba(60,42,20,.4), inset 0 5px 9px -4px rgba(255,255,255,.85), 0 8px 16px -11px rgba(60,42,20,.5);
+  }
+  .preview .speck { position:absolute; border-radius:50%; }
+  .product h3 { font-size:17px; font-weight:500; text-align:center; }
+  .product .blurb {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px;
+    color:var(--ink-soft); text-align:center; line-height:1.5; margin:5px 0 9px; flex:1;
+  }
+  .chips { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-bottom:12px; }
+  .chip {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:9.5px;
+    font-weight:700; color:var(--plum-deep); background:rgba(124,82,133,.12);
+    border-radius:999px; padding:4px 8px;
+  }
+  .product .buy {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .product .pp {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-weight:800;
+    font-size:16px; color:var(--clay-deep);
+  }
+
+  .btn {
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
+    font-weight:700; border-radius:14px 13px 15px 12px; padding:13px 18px;
+    cursor:pointer; border:1px solid transparent; touch-action:manipulation;
+    transition:transform .12s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn:active { transform:translateY(1px) scale(.99); }
+  .btn-primary {
+    color:#fff8ec; background:linear-gradient(180deg,var(--clay),var(--clay-deep));
+    box-shadow:0 12px 20px -13px var(--clay-deep);
+  }
+  .btn-primary:disabled { background:var(--line); color:var(--ink-soft); box-shadow:none; cursor:not-allowed; }
+  .btn-plum { color:#fff8ec; background:linear-gradient(180deg,var(--plum),var(--plum-deep)); box-shadow:0 12px 20px -13px var(--plum-deep); }
+  .btn-ghost { background:transparent; color:var(--ink-soft); border-color:var(--line); }
+  .btn-sm { padding:11px 15px; font-size:13px; }
+  .btn-block { width:100%; }
+
+  .make-cta {
+    margin:22px 0 4px; padding:20px; border-radius:24px;
+    background:linear-gradient(150deg, rgba(126,139,89,.16), rgba(124,82,133,.12)), var(--paper);
+    border:1px dashed var(--clay-soft); text-align:center;
+  }
+  .make-cta h3 { font-size:19px; font-weight:500; }
+  .make-cta p { color:var(--ink-soft); font-size:13px; line-height:1.55; margin:8px 0 14px; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; }
+
+  /* ---------- Laboratorio ---------- */
+  .lab-intro { color:var(--ink-soft); font-size:13.5px; line-height:1.6; margin:4px 2px 18px; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; }
+  .shelf { display:grid; grid-template-columns:repeat(2,1fr); gap:13px; }
   .ing {
-    background:var(--paper-warm); border:1px solid var(--line); cursor:grab;
-    text-align:center; padding:16px 8px 14px; border-radius:18px;
-    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    touch-action:none;
+    background:var(--paper); border:1px solid var(--line); cursor:grab;
+    text-align:center; padding:15px 8px 13px; border-radius:20px 17px 21px 16px;
+    transition:transform .2s ease, box-shadow .2s ease; touch-action:none;
   }
   .ing:active { cursor:grabbing; transform:scale(.97); }
   .ing.dragging { opacity:.35; }
   .dish {
-    width:74px; height:74px; margin:0 auto 11px; border-radius:50%;
+    width:72px; height:72px; margin:0 auto 10px; border-radius:50%;
     position:relative; overflow:hidden;
-    background:
-      radial-gradient(circle at 30% 24%, rgba(255,255,255,.7), rgba(255,255,255,0) 52%),
-      var(--dish,#ddd);
-    box-shadow:
-      inset 0 -9px 15px -8px rgba(8,22,18,.4),
-      inset 0 5px 9px -4px rgba(255,255,255,.85),
-      0 0 0 1px rgba(255,255,255,.25),
-      0 8px 16px -10px rgba(8,22,18,.5);
-  }
-  .dish::after {
-    content:""; position:absolute; inset:0; border-radius:50%;
-    box-shadow:inset 0 0 12px -3px var(--magic-glow); opacity:.5;
+    background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.7), rgba(255,255,255,0) 52%), var(--dish,#ddd);
+    box-shadow:inset 0 -9px 14px -8px rgba(60,42,20,.42), inset 0 5px 9px -4px rgba(255,255,255,.85), 0 7px 14px -10px rgba(60,42,20,.5);
   }
   .dish .speck { position:absolute; border-radius:50%; pointer-events:none; }
-  .ing .name { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px; font-weight:700; }
-  .ing .skill { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10.5px; font-weight:700; color:var(--magic-deep); margin-top:5px; line-height:1.3; }
-  .ing .price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px; color:var(--ink-soft); margin-top:5px; }
+  .ing .name { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px; font-weight:700; }
+  .ing .skill { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10px; font-weight:700; color:var(--sage-deep); margin-top:4px; line-height:1.3; }
+  .ing .price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; color:var(--ink-soft); margin-top:4px; }
   .add-pill {
-    display:inline-block; margin-top:10px;
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:11px; font-weight:700; color:var(--bg-deep); background:var(--gold-soft);
-    border-radius:999px; padding:5px 13px; letter-spacing:.02em;
+    display:inline-block; margin-top:9px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10.5px;
+    font-weight:800; color:#fff8ec; background:var(--sage);
+    border-radius:999px; padding:4px 11px;
   }
-  .hint-line {
-    margin-top:18px; font-size:13px; color:var(--ink-soft);
-    line-height:1.55; border-left:2px solid var(--gold); padding-left:12px;
-    font-style:italic;
-  }
-
-  .tray-wrap { perspective:1200px; }
+  .tray-wrap { perspective:1100px; margin-top:18px; }
   .tray {
-    position:relative; width:100%; aspect-ratio:1/0.78; border-radius:26px;
-    background:linear-gradient(180deg,var(--glass-1) 0%,var(--glass-2) 100%);
-    padding:16px; box-shadow:var(--shadow);
-    transition:transform .35s ease,box-shadow .35s ease;
+    position:relative; width:100%; aspect-ratio:1/0.74;
+    border-radius:30px 26px 32px 24px;
+    background:linear-gradient(165deg,var(--clay) 0%,var(--clay-deep) 100%);
+    padding:15px; box-shadow:var(--shadow);
+    transition:transform .35s ease, box-shadow .35s ease;
   }
-  .tray::before {
-    content:""; position:absolute; inset:0; border-radius:26px; pointer-events:none;
-    background:linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,0) 40%);
-  }
-  .tray.lift { transform:scale(1.014); box-shadow:0 0 0 2px var(--magic-glow),var(--shadow); }
+  .tray.lift { transform:scale(1.013); box-shadow:0 0 0 3px rgba(216,166,74,.5), var(--shadow); }
   .tray-inner {
-    position:relative; width:100%; height:100%; border-radius:16px; overflow:hidden;
-    background:
-      radial-gradient(120% 95% at 50% 0%, #ffffff 0%, #f3eefc 64%, #e9defb 100%);
-    box-shadow:
-      inset 0 0 0 1px rgba(140,90,220,.30),
-      inset 0 12px 24px -12px rgba(60,30,110,.45),
-      inset 0 -8px 16px -10px rgba(60,30,110,.32);
+    position:relative; width:100%; height:100%; border-radius:24px 20px 26px 18px;
+    overflow:hidden;
+    background:radial-gradient(120% 95% at 50% 0%, #fdf6e6 0%, #f0e3c8 66%, #e7d7b6 100%);
+    box-shadow:inset 0 0 0 1px rgba(169,99,63,.25), inset 0 12px 22px -12px rgba(90,60,30,.5);
   }
   .empty {
     position:absolute; inset:0; display:flex; flex-direction:column;
     align-items:center; justify-content:center; gap:9px; text-align:center;
-    color:var(--ink-soft); padding:26px; transition:opacity .4s ease;
+    color:var(--ink-soft); padding:24px; transition:opacity .4s ease;
   }
-  .empty svg { opacity:.55; color:var(--magic-deep); }
-  .empty .big { font-size:17px; color:var(--ink); }
-  .empty .small { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; letter-spacing:.03em; }
+  .empty svg { opacity:.55; color:var(--clay-deep); }
+  .empty .big { font-size:16px; color:var(--ink); }
+  .empty .small { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px; }
   .tray.filled .empty { opacity:0; pointer-events:none; }
   .grain {
     position:absolute; border-radius:50%; pointer-events:none;
-    will-change:transform,opacity; animation:drop .5s cubic-bezier(.22,.61,.36,1) backwards;
+    animation:drop .5s cubic-bezier(.22,.61,.36,1) backwards;
   }
-  @keyframes drop { 0%{transform:translateY(-26px) scale(.2);opacity:0;} 60%{opacity:1;} 100%{transform:translateY(0) scale(1);opacity:1;} }
-  .grain.out { animation:grainOut .35s ease forwards; }
-  @keyframes grainOut { to { transform:scale(0); opacity:0; } }
+  @keyframes drop { 0%{transform:translateY(-24px) scale(.2);opacity:0;} 60%{opacity:1;} 100%{transform:translateY(0) scale(1);opacity:1;} }
+  .grain.out { animation:gout .35s ease forwards; }
+  @keyframes gout { to { transform:scale(0); opacity:0; } }
 
   .panel {
-    margin-top:18px; background:var(--paper-warm); border:1px solid var(--line);
-    border-radius:18px; padding:18px;
+    margin-top:16px; background:var(--paper); border:1px solid var(--line);
+    border-radius:22px 18px 24px 18px; padding:18px;
   }
   .tray-name {
     width:100%; padding:14px 15px; border:1px solid var(--line);
-    border-radius:12px; background:#fff;
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:16px; color:var(--ink);
+    border-radius:13px; background:#fff;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:16px; color:var(--ink);
   }
-  .tray-name::placeholder { color:var(--ink-soft); }
-  .tray-name:focus { outline:2px solid var(--magic); outline-offset:1px; }
+  .tray-name:focus { outline:2px solid var(--clay); outline-offset:1px; }
   .recipe-row {
     display:flex; align-items:center; justify-content:space-between; gap:12px;
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
-    padding:10px 0; border-bottom:1px dashed var(--line); animation:rowIn .3s ease;
+    padding:9px 0; border-bottom:1px dashed var(--line); animation:rowIn .3s ease;
   }
   @keyframes rowIn { from { opacity:0; transform:translateY(4px); } }
   .recipe-row:last-of-type { border-bottom:0; }
   .recipe-row .label { display:flex; align-items:center; gap:10px; }
-  .recipe-row .swatch { width:16px; height:16px; border-radius:50%; box-shadow:inset 0 -3px 4px -2px rgba(0,0,0,.3); flex:none; }
-  .recipe-row .qty { color:var(--ink-soft); font-size:12.5px; }
+  .swatch { width:15px; height:15px; border-radius:50%; box-shadow:inset 0 -3px 4px -2px rgba(0,0,0,.3); flex:none; }
+  .recipe-row .qty { color:var(--ink-soft); font-size:12px; }
   .recipe-row .right { display:flex; align-items:center; gap:10px; }
   .recipe-row .lp { color:var(--ink-soft); }
   .recipe-row button.rm {
     border:0; background:none; cursor:pointer; color:var(--ink-soft);
-    font-size:20px; line-height:1; width:32px; height:32px; border-radius:50%;
-    transition:background .2s,color .2s;
+    font-size:20px; width:32px; height:32px; border-radius:50%;
   }
-  .recipe-row button.rm:active { background:var(--paper-warm); color:var(--ink); }
-  .empty-recipe {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13.5px;
-    color:var(--ink-soft); text-align:center; padding:16px 0;
-  }
-  .totals {
-    display:flex; align-items:baseline; justify-content:space-between;
-    margin-top:14px; padding-top:14px; border-top:1px solid var(--line);
-  }
-  .totals .t-label { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
-  .totals .t-value { font-size:22px; font-weight:700; color:var(--magic-deep); }
-
+  .recipe-row button.rm:active { background:var(--paper-2); color:var(--ink); }
+  .empty-recipe { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px; color:var(--ink-soft); text-align:center; padding:16px 0; }
+  .totals { display:flex; align-items:baseline; justify-content:space-between; margin-top:14px; padding-top:13px; border-top:1px solid var(--line); }
+  .totals .t-label { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
+  .totals .t-value { font-size:21px; font-weight:700; color:var(--clay-deep); }
   .dev { margin-top:14px; border-top:1px solid var(--line); padding-top:14px; }
   .dev[hidden]{ display:none; }
-  .dev .dev-title {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px;
-    text-transform:uppercase; letter-spacing:.14em; color:var(--magic-deep);
-    font-weight:700; margin-bottom:12px;
-  }
+  .dev .dev-title { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--sage-deep); font-weight:700; margin-bottom:11px; }
   .dev ul { list-style:none; }
-  .dev li {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; display:flex;
-    gap:10px; padding:7px 0; font-size:12.5px; line-height:1.5; animation:rowIn .3s ease;
-  }
+  .dev li { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; display:flex; gap:10px; padding:6px 0; font-size:12.5px; line-height:1.5; animation:rowIn .3s ease; }
   .dev li .dot { width:9px; height:9px; border-radius:50%; margin-top:4px; flex:none; }
-  .dev li b { color:var(--ink); font-weight:700; }
+  .dev li b { color:var(--ink); }
   .dev li span { color:var(--ink-soft); }
-
   .actions { display:flex; gap:10px; margin-top:16px; }
-  .btn {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:15px;
-    font-weight:700; letter-spacing:.01em; border-radius:14px; padding:16px 20px;
-    cursor:pointer; border:1px solid transparent; touch-action:manipulation;
-    transition:transform .12s ease,background .25s ease,opacity .25s ease,box-shadow .25s ease;
-  }
-  .btn:active { transform:translateY(1px); }
-  .btn-primary {
-    flex:1; color:#fff;
-    background:linear-gradient(180deg,var(--magic) 0%,var(--magic-deep) 100%);
-    box-shadow:0 0 0 1px rgba(201,164,76,.35), 0 14px 24px -14px var(--magic-deep);
-  }
-  .btn-primary:disabled { background:var(--line); color:var(--ink-soft); box-shadow:none; cursor:not-allowed; }
-  .btn-ghost { background:transparent; color:var(--ink-soft); border-color:var(--line); }
+  .actions .btn { flex:1; }
 
-  /* ---------- Kit de la fiesta ---------- */
-  .gift { max-width:1180px; margin:0 auto 30px; padding:0 16px; }
-  .gift-wrap { background:var(--paper-warm); border:1px solid var(--line); border-radius:20px; padding:22px 18px 24px; }
-  .gift-grid { display:grid; grid-template-columns:1fr; gap:14px; }
-  .gift-card {
-    border:1px solid var(--line); border-radius:16px; padding:16px;
-    background:var(--paper); animation:rowIn .3s ease; position:relative; overflow:hidden;
+  /* ---------- Carrito ---------- */
+  .cart-list { display:flex; flex-direction:column; gap:13px; }
+  .cart-card {
+    background:var(--paper); border:1px solid var(--line);
+    border-radius:22px 18px 23px 18px; padding:15px; position:relative;
+    overflow:hidden; animation:rowIn .3s ease;
   }
-  .gift-card::before {
-    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
-    background:linear-gradient(180deg,var(--magic) 0%,var(--teal) 40%,var(--gold) 70%,var(--pink) 100%);
+  .cart-card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:linear-gradient(180deg,var(--clay),var(--gold) 55%,var(--sage)); }
+  .cart-card .cc-top { display:flex; gap:12px; padding-left:6px; }
+  .cc-mini {
+    width:52px; height:52px; border-radius:50%; flex:none; overflow:hidden; position:relative;
+    background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.7), transparent 52%), var(--cm,#ddd);
+    box-shadow:inset 0 -6px 10px -6px rgba(60,42,20,.4);
   }
-  .gift-card h3 { font-size:18px; font-weight:500; padding-left:6px; }
-  .gift-card .mats {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
-    color:var(--ink-soft); line-height:1.55; margin:8px 0 14px; padding-left:6px;
-  }
-  .gift-card .gc-foot { display:flex; align-items:center; justify-content:space-between; padding-left:6px; }
-  .gift-card .gc-price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-weight:700; font-size:15px; color:var(--magic-deep); }
-  .gift-card .gc-rm {
-    border:1px solid var(--line); background:none; cursor:pointer; color:var(--ink-soft);
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px;
-    padding:8px 14px; border-radius:999px;
-  }
-  .gift-card .gc-rm:active { color:var(--warn); border-color:var(--warn); }
-  .gc-qty {
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    margin:2px 0 12px; padding-left:6px;
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:12.5px; font-weight:700; color:var(--ink-soft);
-  }
-  .stepper {
-    display:flex; align-items:center; border:1px solid var(--line);
-    border-radius:999px; background:var(--paper-warm); overflow:hidden;
-  }
-  .stepper button {
-    width:40px; height:40px; border:0; background:none; cursor:pointer;
-    font-size:19px; line-height:1; color:var(--magic-deep); touch-action:manipulation;
-  }
+  .cc-mini .speck { position:absolute; border-radius:50%; }
+  .cc-info { flex:1; min-width:0; }
+  .cc-info h3 { font-size:16px; font-weight:500; }
+  .cc-info .kind { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--plum-deep); font-weight:700; margin-top:2px; }
+  .cc-info .mats { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px; color:var(--ink-soft); line-height:1.45; margin-top:5px; }
+  .cc-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:13px; padding-left:6px; }
+  .stepper { display:flex; align-items:center; border:1px solid var(--line); border-radius:999px; background:var(--paper-2); overflow:hidden; }
+  .stepper button { width:38px; height:38px; border:0; background:none; cursor:pointer; font-size:18px; color:var(--clay-deep); touch-action:manipulation; }
   .stepper button:disabled { color:var(--line); cursor:not-allowed; }
-  .stepper button:active:not(:disabled) { background:rgba(123,79,196,.14); }
-  .stepper .qv {
-    min-width:36px; text-align:center; font-weight:700; font-size:15px;
-    color:var(--ink); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-  }
-  .kit-tools {
-    margin:0 0 18px; padding:14px 16px; border:1px solid var(--line);
-    border-radius:14px; background:var(--paper-warm);
-  }
-  .kit-tools[hidden] { display:none; }
-  .kit-tools label {
-    display:block; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:12px; font-weight:700; color:var(--ink-soft);
-    margin-bottom:9px; letter-spacing:.02em;
-  }
-  .kt-row { display:flex; gap:10px; }
-  .kt-row input {
-    flex:1; min-width:0; border:1px solid var(--line); border-radius:11px;
-    padding:13px 14px; background:#fff;
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:16px; color:var(--ink);
-  }
-  .kt-row input:focus { outline:2px solid var(--magic); outline-offset:1px; }
-  .kt-row .btn { flex:0 0 auto; padding:13px 18px; }
-  .gift-empty {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink-soft);
-    font-size:14px; text-align:center; padding:24px 6px; line-height:1.6;
-  }
-  .gift-foot {
-    margin-top:20px; padding-top:18px; border-top:1px solid var(--line);
-    display:flex; flex-direction:column; gap:14px;
-  }
-  .gift-foot .sum { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; display:flex; align-items:baseline; justify-content:space-between; }
-  .gift-foot .sum .n { font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); }
-  .gift-foot .sum .v { font-size:26px; font-weight:700; color:var(--magic-deep); }
-  .gift-foot .btn-primary { width:100%; }
+  .stepper button:active:not(:disabled) { background:rgba(199,127,85,.15); }
+  .stepper .qv { min-width:34px; text-align:center; font-weight:700; font-size:15px; color:var(--ink); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; }
+  .cc-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+  .cc-price { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-weight:800; font-size:15px; color:var(--clay-deep); }
+  .cc-rm { border:0; background:none; cursor:pointer; color:var(--ink-soft); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; text-decoration:underline; }
+  .cc-rm:active { color:var(--warn); }
 
-  /* ---------- Barra fija (mobile) ---------- */
-  .bar {
-    position:fixed; left:0; right:0; bottom:0; z-index:900;
-    background:rgba(42,23,71,.93);
-    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
-    border-top:1px solid rgba(224,179,64,.45);
-    padding:12px 16px calc(12px + var(--sab));
-    display:flex; align-items:center; gap:14px;
-    box-shadow:0 -10px 30px -20px rgba(8,22,18,.8);
-    transform:translateY(120%); transition:transform .3s ease;
+  .kit-tools { margin:16px 0 4px; padding:15px 16px; border:1px dashed var(--clay-soft); border-radius:18px; background:var(--paper); }
+  .kit-tools label { display:block; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:9px; }
+  .kt-row { display:flex; gap:10px; }
+  .kt-row input { flex:1; min-width:0; border:1px solid var(--line); border-radius:12px; padding:13px 14px; background:#fff; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:16px; color:var(--ink); }
+  .kt-row input:focus { outline:2px solid var(--sage); outline-offset:1px; }
+  .kt-row .btn { flex:0 0 auto; }
+
+  .cart-empty { text-align:center; padding:50px 20px; }
+  .cart-empty .ce-ic { font-size:42px; opacity:.4; }
+  .cart-empty p { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink-soft); font-size:14px; line-height:1.6; margin:12px 0 18px; }
+
+  .summary {
+    margin-top:18px; background:var(--paper); border:1px solid var(--line);
+    border-radius:20px; padding:18px;
   }
-  .bar.show { transform:translateY(0); }
-  .bar .bar-info { flex:1; min-width:0; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:#f3eefc; }
-  .bar .bar-label { display:block; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold-soft); }
-  .bar .bar-val { display:block; font-size:20px; font-weight:700; margin-top:2px; }
-  .bar .btn { flex:0 0 auto; padding:15px 22px; }
+  .summary .sr { display:flex; justify-content:space-between; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:13px; color:var(--ink-soft); padding:4px 0; }
+  .summary .sr.tot { color:var(--ink); font-weight:800; font-size:18px; border-top:1px dashed var(--line); margin-top:8px; padding-top:12px; }
+  .summary .sr.tot span:last-child { color:var(--clay-deep); }
+  .summary .btn { margin-top:16px; }
+
+  /* ---------- Tab bar ---------- */
+  .tabbar {
+    position:fixed; left:0; right:0; bottom:0; z-index:60;
+    display:flex; padding:8px 10px calc(8px + var(--sab));
+    background:linear-gradient(180deg, rgba(255,253,247,.86), rgba(255,253,247,.97));
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);
+  }
+  body.lock .tabbar { display:none; }
+  .tab {
+    flex:1; border:0; background:none; cursor:pointer; padding:7px 4px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10.5px;
+    font-weight:700; color:var(--ink-soft); position:relative;
+  }
+  .tab svg { width:23px; height:23px; }
+  .tab.active { color:var(--clay-deep); }
+  .tab .tbadge {
+    position:absolute; top:2px; right:calc(50% - 22px);
+    min-width:17px; height:17px; padding:0 4px; border-radius:999px;
+    background:var(--clay); color:#fff; font-size:9.5px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tab .tbadge[hidden] { display:none; }
 
   .ghost {
-    position:fixed; z-index:999; pointer-events:none; width:64px; height:64px;
+    position:fixed; z-index:999; pointer-events:none; width:62px; height:62px;
     border-radius:50%; transform:translate(-50%,-50%) scale(1.05);
-    box-shadow:0 0 16px -2px var(--magic-glow),0 16px 28px -14px rgba(8,22,18,.7); opacity:.96;
+    box-shadow:0 16px 26px -14px rgba(60,42,20,.65); opacity:.96;
   }
 
   /* ---------- Checkout ---------- */
   .overlay {
-    position:fixed; inset:0;
+    position:fixed; inset:0; z-index:1000;
     background:
-      radial-gradient(720px 480px at 50% 0%, rgba(140,90,220,.12), rgba(140,90,220,0) 60%),
-      radial-gradient(620px 460px at 92% 100%, rgba(217,107,184,.10), rgba(217,107,184,0) 60%),
-      #ffffff;
+      radial-gradient(620px 460px at 50% 0%, rgba(216,166,74,.16), transparent 60%),
+      var(--bg);
     opacity:0; pointer-events:none; transition:opacity .28s ease;
-    z-index:1000; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
   }
   .overlay.show { opacity:1; pointer-events:auto; }
-  .sheet {
-    min-height:100%; width:100%; max-width:620px; margin:0 auto;
-    padding:calc(18px + var(--sat)) 18px calc(24px + var(--sab));
-    display:flex; flex-direction:column;
-  }
+  .sheet { min-height:100%; width:100%; max-width:600px; margin:0 auto;
+    padding:calc(16px + var(--sat)) 18px calc(24px + var(--sab)); display:flex; flex-direction:column; }
   .sheet-top { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
-  .sheet-top .back {
-    border:1px solid var(--line); background:var(--paper-warm); border-radius:50%;
-    width:40px; height:40px; font-size:18px; color:var(--ink-soft);
-    cursor:pointer; flex:none; line-height:1;
-  }
+  .sheet-top .back { border:1px solid var(--line); background:var(--paper); border-radius:50%; width:40px; height:40px; font-size:18px; color:var(--ink-soft); cursor:pointer; flex:none; }
   .steps { display:flex; gap:6px; flex:1; }
-  .steps .st {
-    flex:1; text-align:center; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-    font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--ink-soft); padding-bottom:9px; border-bottom:2px solid var(--line);
-    transition:color .3s,border-color .3s;
-  }
-  .steps .st.active { color:var(--magic-deep); border-color:var(--magic); font-weight:700; }
-  .steps .st.done { color:var(--magic-deep); border-color:var(--gold); }
-
+  .steps .st { flex:1; text-align:center; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft); padding-bottom:9px; border-bottom:2px solid var(--line); }
+  .steps .st.active { color:var(--clay-deep); border-color:var(--clay); font-weight:700; }
+  .steps .st.done { color:var(--sage-deep); border-color:var(--sage); }
   .sheet h3 { font-size:22px; font-weight:500; margin-bottom:6px; }
-  .sheet h3 .glow { color:var(--magic-deep); }
+  .sheet h3 em { font-style:normal; color:var(--clay-deep); }
   .sheet .lead { color:var(--ink-soft); font-size:14px; line-height:1.6; margin-bottom:20px; }
   .form-grid { display:grid; grid-template-columns:1fr; gap:14px; }
   .field { display:flex; flex-direction:column; }
   .field-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .field label {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px;
-    font-weight:700; color:var(--ink-soft); margin-bottom:7px;
-  }
+  .field label { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:7px; }
   .field input, .field select, .field textarea {
     border:1px solid var(--line); border-radius:12px; padding:14px 15px;
-    background:var(--paper-warm); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    background:var(--paper); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
     font-size:16px; color:var(--ink); width:100%;
   }
   .field textarea { resize:vertical; min-height:70px; }
-  .field input:focus,.field select:focus,.field textarea:focus { outline:2px solid var(--magic); outline-offset:1px; }
+  .field input:focus,.field select:focus,.field textarea:focus { outline:2px solid var(--clay); outline-offset:1px; }
   .field input.bad,.field select.bad { border-color:var(--warn); }
-  .field .err {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px;
-    color:var(--warn); margin-top:6px; min-height:13px;
-  }
-  .note {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px;
-    color:var(--warn); margin-top:14px; line-height:1.5;
-    background:rgba(192,86,143,.10); border-radius:10px; padding:12px 14px;
-  }
+  .field .err { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:11.5px; color:var(--warn); margin-top:6px; min-height:13px; }
+  .note { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:12.5px; color:var(--warn); margin-top:14px; line-height:1.5; background:rgba(185,104,63,.1); border-radius:10px; padding:12px 14px; }
   .note[hidden]{ display:none; }
-
-  .order-box {
-    background:var(--paper-warm); border:1px solid var(--line); border-radius:14px;
-    padding:16px 18px; margin:6px 0 18px;
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-  }
+  .order-box { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:6px 0 18px; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; }
   .order-box .ob-r { display:flex; justify-content:space-between; font-size:13.5px; padding:5px 0; color:var(--ink); }
   .order-box .ob-r span:last-child { color:var(--ink-soft); }
   .order-box .ob-r.tot { font-weight:700; font-size:15px; border-top:1px dashed var(--line); margin-top:8px; padding-top:10px; }
-  .order-box .ob-r.tot span:last-child { color:var(--magic-deep); }
-
+  .order-box .ob-r.tot span:last-child { color:var(--clay-deep); }
   .sheet-actions { display:flex; gap:10px; margin-top:auto; padding-top:24px; }
   .sheet-actions .btn { flex:1; }
-
-  .seal {
-    width:66px; height:66px; border-radius:50%; margin:8px auto 18px;
-    background:linear-gradient(180deg,var(--magic),var(--magic-deep));
-    color:var(--gold-soft); display:flex; align-items:center;
-    justify-content:center; font-size:30px;
-    box-shadow:0 0 0 6px rgba(201,164,76,.18), 0 0 28px -6px var(--magic-glow);
-  }
+  .seal { width:66px; height:66px; border-radius:50%; margin:8px auto 18px; background:linear-gradient(165deg,var(--sage),var(--sage-deep)); color:#fff8ec; display:flex; align-items:center; justify-content:center; font-size:30px; box-shadow:0 0 0 6px rgba(126,139,89,.18); }
   .conf-center { text-align:center; }
-  .conf-deliv {
-    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px;
-    background:var(--paper-warm); border:1px solid var(--line); border-radius:14px;
-    padding:16px; margin:18px 0; color:var(--ink); line-height:1.55;
-  }
-  .conf-deliv b { color:var(--magic-deep); }
+  .conf-deliv { font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; font-size:14px; background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px; margin:18px 0; color:var(--ink); line-height:1.55; }
+  .conf-deliv b { color:var(--clay-deep); }
 
-  @media (min-width:620px) {
+  @media (min-width:680px) {
+    .grid { grid-template-columns:repeat(3,1fr); }
     .shelf { grid-template-columns:repeat(3,1fr); }
-    .gift-grid { grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
   }
   @media (min-width:861px) {
-    body.has-bar { padding-bottom:0; }
-    header { padding-top:48px; }
-    header p { font-size:16px; }
-    .studio {
-      display:grid; grid-template-columns:1fr 0.92fr; gap:54px;
-      align-items:start; padding:0 24px; margin:30px auto;
-    }
-    .pantry, .composer { margin-bottom:0; }
-    .composer { position:sticky; top:28px; }
-    .gift { padding:0 24px; margin-bottom:80px; }
-    .gift-wrap { padding:28px; }
-    .gift-foot { flex-direction:row; align-items:center; justify-content:space-between; }
-    .gift-foot .sum { display:block; }
-    .gift-foot .sum .n { display:block; }
-    .gift-foot .sum .v { margin-top:4px; }
-    .gift-foot .btn-primary { width:auto; min-width:260px; flex:0 0 auto; }
-    .bar { display:none; }
-    .ing { background:none; border:0; padding:12px 8px; }
-    .ing:hover { transform:translateY(-4px); background:rgba(255,255,255,.55); border-radius:16px; }
-    .add-pill { display:none; }
-    .overlay {
-      background:rgba(42,23,71,.5); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
-      display:flex; align-items:flex-start; justify-content:center; padding:34px 20px;
-    }
-    .sheet {
-      background:var(--paper); border-radius:22px; min-height:0;
-      max-width:560px; padding:32px 34px; margin:auto;
-      box-shadow:0 0 0 1px rgba(201,164,76,.3), 0 40px 70px -30px rgba(8,22,18,.7);
-    }
-    .sheet-top .back { display:none; }
     .field input,.field select,.field textarea,.tray-name { font-size:14px; }
+    .overlay { background:rgba(57,47,36,.5); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); display:flex; align-items:flex-start; justify-content:center; padding:32px 20px; }
+    .sheet { background:var(--paper); border-radius:24px; min-height:0; max-width:560px; padding:32px 34px; margin:auto; box-shadow:var(--shadow); }
+    .sheet-top .back { display:none; }
   }
 </style>
 </head>
 <body>
 
-  <header>
-    <div class="eyebrow"><span class="sp">✦</span> El Laboratorio de Oz <span class="sp">✦</span></div>
-    <h1>Prepara la <span class="glow">fiesta de experimentos</span></h1>
-    <p>En El Laboratorio de Oz, mamá y papá arman ingrediente a ingrediente las
-       bandejas sensoriales de la fiesta de cumpleaños. No es un regalo para el
-       cumpleañero: se reparte una a cada pequeño invitado para que todos
-       exploren. Elige cuántas unidades quieres de cada experimento, programa
-       la entrega antes del gran día y paga.</p>
+  <header class="appbar">
+    <div class="brand">
+      <div class="mark">⚗︎</div>
+      <div class="bn"><b>El Laboratorio de Oz</b><span>Juego & experimentación</span></div>
+    </div>
+    <button class="cart-btn ui" id="cartShortcut" aria-label="Ver carrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 4h2l2.2 11.2A2 2 0 0 0 9.2 17h8.4a2 2 0 0 0 2-1.6L21 8H6"/>
+        <circle cx="9.5" cy="20" r="1.4"/><circle cx="17.5" cy="20" r="1.4"/>
+      </svg>
+      <span class="badge ui" id="cartBadge" hidden>0</span>
+    </button>
   </header>
 
-  <main class="studio">
+  <main>
 
-    <section class="pantry" aria-label="Almacén de ingredientes">
-      <h2>1 · El Almacén</h2>
-      <div class="shelf" id="shelf"></div>
-      <p class="hint-line">
-        Toca un ingrediente para verterlo en la bandeja (o arrástralo).
-        Mezclar texturas y estímulos es la verdadera alquimia del juego.
-      </p>
+    <!-- ====== TIENDA ====== -->
+    <section class="view" id="view-store">
+      <div class="hero">
+        <div class="kic">Bandejas sensoriales artesanales</div>
+        <h1>Un rincón de <em>juego y experimentación</em> para la fiesta</h1>
+        <p>Bandejas hechas a mano con materiales naturales. Compra las nuestras
+           o entra al laboratorio y crea la tuya, ingrediente a ingrediente,
+           para repartir una a cada pequeño invitado.</p>
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3C9 3 3 9 3 21c10 0 18-6 18-18Z"/></svg>
+      </div>
+
+      <div class="sec-h">
+        <h2>Bandejas de la casa</h2>
+        <button class="link ui" id="goLab1">Crear la mía →</button>
+      </div>
+      <div class="grid" id="productGrid"></div>
+
+      <div class="make-cta">
+        <h3>¿Quieres una a tu medida?</h3>
+        <p>Entra al laboratorio, vierte los ingredientes que quieras y guarda
+           tu propia fórmula sensorial.</p>
+        <button class="btn btn-plum ui" id="goLab2">Abrir el laboratorio</button>
+      </div>
     </section>
 
-    <section class="composer" aria-label="Tu experimento">
-      <h2>2 · Tu Experimento</h2>
+    <!-- ====== LABORATORIO ====== -->
+    <section class="view" id="view-lab" hidden>
+      <div class="sec-h"><h2>El Almacén</h2></div>
+      <p class="lab-intro">Toca un ingrediente para verterlo en la bandeja
+        (o arrástralo). Mezclar texturas es la verdadera alquimia del juego.</p>
+      <div class="shelf" id="shelf"></div>
 
+      <div class="sec-h" style="margin-top:24px"><h2>Tu Experimento</h2></div>
       <div class="tray-wrap">
         <div class="tray" id="tray">
           <div class="tray-inner" id="trayInner">
             <div class="empty" id="emptyState">
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 3h6M10 3v6.2L5.3 17a2 2 0 0 0 1.7 3h10a2 2 0 0 0 1.7-3L14 9.2V3"/>
-                <path d="M8.5 14h7"/>
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3h6M10 3v6.2L5.3 17a2 2 0 0 0 1.7 3h10a2 2 0 0 0 1.7-3L14 9.2V3"/><path d="M8.5 14h7"/>
               </svg>
               <div class="big">La bandeja del laboratorio espera</div>
-              <div class="small ui">Toca un ingrediente para empezar el experimento</div>
+              <div class="small ui">Toca un ingrediente para empezar</div>
             </div>
           </div>
         </div>
@@ -504,64 +502,67 @@
           <span class="t-value" id="trayTotal">$0</span>
         </div>
         <div class="dev" id="devSummary" hidden>
-          <div class="dev-title">Lo que despierta este experimento</div>
+          <div class="dev-title">Lo que despierta</div>
           <ul id="devList"></ul>
         </div>
         <div class="actions">
           <button class="btn btn-ghost ui" id="clearBtn">Vaciar</button>
-          <button class="btn btn-primary ui" id="addTrayBtn" disabled>
-            Sumar al kit
-          </button>
+          <button class="btn btn-primary ui" id="addTrayBtn" disabled>Añadir al carrito</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CARRITO ====== -->
+    <section class="view" id="view-cart" hidden>
+      <div class="sec-h"><h2>Tu carrito</h2></div>
+
+      <div id="cartEmpty" class="cart-empty">
+        <div class="ce-ic">🧪</div>
+        <p>Tu carrito está vacío. Añade bandejas de la tienda o crea las
+           tuyas en el laboratorio — una para cada pequeño invitado.</p>
+        <button class="btn btn-primary ui" id="emptyGoStore">Ver bandejas</button>
+      </div>
+
+      <div id="cartBody" hidden>
+        <div class="cart-list" id="cartList"></div>
+
+        <div class="kit-tools" id="kitTools">
+          <label for="kitGuests">Repartir 1 bandeja a cada invitado</label>
+          <div class="kt-row">
+            <input id="kitGuests" type="number" min="1" max="60" inputmode="numeric"
+                   placeholder="Nº de pequeños invitados" />
+            <button class="btn btn-ghost ui btn-sm" type="button" id="applyGuests">Aplicar a todo</button>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="sr"><span id="cartCount">0 artículos</span><span></span></div>
+          <div class="sr tot"><span>Total</span><span id="cartTotal">$0</span></div>
+          <button class="btn btn-primary btn-block ui" id="checkoutBtn">Programar entrega y pagar</button>
         </div>
       </div>
     </section>
 
   </main>
 
-  <section class="gift" aria-label="El kit de la fiesta">
-    <div class="gift-wrap">
-      <h2>3 · El Kit de la Fiesta</h2>
-      <p class="hint-line" style="margin-top:0;margin-bottom:18px">
-        Elige cuántas unidades quieres de cada experimento: se entrega una
-        bandeja a cada pequeño invitado para que todos jueguen y se la lleven a casa.
-      </p>
-      <div class="kit-tools" id="kitTools" hidden>
-        <label for="kitGuests">Repartir 1 bandeja a cada invitado</label>
-        <div class="kt-row">
-          <input id="kitGuests" type="number" min="1" max="60" inputmode="numeric"
-                 placeholder="Nº de pequeños invitados" />
-          <button class="btn btn-ghost ui" type="button" id="applyGuests">Aplicar a todos</button>
-        </div>
-      </div>
-      <div class="gift-grid" id="giftTrays">
-        <div class="gift-empty" id="giftEmpty">
-          Aún no hay experimentos en el kit. Crea uno arriba y súmalo; luego
-          elige cuántas unidades preparar — idealmente una por invitado.
-        </div>
-      </div>
-      <div class="gift-foot">
-        <div class="sum">
-          <span class="n" id="giftCount">0 experimentos</span>
-          <span class="v" id="giftTotal">$0</span>
-        </div>
-        <button class="btn btn-primary ui" id="checkoutBtn" disabled>
-          Programar entrega y pagar
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <div class="bar" id="bar">
-    <div class="bar-info">
-      <span class="bar-label" id="barLabel"></span>
-      <span class="bar-val" id="barVal"></span>
-    </div>
-    <button class="btn btn-primary ui" id="barBtn"></button>
-  </div>
+  <nav class="tabbar" id="tabbar">
+    <button class="tab active ui" data-view="store">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9 12 3l8 6v10a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1Z"/></svg>
+      Tienda
+    </button>
+    <button class="tab ui" data-view="lab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L5.5 16.5A2 2 0 0 0 7.2 20h9.6a2 2 0 0 0 1.7-3.5L14 9V3"/></svg>
+      Laboratorio
+    </button>
+    <button class="tab ui" data-view="cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 11.2A2 2 0 0 0 9.2 17h8.4a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9.5" cy="20" r="1.3"/><circle cx="17.5" cy="20" r="1.3"/></svg>
+      Carrito
+      <span class="tbadge" id="tabBadge" hidden>0</span>
+    </button>
+  </nav>
 
   <div class="overlay" id="overlay">
     <div class="sheet" role="dialog" aria-modal="true">
-
       <div class="sheet-top">
         <button class="back ui" id="topBack" aria-label="Atrás">‹</button>
         <div class="steps">
@@ -571,9 +572,8 @@
         </div>
       </div>
 
-      <!-- Paso 1 -->
       <div id="step1">
-        <h3>La <span class="glow">fiesta</span> de cumpleaños</h3>
+        <h3>La <em>fiesta</em> de cumpleaños</h3>
         <p class="lead">Cuéntanos de quién es la fiesta y cuándo.
            Programaremos la entrega para que el laboratorio llegue antes del gran día.</p>
         <div class="form-grid">
@@ -590,7 +590,7 @@
             </div>
           </div>
           <div class="field">
-            <label for="guests">Pequeños científicos (invitados que lo usarán)</label>
+            <label for="guests">Pequeños invitados que lo usarán</label>
             <input id="guests" type="number" min="1" max="60" placeholder="p. ej. 12" />
             <div class="err" id="e-guests"></div>
           </div>
@@ -628,7 +628,7 @@
           </div>
           <div class="field">
             <label for="giftMsg">Cartel del laboratorio (opcional)</label>
-            <textarea id="giftMsg" maxlength="160" placeholder="Un lema para la mesa de experimentos de la fiesta"></textarea>
+            <textarea id="giftMsg" maxlength="160" placeholder="Un lema para la mesa de experimentos"></textarea>
             <div class="err"></div>
           </div>
         </div>
@@ -639,10 +639,9 @@
         </div>
       </div>
 
-      <!-- Paso 2 -->
       <div id="step2" hidden>
-        <h3>Pago <span class="glow">seguro</span></h3>
-        <p class="lead">Revisa el kit de la fiesta y completa el pago.
+        <h3>Pago <em>seguro</em></h3>
+        <p class="lead">Revisa el pedido y completa el pago.
            Es una demo: no se cobra nada real.</p>
         <div class="order-box" id="orderBox"></div>
         <div class="form-grid">
@@ -675,7 +674,6 @@
         </div>
       </div>
 
-      <!-- Paso 3 -->
       <div id="step3" hidden>
         <div class="conf-center">
           <div class="seal">✦</div>
@@ -689,10 +687,9 @@
           <ul id="confDevList"></ul>
         </div>
         <div class="sheet-actions">
-          <button class="btn btn-primary ui" id="finishBtn">Preparar otra fiesta</button>
+          <button class="btn btn-primary ui" id="finishBtn">Volver a la tienda</button>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -701,52 +698,65 @@
   "use strict";
 
   var INGREDIENTS = [
-    { id:"rice",     name:"Arroz Orgánico",   price:4, color:"#efe2c6",
-      skill:"Discriminación táctil",
-      desc:"Trasvases y tacto fino: el peque siente el flujo del material y afina la sensibilidad de sus manos." },
-    { id:"lentils",  name:"Lentejas Rojas",   price:4, color:"#cf8163",
-      skill:"Pinza fina",
-      desc:"Recoger piezas pequeñas fortalece el agarre de pinza y la concentración, base para la escritura." },
-    { id:"beads",    name:"Cuentas de Madera",price:7, color:"#c39257",
-      skill:"Coordinación ojo-mano",
-      desc:"Manipular y ensartar cuentas desarrolla la coordinación óculo-manual y la planificación motriz." },
-    { id:"pebbles",  name:"Piedras de Río",   price:6, color:"#a7a097",
-      skill:"Percepción de peso",
-      desc:"Comparar peso y tamaño introduce nociones de clasificación, orden y causa-efecto." },
-    { id:"lavender", name:"Lavanda Seca",     price:8, color:"#9586a6",
-      skill:"Estímulo olfativo",
-      desc:"El aroma invita a la calma y la autorregulación, y activa la memoria sensorial." },
-    { id:"shells",   name:"Conchas de Mar",   price:9, color:"#e7d4bd",
-      skill:"Lenguaje y vocabulario",
-      desc:"Texturas y formas variadas que enriquecen el lenguaje descriptivo y la exploración táctil." },
-    { id:"chickpea", name:"Garbanzos",        price:4, color:"#d8c08f",
-      skill:"Motricidad fina",
-      desc:"Trasvasar con cuchara o pinza fortalece la mano y la coordinación de ambos lados del cuerpo." },
-    { id:"pinecone", name:"Piñas",            price:5, color:"#7c5d43",
-      skill:"Curiosidad natural",
-      desc:"Estructuras naturales que despiertan la observación, el asombro y el contacto con la naturaleza." },
-    { id:"felt",     name:"Bolas de Fieltro", price:6, color:"#94a785",
-      skill:"Discriminación de color",
-      desc:"Clasificar por color afina la percepción visual y el pensamiento lógico inicial." }
+    { id:"rice",     name:"Arroz Orgánico",   price:4, color:"#efe2c6", skill:"Discriminación táctil",
+      desc:"Trasvases y tacto fino: el peque siente el flujo del material y afina sus manos." },
+    { id:"lentils",  name:"Lentejas Rojas",   price:4, color:"#cf8163", skill:"Pinza fina",
+      desc:"Recoger piezas pequeñas fortalece el agarre de pinza y la concentración." },
+    { id:"beads",    name:"Cuentas de Madera",price:7, color:"#c39257", skill:"Coordinación ojo-mano",
+      desc:"Manipular y ensartar cuentas desarrolla la coordinación óculo-manual." },
+    { id:"pebbles",  name:"Piedras de Río",   price:6, color:"#a7a097", skill:"Percepción de peso",
+      desc:"Comparar peso y tamaño introduce nociones de clasificación y orden." },
+    { id:"lavender", name:"Lavanda Seca",     price:8, color:"#9586a6", skill:"Estímulo olfativo",
+      desc:"El aroma invita a la calma y la autorregulación, y activa la memoria." },
+    { id:"shells",   name:"Conchas de Mar",   price:9, color:"#e7d4bd", skill:"Lenguaje y vocabulario",
+      desc:"Texturas y formas variadas que enriquecen el lenguaje descriptivo." },
+    { id:"chickpea", name:"Garbanzos",        price:4, color:"#d8c08f", skill:"Motricidad fina",
+      desc:"Trasvasar con cuchara o pinza fortalece la mano y la coordinación bilateral." },
+    { id:"pinecone", name:"Piñas",            price:5, color:"#7c5d43", skill:"Curiosidad natural",
+      desc:"Estructuras naturales que despiertan la observación y el asombro." },
+    { id:"felt",     name:"Bolas de Fieltro", price:6, color:"#94a785", skill:"Discriminación de color",
+      desc:"Clasificar por color afina la percepción visual y el pensamiento lógico." }
   ];
   var byId = {};
   INGREDIENTS.forEach(function (i) { byId[i.id] = i; });
 
+  var PRODUCTS = [
+    { pid:"bosque",  name:"Bosque Encantado", color:"#b9824f", tag:"Favorita",
+      blurb:"Madera, piñas y lentejas: tierra y aventura.",
+      scoops:{ beads:2, pinecone:2, lentils:1 } },
+    { pid:"oceano",  name:"Océano de Oz", color:"#6f8aa0", tag:"Hecha a mano",
+      blurb:"Conchas, piedras y fieltro: olas de calma.",
+      scoops:{ pebbles:2, shells:2, felt:1 } },
+    { pid:"pradera", name:"Pradera Serena", color:"#a7b06a", tag:"Calma",
+      blurb:"Arroz, garbanzos y lavanda: respira y juega.",
+      scoops:{ rice:2, chickpea:2, lavender:1 } },
+    { pid:"arcoiris",name:"Arcoíris de Color", color:"#c77f8f", tag:"Color",
+      blurb:"Fieltro, cuentas y lentejas: pura alegría.",
+      scoops:{ felt:2, beads:1, lentils:2 } },
+    { pid:"calma",   name:"Calma de Lavanda", color:"#9a8bb0", tag:"Relax",
+      blurb:"Lavanda, arroz y conchas: aroma y descanso.",
+      scoops:{ lavender:2, rice:1, shells:2 } },
+    { pid:"cantera", name:"Cantera Curiosa", color:"#9c8f7a", tag:"Explora",
+      blurb:"Piedras, piñas y garbanzos: peso y textura.",
+      scoops:{ pebbles:2, pinecone:2, chickpea:1 } }
+  ];
+
   var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
                "agosto","septiembre","octubre","noviembre","diciembre"];
 
-  var current = {};
-  var gift = [];
+  var current = {};   // experimento en construcción
+  var cart = [];      // [{ kind, pid, name, color, scoops, unit, qty }]
 
   var $ = function (id) { return document.getElementById(id); };
   var shelf=$("shelf"), tray=$("tray"), trayInner=$("trayInner"),
       recipeRows=$("recipeRows"), trayTotal=$("trayTotal"),
       devSummary=$("devSummary"), devList=$("devList"),
       trayName=$("trayName"), clearBtn=$("clearBtn"), addTrayBtn=$("addTrayBtn"),
-      giftTrays=$("giftTrays"), giftEmpty=$("giftEmpty"), kitTools=$("kitTools"),
-      giftCount=$("giftCount"), giftTotal=$("giftTotal"),
-      checkoutBtn=$("checkoutBtn"), overlay=$("overlay"),
-      bar=$("bar"), barLabel=$("barLabel"), barVal=$("barVal"), barBtn=$("barBtn");
+      productGrid=$("productGrid"), cartList=$("cartList"),
+      cartEmpty=$("cartEmpty"), cartBody=$("cartBody"),
+      cartCount=$("cartCount"), cartTotal=$("cartTotal"),
+      cartBadge=$("cartBadge"), tabBadge=$("tabBadge"),
+      checkoutBtn=$("checkoutBtn"), overlay=$("overlay");
 
   function shade(hex, amt) {
     var n = parseInt(hex.slice(1), 16);
@@ -761,11 +771,32 @@
     Object.keys(scoops).forEach(function (k) { t += byId[k].price * scoops[k]; });
     return t;
   }
+  function speckle(el, color, n, min, max) {
+    for (var s = 0; s < n; s++) {
+      var sp = document.createElement("span");
+      sp.className = "speck";
+      var d = rand(min, max);
+      sp.style.width = d + "px"; sp.style.height = d + "px";
+      sp.style.left = rand(8, 78) + "%"; sp.style.top = rand(8, 78) + "%";
+      sp.style.background = shade(color, Math.random() < .5 ? -28 : 22);
+      sp.style.opacity = .85;
+      el.appendChild(sp);
+    }
+  }
+  function uniqueSkills(scoopsList) {
+    var seen = {}, out = [];
+    scoopsList.forEach(function (sc) {
+      Object.keys(sc).forEach(function (id) {
+        var ing = byId[id];
+        if (!seen[ing.skill]) { seen[ing.skill] = true; out.push(ing); }
+      });
+    });
+    return out;
+  }
   function todayISO() {
     var d = new Date();
-    return d.getFullYear() + "-" +
-      String(d.getMonth() + 1).padStart(2, "0") + "-" +
-      String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") +
+      "-" + String(d.getDate()).padStart(2, "0");
   }
   function fmtES(iso) {
     if (!iso) return "";
@@ -773,7 +804,65 @@
     return Number(p[2]) + " de " + MESES[Number(p[1]) - 1] + " de " + p[0];
   }
 
-  // --- almacén ---
+  // ---------- Tienda ----------
+  PRODUCTS.forEach(function (p) {
+    var price = priceOf(p.scoops);
+    var card = document.createElement("div");
+    card.className = "product";
+
+    var tag = document.createElement("div");
+    tag.className = "tag"; tag.textContent = p.tag;
+
+    var pv = document.createElement("div");
+    pv.className = "preview"; pv.style.setProperty("--pv", p.color);
+    Object.keys(p.scoops).forEach(function (id) {
+      speckle(pv, byId[id].color, 6, 9, 17);
+    });
+
+    var h = document.createElement("h3"); h.textContent = p.name;
+    var bl = document.createElement("div"); bl.className = "blurb"; bl.textContent = p.blurb;
+
+    var chips = document.createElement("div");
+    chips.className = "chips";
+    uniqueSkills([p.scoops]).slice(0, 3).forEach(function (ing) {
+      var c = document.createElement("span");
+      c.className = "chip"; c.textContent = ing.skill;
+      chips.appendChild(c);
+    });
+
+    var buy = document.createElement("div");
+    buy.className = "buy";
+    var pp = document.createElement("span");
+    pp.className = "pp"; pp.textContent = "$" + price;
+    var add = document.createElement("button");
+    add.className = "btn btn-primary btn-sm ui product-add";
+    add.type = "button"; add.setAttribute("data-pid", p.pid);
+    add.textContent = "Añadir";
+    add.addEventListener("click", function () { addProduct(p); });
+    buy.appendChild(pp); buy.appendChild(add);
+
+    card.appendChild(tag); card.appendChild(pv); card.appendChild(h);
+    card.appendChild(bl); card.appendChild(chips); card.appendChild(buy);
+    productGrid.appendChild(card);
+  });
+
+  function addProduct(p) {
+    var existing = cart.filter(function (c) { return c.pid === p.pid; })[0];
+    if (existing) { existing.qty = Math.min(60, existing.qty + 1); }
+    else {
+      cart.push({ kind:"preset", pid:p.pid, name:p.name, color:p.color,
+        scoops:p.scoops, unit:priceOf(p.scoops), qty:1 });
+    }
+    renderCart(); flashCart();
+  }
+
+  function flashCart() {
+    cartBadge.animate(
+      [{ transform:"scale(1)" }, { transform:"scale(1.35)" }, { transform:"scale(1)" }],
+      { duration:320, easing:"ease-out" });
+  }
+
+  // ---------- Laboratorio ----------
   INGREDIENTS.forEach(function (ing) {
     var btn = document.createElement("button");
     btn.className = "ing ui"; btn.type = "button";
@@ -781,18 +870,9 @@
     btn.setAttribute("aria-label", "Verter " + ing.name + " — despierta " + ing.skill);
 
     var dish = document.createElement("div");
-    dish.className = "dish";
-    dish.style.setProperty("--dish", ing.color);
-    for (var s = 0; s < 11; s++) {
-      var sp = document.createElement("span");
-      sp.className = "speck";
-      var d = rand(7, 13);
-      sp.style.width = d + "px"; sp.style.height = d + "px";
-      sp.style.left = rand(8, 76) + "%"; sp.style.top = rand(8, 76) + "%";
-      sp.style.background = shade(ing.color, Math.random() < .5 ? -26 : 22);
-      sp.style.opacity = 0.85;
-      dish.appendChild(sp);
-    }
+    dish.className = "dish"; dish.style.setProperty("--dish", ing.color);
+    speckle(dish, ing.color, 11, 7, 13);
+
     var name = document.createElement("div");
     name.className = "name"; name.textContent = ing.name;
     var skill = document.createElement("div");
@@ -809,18 +889,15 @@
   });
 
   function attachDrag(el, ing) {
-    var ghost = null, startX = 0, startY = 0, moved = false, dragging = false;
+    var ghost = null, sx = 0, sy = 0, moved = false, dragging = false;
     el.addEventListener("pointerdown", function (e) {
       if (e.button !== undefined && e.button !== 0) return;
-      dragging = true; moved = false;
-      startX = e.clientX; startY = e.clientY;
-      el.setPointerCapture(e.pointerId);
-      e.preventDefault();
+      dragging = true; moved = false; sx = e.clientX; sy = e.clientY;
+      el.setPointerCapture(e.pointerId); e.preventDefault();
     });
     el.addEventListener("pointermove", function (e) {
       if (!dragging) return;
-      var dx = e.clientX - startX, dy = e.clientY - startY;
-      if (!moved && Math.hypot(dx, dy) < 8) return;
+      if (!moved && Math.hypot(e.clientX - sx, e.clientY - sy) < 8) return;
       if (!moved) {
         moved = true; el.classList.add("dragging");
         ghost = document.createElement("div");
@@ -829,8 +906,7 @@
           "radial-gradient(circle at 32% 28%,rgba(255,255,255,.5),rgba(255,255,255,0) 55%)," + ing.color;
         document.body.appendChild(ghost);
       }
-      ghost.style.left = e.clientX + "px";
-      ghost.style.top  = e.clientY + "px";
+      ghost.style.left = e.clientX + "px"; ghost.style.top = e.clientY + "px";
       tray.classList.toggle("lift", overTray(e.clientX, e.clientY));
     });
     el.addEventListener("pointerup", function (e) {
@@ -868,6 +944,7 @@
   }
   function spawnGrains(id, count) {
     var ing = byId[id], rect = trayInner.getBoundingClientRect(), pad = 14;
+    if (rect.width === 0) rect = { width: 300, height: 220 };
     for (var i = 0; i < count; i++) {
       var g = document.createElement("div");
       g.className = "grain"; g.setAttribute("data-id", id);
@@ -900,9 +977,7 @@
       e.textContent = "Aún no has vertido ningún ingrediente";
       recipeRows.appendChild(e);
       trayTotal.textContent = "$0";
-      devSummary.hidden = true;
-      addTrayBtn.disabled = true;
-      updateBar();
+      devSummary.hidden = true; addTrayBtn.disabled = true;
       return;
     }
     var total = 0;
@@ -916,8 +991,7 @@
       var sw = document.createElement("span");
       sw.className = "swatch"; sw.style.background = ing.color;
       var nm = document.createElement("span");
-      nm.innerHTML = ing.name + ' <span class="qty">×' + qty +
-        " dosis</span>";
+      nm.innerHTML = ing.name + ' <span class="qty">×' + qty + " dosis</span>";
       label.appendChild(sw); label.appendChild(nm);
       var right = document.createElement("div");
       right.className = "right";
@@ -941,143 +1015,133 @@
       devList.appendChild(li);
     });
     trayTotal.textContent = "$" + total;
-    devSummary.hidden = false;
-    addTrayBtn.disabled = false;
-    updateBar();
+    devSummary.hidden = false; addTrayBtn.disabled = false;
   }
 
   clearBtn.addEventListener("click", function () {
     current = {}; clearTrayVisual(); renderCurrent();
   });
-
-  function addTrayToGift() {
+  addTrayBtn.addEventListener("click", function () {
     if (Object.keys(current).length === 0) return;
-    var nm = trayName.value.trim() || ("Experimento " + (gift.length + 1));
-    gift.push({ name: nm, scoops: Object.assign({}, current), price: priceOf(current), qty: 1 });
+    var nm = trayName.value.trim() || ("Mi experimento " +
+      (cart.filter(function (c) { return c.kind === "custom"; }).length + 1));
+    cart.push({ kind:"custom", pid:null, name:nm, color:"#b48a5a",
+      scoops:Object.assign({}, current), unit:priceOf(current), qty:1 });
     current = {}; trayName.value = "";
-    clearTrayVisual(); renderCurrent(); renderGift();
+    clearTrayVisual(); renderCurrent(); renderCart(); flashCart();
+    showView("cart");
+  });
+
+  // ---------- Carrito ----------
+  function totalUnits() { return cart.reduce(function (s, c) { return s + c.qty; }, 0); }
+  function cartSum() { return cart.reduce(function (s, c) { return s + c.unit * c.qty; }, 0); }
+
+  function renderCart() {
+    var empty = cart.length === 0;
+    cartEmpty.hidden = !empty;
+    cartBody.hidden = empty;
+
+    var units = totalUnits();
+    cartBadge.textContent = units;
+    cartBadge.hidden = empty;
+    tabBadge.textContent = units;
+    tabBadge.hidden = empty;
+    checkoutBtn.disabled = empty;
+    if (empty) { cartList.innerHTML = ""; renderCurrentLabsState(); return; }
+
+    cartList.innerHTML = "";
+    cart.forEach(function (c, idx) {
+      var card = document.createElement("div");
+      card.className = "cart-card";
+
+      var top = document.createElement("div");
+      top.className = "cc-top";
+      var mini = document.createElement("div");
+      mini.className = "cc-mini"; mini.style.setProperty("--cm", c.color);
+      Object.keys(c.scoops).forEach(function (id) { speckle(mini, byId[id].color, 4, 7, 12); });
+      var info = document.createElement("div");
+      info.className = "cc-info";
+      var h = document.createElement("h3"); h.textContent = c.name;
+      var kind = document.createElement("div");
+      kind.className = "kind";
+      kind.textContent = c.kind === "preset" ? "Bandeja de la casa" : "Tu experimento";
+      var mats = document.createElement("div");
+      mats.className = "mats";
+      mats.textContent = Object.keys(c.scoops).map(function (id) {
+        return byId[id].name + " ×" + c.scoops[id];
+      }).join(" · ");
+      info.appendChild(h); info.appendChild(kind); info.appendChild(mats);
+      top.appendChild(mini); top.appendChild(info);
+
+      var foot = document.createElement("div");
+      foot.className = "cc-foot";
+      var step = document.createElement("div");
+      step.className = "stepper";
+      var dec = document.createElement("button");
+      dec.type = "button"; dec.textContent = "−";
+      dec.setAttribute("aria-label", "Quitar una unidad de " + c.name);
+      dec.disabled = c.qty <= 1;
+      var qv = document.createElement("span");
+      qv.className = "qv"; qv.textContent = c.qty;
+      var inc = document.createElement("button");
+      inc.type = "button"; inc.textContent = "+";
+      inc.setAttribute("aria-label", "Añadir una unidad de " + c.name);
+      inc.disabled = c.qty >= 60;
+      dec.addEventListener("click", function () { if (c.qty > 1) { c.qty--; renderCart(); } });
+      inc.addEventListener("click", function () { if (c.qty < 60) { c.qty++; renderCart(); } });
+      step.appendChild(dec); step.appendChild(qv); step.appendChild(inc);
+
+      var rightCol = document.createElement("div");
+      rightCol.className = "cc-right";
+      var pr = document.createElement("span");
+      pr.className = "cc-price";
+      pr.textContent = "$" + (c.unit * c.qty) + (c.qty > 1 ? "  · $" + c.unit + " c/u" : "");
+      var rm = document.createElement("button");
+      rm.className = "cc-rm"; rm.type = "button";
+      rm.textContent = "Quitar";
+      rm.addEventListener("click", function () { cart.splice(idx, 1); renderCart(); });
+      rightCol.appendChild(pr); rightCol.appendChild(rm);
+
+      foot.appendChild(step); foot.appendChild(rightCol);
+      card.appendChild(top); card.appendChild(foot);
+      cartList.appendChild(card);
+    });
+
+    cartCount.textContent =
+      cart.length + (cart.length === 1 ? " artículo · " : " artículos · ") +
+      units + (units === 1 ? " bandeja" : " bandejas");
+    cartTotal.textContent = "$" + cartSum();
+    renderCurrentLabsState();
   }
-  addTrayBtn.addEventListener("click", addTrayToGift);
+  function renderCurrentLabsState() { /* hook for future */ }
 
   $("applyGuests").addEventListener("click", function () {
     var n = parseInt($("kitGuests").value, 10);
     if (!n || n < 1) return;
     n = Math.min(60, n);
-    gift.forEach(function (t) { t.qty = n; });
-    renderGift();
+    cart.forEach(function (c) { c.qty = n; });
+    renderCart();
   });
 
-  function uniqueSkills(scoopsList) {
-    var seen = {}, out = [];
-    scoopsList.forEach(function (sc) {
-      Object.keys(sc).forEach(function (id) {
-        var ing = byId[id];
-        if (!seen[ing.skill]) { seen[ing.skill] = true; out.push(ing); }
-      });
-    });
-    return out;
+  // ---------- Navegación por pestañas ----------
+  var views = { store:$("view-store"), lab:$("view-lab"), cart:$("view-cart") };
+  var tabs = document.querySelectorAll(".tab");
+  function showView(name) {
+    Object.keys(views).forEach(function (k) { views[k].hidden = k !== name; });
+    tabs.forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-view") === name); });
+    window.scrollTo({ top: 0 });
   }
-
-  function renderGift() {
-    kitTools.hidden = gift.length === 0;
-    giftTrays.innerHTML = "";
-    if (gift.length === 0) {
-      giftTrays.appendChild(giftEmpty);
-      giftCount.textContent = "0 experimentos";
-      giftTotal.textContent = "$0";
-      checkoutBtn.disabled = true;
-      updateBar();
-      return;
-    }
-    var total = 0, units = 0;
-    gift.forEach(function (t, idx) {
-      var line = t.price * t.qty;
-      total += line; units += t.qty;
-      var card = document.createElement("div");
-      card.className = "gift-card";
-
-      var h = document.createElement("h3");
-      h.textContent = t.name;
-
-      var mats = document.createElement("div");
-      mats.className = "mats";
-      mats.textContent = Object.keys(t.scoops).map(function (id) {
-        return byId[id].name + " ×" + t.scoops[id];
-      }).join(" · ");
-
-      var qrow = document.createElement("div");
-      qrow.className = "gc-qty";
-      var qlab = document.createElement("span");
-      qlab.textContent = "Unidades para invitados";
-      var step = document.createElement("div");
-      step.className = "stepper";
-      var dec = document.createElement("button");
-      dec.type = "button"; dec.textContent = "−";
-      dec.setAttribute("aria-label", "Quitar una unidad de " + t.name);
-      dec.disabled = t.qty <= 1;
-      var qv = document.createElement("span");
-      qv.className = "qv"; qv.textContent = t.qty;
-      var inc = document.createElement("button");
-      inc.type = "button"; inc.textContent = "+";
-      inc.setAttribute("aria-label", "Añadir una unidad de " + t.name);
-      inc.disabled = t.qty >= 60;
-      dec.addEventListener("click", function () { if (t.qty > 1) { t.qty--; renderGift(); } });
-      inc.addEventListener("click", function () { if (t.qty < 60) { t.qty++; renderGift(); } });
-      step.appendChild(dec); step.appendChild(qv); step.appendChild(inc);
-      qrow.appendChild(qlab); qrow.appendChild(step);
-
-      var foot = document.createElement("div");
-      foot.className = "gc-foot";
-      var pr = document.createElement("span");
-      pr.className = "gc-price";
-      pr.textContent = "$" + line + (t.qty > 1 ? "  ·  $" + t.price + " c/u" : "");
-      var rm = document.createElement("button");
-      rm.className = "gc-rm"; rm.type = "button";
-      rm.textContent = "Quitar";
-      rm.addEventListener("click", function () { gift.splice(idx, 1); renderGift(); });
-      foot.appendChild(pr); foot.appendChild(rm);
-
-      card.appendChild(h); card.appendChild(mats);
-      card.appendChild(qrow); card.appendChild(foot);
-      giftTrays.appendChild(card);
-    });
-    giftCount.textContent =
-      gift.length + (gift.length === 1 ? " experimento · " : " experimentos · ") +
-      units + (units === 1 ? " bandeja" : " bandejas");
-    giftTotal.textContent = "$" + total;
-    checkoutBtn.disabled = false;
-    updateBar();
-  }
-
-  var barMode = null;
-  function updateBar() {
-    if (overlay.classList.contains("show")) { bar.classList.remove("show"); document.body.classList.remove("has-bar"); return; }
-    if (Object.keys(current).length > 0) {
-      barMode = "add";
-      barLabel.textContent = "Este experimento";
-      barVal.textContent = trayTotal.textContent;
-      barBtn.textContent = "Sumar al kit";
-      bar.classList.add("show");
-    } else if (gift.length > 0) {
-      barMode = "checkout";
-      barLabel.textContent = gift.length + (gift.length === 1 ? " experimento" : " experimentos");
-      barVal.textContent = giftTotal.textContent;
-      barBtn.textContent = "Programar y pagar";
-      bar.classList.add("show");
-    } else {
-      barMode = null;
-      bar.classList.remove("show");
-    }
-    document.body.classList.toggle("has-bar", bar.classList.contains("show"));
-  }
-  barBtn.addEventListener("click", function () {
-    if (barMode === "add") addTrayToGift();
-    else if (barMode === "checkout") openCheckout();
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () { showView(t.getAttribute("data-view")); });
   });
+  $("cartShortcut").addEventListener("click", function () { showView("cart"); });
+  $("goLab1").addEventListener("click", function () { showView("lab"); });
+  $("goLab2").addEventListener("click", function () { showView("lab"); });
+  $("emptyGoStore").addEventListener("click", function () { showView("store"); });
 
+  // ---------- Checkout ----------
   var step1=$("step1"), step2=$("step2"), step3=$("step3");
   var stEls = document.querySelectorAll(".steps .st");
-
   function showStep(n) {
     step1.hidden = n !== 1; step2.hidden = n !== 2; step3.hidden = n !== 3;
     stEls.forEach(function (el) {
@@ -1088,22 +1152,19 @@
     overlay.scrollTop = 0;
   }
   function openCheckout() {
-    if (gift.length === 0) return;
+    if (cart.length === 0) return;
     var t = todayISO();
-    $("birthday").min = t;
-    $("deliveryDate").min = t;
+    $("birthday").min = t; $("deliveryDate").min = t;
     var kg = $("kitGuests").value.trim();
     if (kg && !$("guests").value) $("guests").value = kg;
     showStep(1);
     overlay.classList.add("show");
     document.body.classList.add("lock");
-    updateBar();
   }
   checkoutBtn.addEventListener("click", openCheckout);
   function closeOverlay() {
     overlay.classList.remove("show");
     document.body.classList.remove("lock");
-    updateBar();
   }
   $("cancelBtn").addEventListener("click", closeOverlay);
   $("topBack").addEventListener("click", function () {
@@ -1136,7 +1197,7 @@
     if (b && d && d > b) {
       note.hidden = false;
       note.textContent = "La entrega (" + fmtES(d) + ") es posterior a la fiesta (" +
-        fmtES(b) + "). Adelántala para que el laboratorio llegue a tiempo.";
+        fmtES(b) + "). Adelántala para que llegue a tiempo.";
     } else { note.hidden = true; }
   }
 
@@ -1165,22 +1226,18 @@
 
   function fillOrderBox(box) {
     box.innerHTML = "";
-    var total = 0;
-    gift.forEach(function (t) {
-      var line = t.price * t.qty;
-      total += line;
+    cart.forEach(function (c) {
       var r = document.createElement("div");
       r.className = "ob-r";
-      var a = document.createElement("span"); a.textContent = t.name + " ×" + t.qty;
-      var b = document.createElement("span"); b.textContent = "$" + line;
+      var a = document.createElement("span"); a.textContent = c.name + " ×" + c.qty;
+      var b = document.createElement("span"); b.textContent = "$" + (c.unit * c.qty);
       r.appendChild(a); r.appendChild(b); box.appendChild(r);
     });
     var tr = document.createElement("div");
     tr.className = "ob-r tot";
     var ta = document.createElement("span"); ta.textContent = "Total a pagar";
-    var tb = document.createElement("span"); tb.textContent = "$" + total;
+    var tb = document.createElement("span"); tb.textContent = "$" + cartSum();
     tr.appendChild(ta); tr.appendChild(tb); box.appendChild(tr);
-    return total;
   }
 
   $("cardNumber").addEventListener("input", function () {
@@ -1200,12 +1257,11 @@
     ok &= setErr("cardName", $("cardName").value.trim() ? "" : "Indica el titular.");
     var num = $("cardNumber").value.replace(/\s/g, "");
     ok &= setErr("cardNumber", /^\d{15,19}$/.test(num) ? "" : "Número no válido.");
-    var exp = $("cardExp").value, m = exp.match(/^(\d{2})\/(\d{2})$/), expOk = false;
+    var m = $("cardExp").value.match(/^(\d{2})\/(\d{2})$/), expOk = false;
     if (m) {
       var mm = Number(m[1]), yy = 2000 + Number(m[2]), now = new Date();
       if (mm >= 1 && mm <= 12) {
-        var last = new Date(yy, mm, 0);
-        expOk = last >= new Date(now.getFullYear(), now.getMonth(), 1);
+        expOk = new Date(yy, mm, 0) >= new Date(now.getFullYear(), now.getMonth(), 1);
       }
     }
     ok &= setErr("cardExp", expOk ? "" : "Caducidad no válida.");
@@ -1215,8 +1271,7 @@
     self.disabled = true; self.textContent = "Destilando el pago…";
     setTimeout(function () {
       self.disabled = false; self.textContent = "Pagar y programar";
-      confirmOrder();
-      showStep(3);
+      confirmOrder(); showStep(3);
     }, 850);
   });
 
@@ -1226,13 +1281,12 @@
     var d = $("deliveryDate").value, win = $("deliveryWindow").value;
     var bday = $("birthday").value, addr = $("address").value.trim();
     var msg = $("giftMsg").value.trim();
-    var units = gift.reduce(function (s, t) { return s + t.qty; }, 0);
+    var units = totalUnits();
 
     $("confTitle").textContent = "¡El laboratorio de " + child + " está listo!";
     $("confLead").textContent =
-      "Has preparado " + units +
-      (units === 1 ? " bandeja sensorial" : " bandejas sensoriales") +
-      " (" + gift.length + (gift.length === 1 ? " experimento" : " experimentos") +
+      "Has preparado " + units + (units === 1 ? " bandeja sensorial" : " bandejas sensoriales") +
+      " (" + cart.length + (cart.length === 1 ? " artículo" : " artículos") +
       ") para repartir entre los " + guests +
       " pequeños invitados de la fiesta de " + child +
       ". Una para cada peque, para explorar y llevársela a casa.";
@@ -1256,7 +1310,7 @@
 
     var list = $("confDevList");
     list.innerHTML = "";
-    uniqueSkills(gift.map(function (t) { return t.scoops; })).forEach(function (ing) {
+    uniqueSkills(cart.map(function (c) { return c.scoops; })).forEach(function (ing) {
       var li = document.createElement("li");
       var dot = document.createElement("span");
       dot.className = "dot"; dot.style.background = ing.color;
@@ -1268,18 +1322,18 @@
   }
 
   $("finishBtn").addEventListener("click", function () {
-    gift = []; current = {};
-    ["childName","childAge","guests","kitGuests","birthday","deliveryDate","phone","address","giftMsg",
-     "cardName","cardNumber","cardExp","cardCvc"].forEach(function (id) { $(id).value = ""; });
+    cart = []; current = {};
+    ["childName","childAge","guests","kitGuests","birthday","deliveryDate","phone",
+     "address","giftMsg","cardName","cardNumber","cardExp","cardCvc"]
+      .forEach(function (id) { $(id).value = ""; });
     $("dateNote").hidden = true;
-    renderGift(); renderCurrent();
-    closeOverlay();
-    showStep(1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    renderCart(); renderCurrent();
+    closeOverlay(); showStep(1); showView("store");
   });
 
   renderCurrent();
-  renderGift();
+  renderCart();
+  showView("store");
 })();
 </script>
 </body>
