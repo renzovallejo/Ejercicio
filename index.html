@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Sensory Tray Studio · A calm, Montessori-inspired play kit</title>
+<title>Estudio de Bandeja Sensorial · Juego en calma, inspirado en Montessori</title>
 <style>
   :root {
     --paper:        #faf6f0;
@@ -55,7 +55,7 @@
   }
   header p {
     margin: 14px auto 0;
-    max-width: 540px;
+    max-width: 560px;
     color: var(--ink-soft);
     font-size: 16px;
     line-height: 1.65;
@@ -71,7 +71,7 @@
     align-items: start;
   }
 
-  /* ---------- Pantry / ingredients ---------- */
+  /* ---------- Despensa / materiales ---------- */
   .pantry h2, .checkout h2 {
     font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
     font-size: 12px;
@@ -85,7 +85,7 @@
   .shelf {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 22px 18px;
+    gap: 24px 18px;
   }
 
   .ing {
@@ -93,7 +93,7 @@
     border: 0;
     cursor: grab;
     text-align: center;
-    padding: 10px 6px;
+    padding: 12px 8px;
     border-radius: 16px;
     transition: transform .25s ease, background .25s ease;
     touch-action: none;
@@ -130,11 +130,19 @@
     font-weight: 600;
     letter-spacing: .02em;
   }
+  .ing .skill {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-deep);
+    margin-top: 5px;
+    letter-spacing: .02em;
+  }
   .ing .price {
     font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
     font-size: 12px;
     color: var(--ink-soft);
-    margin-top: 3px;
+    margin-top: 4px;
   }
 
   .hint-line {
@@ -146,7 +154,7 @@
     padding-left: 14px;
   }
 
-  /* ---------- Tray ---------- */
+  /* ---------- Bandeja ---------- */
   .checkout { position: sticky; top: 28px; }
 
   .tray-wrap { perspective: 1200px; }
@@ -223,7 +231,7 @@
     to { transform: scale(0); opacity: 0; }
   }
 
-  /* ---------- Recipe + buy ---------- */
+  /* ---------- Receta + resumen + regalo ---------- */
   .recipe {
     margin-top: 26px;
     background: #fffdf9;
@@ -288,6 +296,43 @@
   }
   .totals .t-value { font-size: 26px; font-weight: 500; }
 
+  /* Resumen de capacidades */
+  .dev {
+    margin-top: 18px;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+  .dev[hidden] { display: none; }
+  .dev .dev-title {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    color: var(--accent-deep);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .dev ul { list-style: none; }
+  .dev li {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    gap: 11px;
+    padding: 8px 0;
+    font-size: 13px;
+    line-height: 1.55;
+    animation: rowIn .3s ease;
+  }
+  .dev li .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    margin-top: 5px; flex: none;
+    background: var(--accent);
+  }
+  .dev li b {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .dev li span { color: var(--ink-soft); }
+
   .gift-name {
     width: 100%;
     margin-top: 18px;
@@ -336,7 +381,7 @@
   }
   .btn-ghost:hover { color: var(--ink); border-color: var(--ink-soft); }
 
-  /* ---------- Floating drag ghost ---------- */
+  /* ---------- Fantasma de arrastre ---------- */
   .ghost {
     position: fixed;
     z-index: 999;
@@ -363,9 +408,11 @@
   .modal {
     background: var(--paper);
     border-radius: 22px;
-    max-width: 420px;
+    max-width: 440px;
     width: 100%;
-    padding: 40px 36px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 38px 34px;
     text-align: center;
     box-shadow: 0 40px 70px -30px rgba(0,0,0,.5);
     transform: translateY(14px) scale(.98);
@@ -389,9 +436,8 @@
   .modal .receipt {
     font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
     text-align: left;
-    margin: 22px 0;
+    margin: 22px 0 0;
     border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
     padding: 16px 0;
   }
   .modal .receipt .r {
@@ -405,12 +451,34 @@
     border-top: 1px dashed var(--line);
   }
   .modal .receipt .r.tot span:last-child { color: var(--ink); }
+
+  .modal .m-dev {
+    text-align: left;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    margin-bottom: 22px;
+  }
+  .modal .m-dev .dev-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .2em;
+    color: var(--accent-deep); font-weight: 700; margin-bottom: 12px;
+  }
+  .modal .m-dev ul { list-style: none; }
+  .modal .m-dev li {
+    display: flex; gap: 10px; padding: 7px 0;
+    font-size: 12.5px; line-height: 1.5;
+  }
+  .modal .m-dev li .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    margin-top: 5px; flex: none; background: var(--accent);
+  }
+  .modal .m-dev li b { color: var(--ink); }
+  .modal .m-dev li span { color: var(--ink-soft); }
+
   .modal .btn-primary { width: 100%; margin-top: 6px; }
 
   @media (max-width: 860px) {
     .studio { grid-template-columns: 1fr; gap: 40px; }
-    .checkout { position: static; }
-    .checkout { order: -1; }
+    .checkout { position: static; order: -1; }
     header { padding-top: 34px; }
   }
 </style>
@@ -418,25 +486,26 @@
 <body>
 
   <header>
-    <div class="eyebrow">Sensory Tray Studio</div>
-    <h1>Compose a calm little world</h1>
-    <p>Drag natural materials from the pantry into the tray. Build a quiet,
-       tactile invitation to play — then gift it to your child.</p>
+    <div class="eyebrow">Estudio de Bandeja Sensorial</div>
+    <h1>Compón un pequeño mundo en calma</h1>
+    <p>Arrastra materiales naturales de la despensa hasta la bandeja. Cada
+       material desarrolla una capacidad distinta en tu peque — compón la
+       bandeja y regálasela.</p>
   </header>
 
   <main class="studio">
 
-    <section class="pantry" aria-label="Pantry of materials">
-      <h2>The Pantry</h2>
+    <section class="pantry" aria-label="Despensa de materiales">
+      <h2>La Despensa</h2>
       <div class="shelf" id="shelf"></div>
       <p class="hint-line">
-        Drag a material onto the tray, or simply tap it. Add a few — layering
-        textures is what makes a sensory tray sing.
+        Arrastra un material hasta la bandeja, o simplemente tócalo. Añade
+        varios — combinar texturas y estímulos es lo que enriquece el juego.
       </p>
     </section>
 
-    <section class="checkout" aria-label="Your tray">
-      <h2>Your Tray</h2>
+    <section class="checkout" aria-label="Tu bandeja">
+      <h2>Tu Bandeja</h2>
 
       <div class="tray-wrap">
         <div class="tray" id="tray">
@@ -446,8 +515,8 @@
                    stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
                 <path d="M3 9h18M3 9l1.6 9.2A2 2 0 0 0 6.57 20h10.86a2 2 0 0 0 1.97-1.8L21 9M3 9l2-5h14l2 5"/>
               </svg>
-              <div class="big">Your tray is waiting</div>
-              <div class="small ui">Drag or tap a material to begin</div>
+              <div class="big">Tu bandeja está esperando</div>
+              <div class="small ui">Arrastra o toca un material para empezar</div>
             </div>
           </div>
         </div>
@@ -455,18 +524,24 @@
 
       <div class="recipe" id="recipe">
         <div id="recipeRows">
-          <div class="empty-recipe" id="emptyRecipe">Nothing added yet</div>
+          <div class="empty-recipe" id="emptyRecipe">Aún no has añadido nada</div>
         </div>
         <div class="totals">
           <span class="t-label">Total</span>
           <span class="t-value" id="totalValue">$0</span>
         </div>
+
+        <div class="dev" id="devSummary" hidden>
+          <div class="dev-title">Capacidades que desarrolla esta bandeja</div>
+          <ul id="devList"></ul>
+        </div>
+
         <input class="gift-name" id="giftName" type="text"
-               placeholder="Who is this tray for? (optional)" maxlength="24" />
+               placeholder="¿Para quién es esta bandeja? (opcional)" maxlength="24" />
         <div class="actions">
-          <button class="btn btn-ghost ui" id="resetBtn">Empty tray</button>
+          <button class="btn btn-ghost ui" id="resetBtn">Vaciar bandeja</button>
           <button class="btn btn-primary ui" id="buyBtn" disabled>
-            Gift this tray
+            Regalar esta bandeja
           </button>
         </div>
       </div>
@@ -477,10 +552,14 @@
   <div class="overlay" id="overlay">
     <div class="modal" role="dialog" aria-modal="true">
       <div class="seal">✓</div>
-      <h3 id="modalTitle">A tray on its way</h3>
+      <h3 id="modalTitle">Una bandeja en camino</h3>
       <p id="modalText"></p>
       <div class="receipt" id="modalReceipt"></div>
-      <button class="btn btn-primary ui" id="modalClose">Lovely — close</button>
+      <div class="m-dev" id="modalDev">
+        <div class="dev-title">Lo que tu peque desarrollará</div>
+        <ul id="modalDevList"></ul>
+      </div>
+      <button class="btn btn-primary ui" id="modalClose">Qué bonito — cerrar</button>
     </div>
   </div>
 
@@ -489,29 +568,48 @@
   "use strict";
 
   var INGREDIENTS = [
-    { id: "rice",     name: "Organic Rice",   price: 4, color: "#efe2c6" },
-    { id: "lentils",  name: "Red Lentils",    price: 4, color: "#cf8163" },
-    { id: "beads",    name: "Wooden Beads",   price: 7, color: "#c39257" },
-    { id: "pebbles",  name: "River Pebbles",  price: 6, color: "#a7a097" },
-    { id: "lavender", name: "Dried Lavender", price: 8, color: "#9586a6" },
-    { id: "shells",   name: "Sea Shells",     price: 9, color: "#e7d4bd" },
-    { id: "chickpea", name: "Chickpeas",      price: 4, color: "#d8c08f" },
-    { id: "pinecone", name: "Pinecones",      price: 5, color: "#7c5d43" },
-    { id: "felt",     name: "Felt Balls",     price: 6, color: "#94a785" }
+    { id: "rice",     name: "Arroz Orgánico",  price: 4, color: "#efe2c6",
+      skill: "Discriminación táctil",
+      desc: "Trasvases y tacto fino: el peque siente el flujo del material y afina la sensibilidad de sus manos." },
+    { id: "lentils",  name: "Lentejas Rojas",  price: 4, color: "#cf8163",
+      skill: "Pinza fina",
+      desc: "Recoger piezas pequeñas fortalece el agarre de pinza y la concentración, base para la escritura." },
+    { id: "beads",    name: "Cuentas de Madera", price: 7, color: "#c39257",
+      skill: "Coordinación ojo-mano",
+      desc: "Manipular y ensartar cuentas desarrolla la coordinación óculo-manual y la planificación motriz." },
+    { id: "pebbles",  name: "Piedras de Río",  price: 6, color: "#a7a097",
+      skill: "Percepción de peso",
+      desc: "Comparar peso y tamaño introduce nociones de clasificación, orden y causa-efecto." },
+    { id: "lavender", name: "Lavanda Seca",    price: 8, color: "#9586a6",
+      skill: "Estímulo olfativo",
+      desc: "El aroma invita a la calma y la autorregulación, y activa la memoria sensorial." },
+    { id: "shells",   name: "Conchas de Mar",  price: 9, color: "#e7d4bd",
+      skill: "Lenguaje y vocabulario",
+      desc: "Texturas y formas variadas que enriquecen el lenguaje descriptivo y la exploración táctil." },
+    { id: "chickpea", name: "Garbanzos",       price: 4, color: "#d8c08f",
+      skill: "Motricidad fina",
+      desc: "Trasvasar con cuchara o pinza fortalece la mano y la coordinación de ambos lados del cuerpo." },
+    { id: "pinecone", name: "Piñas",           price: 5, color: "#7c5d43",
+      skill: "Curiosidad natural",
+      desc: "Estructuras naturales que despiertan la observación, el asombro y el contacto con la naturaleza." },
+    { id: "felt",     name: "Bolas de Fieltro", price: 6, color: "#94a785",
+      skill: "Discriminación de color",
+      desc: "Clasificar por color afina la percepción visual y el pensamiento lógico inicial." }
   ];
 
   var byId = {};
   INGREDIENTS.forEach(function (i) { byId[i.id] = i; });
 
-  // scoops[id] = number of times added
+  // scoops[id] = número de veces añadido
   var scoops = {};
 
   var shelf       = document.getElementById("shelf");
   var tray        = document.getElementById("tray");
   var trayInner   = document.getElementById("trayInner");
   var recipeRows  = document.getElementById("recipeRows");
-  var emptyRecipe = document.getElementById("emptyRecipe");
   var totalValue  = document.getElementById("totalValue");
+  var devSummary  = document.getElementById("devSummary");
+  var devList     = document.getElementById("devList");
   var buyBtn      = document.getElementById("buyBtn");
   var resetBtn    = document.getElementById("resetBtn");
   var giftName    = document.getElementById("giftName");
@@ -519,6 +617,7 @@
   var modalText   = document.getElementById("modalText");
   var modalTitle  = document.getElementById("modalTitle");
   var modalReceipt= document.getElementById("modalReceipt");
+  var modalDevList= document.getElementById("modalDevList");
   var modalClose  = document.getElementById("modalClose");
 
   function shade(hex, amt) {
@@ -530,19 +629,18 @@
   }
   function rand(a, b) { return a + Math.random() * (b - a); }
 
-  // ---- Build the pantry shelf ----
+  // ---- Construir la despensa ----
   INGREDIENTS.forEach(function (ing) {
     var btn = document.createElement("button");
     btn.className = "ing ui";
     btn.type = "button";
     btn.setAttribute("data-id", ing.id);
-    btn.setAttribute("aria-label", "Add " + ing.name);
+    btn.setAttribute("aria-label", "Añadir " + ing.name + " — desarrolla " + ing.skill);
 
     var dish = document.createElement("div");
     dish.className = "dish";
     dish.style.setProperty("--dish", ing.color);
 
-    // sprinkle a few specks so each material reads as a texture
     for (var s = 0; s < 11; s++) {
       var sp = document.createElement("span");
       sp.className = "speck";
@@ -560,19 +658,24 @@
     name.className = "name";
     name.textContent = ing.name;
 
+    var skill = document.createElement("div");
+    skill.className = "skill";
+    skill.textContent = "Desarrolla · " + ing.skill;
+
     var price = document.createElement("div");
     price.className = "price";
-    price.textContent = "$" + ing.price + " · per scoop";
+    price.textContent = "$" + ing.price + " · por cucharada";
 
     btn.appendChild(dish);
     btn.appendChild(name);
+    btn.appendChild(skill);
     btn.appendChild(price);
     shelf.appendChild(btn);
 
     attachDrag(btn, ing);
   });
 
-  // ---- Pointer-based drag (works for mouse + touch) ----
+  // ---- Arrastre con puntero (ratón + táctil) ----
   function attachDrag(el, ing) {
     var ghost = null;
     var startX = 0, startY = 0, moved = false, dragging = false;
@@ -611,7 +714,7 @@
       tray.classList.remove("lift");
       if (ghost) { ghost.remove(); ghost = null; }
 
-      // dropped on tray, or a plain tap on the material → add a scoop
+      // soltado sobre la bandeja, o un toque simple → añade una cucharada
       if (overTray(e.clientX, e.clientY) || !moved) {
         addScoop(ing.id);
       }
@@ -630,7 +733,7 @@
     return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
   }
 
-  // ---- Add / remove materials ----
+  // ---- Añadir / quitar materiales ----
   function addScoop(id) {
     scoops[id] = (scoops[id] || 0) + 1;
     tray.classList.add("filled");
@@ -678,14 +781,16 @@
   function renderRecipe() {
     var ids = Object.keys(scoops);
     recipeRows.innerHTML = "";
+    devList.innerHTML = "";
 
     if (ids.length === 0) {
       var e = document.createElement("div");
       e.className = "empty-recipe";
-      e.textContent = "Nothing added yet";
+      e.textContent = "Aún no has añadido nada";
       recipeRows.appendChild(e);
       buyBtn.disabled = true;
       totalValue.textContent = "$0";
+      devSummary.hidden = true;
       return;
     }
 
@@ -706,7 +811,7 @@
       sw.style.background = ing.color;
       var nm = document.createElement("span");
       nm.innerHTML = ing.name +
-        ' <span class="qty">×' + qty + " scoop" + (qty > 1 ? "s" : "") + "</span>";
+        ' <span class="qty">×' + qty + " cucharada" + (qty > 1 ? "s" : "") + "</span>";
       label.appendChild(sw);
       label.appendChild(nm);
 
@@ -718,7 +823,7 @@
       var rm = document.createElement("button");
       rm.className = "rm";
       rm.type = "button";
-      rm.setAttribute("aria-label", "Remove " + ing.name);
+      rm.setAttribute("aria-label", "Quitar " + ing.name);
       rm.textContent = "×";
       rm.addEventListener("click", function () { removeIngredient(id); });
       right.appendChild(lp);
@@ -727,13 +832,25 @@
       row.appendChild(label);
       row.appendChild(right);
       recipeRows.appendChild(row);
+
+      // fila del resumen de capacidades
+      var li = document.createElement("li");
+      var dot = document.createElement("span");
+      dot.className = "dot";
+      dot.style.background = ing.color;
+      var txt = document.createElement("div");
+      txt.innerHTML = "<b>" + ing.skill + "</b> · <span>" + ing.desc + "</span>";
+      li.appendChild(dot);
+      li.appendChild(txt);
+      devList.appendChild(li);
     });
 
     totalValue.textContent = "$" + total;
     buyBtn.disabled = false;
+    devSummary.hidden = false;
   }
 
-  // ---- Reset ----
+  // ---- Vaciar ----
   resetBtn.addEventListener("click", function () {
     scoops = {};
     trayInner.querySelectorAll(".grain").forEach(function (g) {
@@ -744,35 +861,50 @@
     renderRecipe();
   });
 
-  // ---- Buy / gift ----
+  // ---- Regalar ----
   buyBtn.addEventListener("click", function () {
     var ids = Object.keys(scoops);
     if (ids.length === 0) return;
 
     var total = 0;
     modalReceipt.innerHTML = "";
+    modalDevList.innerHTML = "";
+
     ids.forEach(function (id) {
       var ing = byId[id];
       var line = ing.price * scoops[id];
       total += line;
+
       var r = document.createElement("div");
       r.className = "r";
       r.innerHTML = "<span>" + ing.name + " ×" + scoops[id] +
                     "</span><span>$" + line + "</span>";
       modalReceipt.appendChild(r);
+
+      var li = document.createElement("li");
+      var dot = document.createElement("span");
+      dot.className = "dot";
+      dot.style.background = ing.color;
+      var txt = document.createElement("div");
+      txt.innerHTML = "<b>" + ing.name + " — " + ing.skill + "</b><br>" +
+                      "<span>" + ing.desc + "</span>";
+      li.appendChild(dot);
+      li.appendChild(txt);
+      modalDevList.appendChild(li);
     });
+
     var t = document.createElement("div");
     t.className = "r tot";
     t.innerHTML = "<span>Total</span><span>$" + total + "</span>";
     modalReceipt.appendChild(t);
 
     var who = giftName.value.trim();
-    modalTitle.textContent = who ? "For " + who + ", with care" : "A tray on its way";
+    modalTitle.textContent = who ? "Para " + who + ", con cariño" : "Una bandeja en camino";
     modalText.textContent = who
-      ? "A calm, hand-composed sensory tray is being prepared for " + who +
-        ". May it bring many quiet, curious moments."
-      : "Your hand-composed sensory tray is being prepared. May it bring " +
-        "many quiet, curious moments of discovery.";
+      ? "Estamos preparando una bandeja sensorial hecha a mano para " + who +
+        ". Estas son las capacidades que ayudará a desarrollar:"
+      : "Estamos preparando tu bandeja sensorial hecha a mano. Estas son las " +
+        "capacidades que ayudará a desarrollar en tu peque:";
 
     overlay.classList.add("show");
   });
