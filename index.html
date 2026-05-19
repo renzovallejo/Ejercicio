@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Sensory Tray Studio · A calm, Montessori-inspired play kit</title>
+<style>
+  :root {
+    --paper:        #faf6f0;
+    --paper-warm:   #f3ece1;
+    --ink:          #3a352e;
+    --ink-soft:     #7a7163;
+    --line:         #e4dccd;
+    --wood:         #c9a972;
+    --wood-deep:    #b08c54;
+    --wood-shadow:  #8a6b3c;
+    --accent:       #8a9a7b;
+    --accent-deep:  #6f7f60;
+    --shadow:       0 18px 40px -22px rgba(58, 53, 46, .45);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    background:
+      radial-gradient(1200px 700px at 50% -10%, #fffdf9 0%, var(--paper) 55%, var(--paper-warm) 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  .ui { font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif; }
+
+  header {
+    text-align: center;
+    padding: 46px 20px 8px;
+  }
+  header .eyebrow {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .34em;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-weight: 500;
+    font-size: clamp(28px, 4.4vw, 46px);
+    letter-spacing: .01em;
+  }
+  header p {
+    margin: 14px auto 0;
+    max-width: 540px;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .studio {
+    max-width: 1180px;
+    margin: 30px auto 80px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 0.92fr;
+    gap: 54px;
+    align-items: start;
+  }
+
+  /* ---------- Pantry / ingredients ---------- */
+  .pantry h2, .checkout h2 {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .26em;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+    font-weight: 600;
+  }
+
+  .shelf {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px 18px;
+  }
+
+  .ing {
+    background: none;
+    border: 0;
+    cursor: grab;
+    text-align: center;
+    padding: 10px 6px;
+    border-radius: 16px;
+    transition: transform .25s ease, background .25s ease;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ing:hover { transform: translateY(-4px); background: rgba(255,255,255,.55); }
+  .ing:active { cursor: grabbing; }
+  .ing.dragging { opacity: .35; }
+
+  .dish {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,.55), rgba(255,255,255,0) 55%),
+      var(--dish, #ddd);
+    box-shadow:
+      inset 0 -8px 14px -8px rgba(0,0,0,.28),
+      inset 0 4px 8px -4px rgba(255,255,255,.7),
+      0 10px 18px -12px rgba(58,53,46,.5);
+  }
+  .dish .speck {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .ing .name {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+  .ing .price {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+
+  .hint-line {
+    margin-top: 26px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    border-left: 2px solid var(--line);
+    padding-left: 14px;
+  }
+
+  /* ---------- Tray ---------- */
+  .checkout { position: sticky; top: 28px; }
+
+  .tray-wrap { perspective: 1200px; }
+
+  .tray {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 0.86;
+    border-radius: 30px;
+    background:
+      linear-gradient(180deg, var(--wood) 0%, var(--wood-deep) 100%);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .tray.lift {
+    transform: rotateX(3deg) scale(1.012);
+    box-shadow: 0 30px 55px -24px rgba(58,53,46,.6);
+  }
+
+  .tray-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 50% 0%, #fcf8f1 0%, #efe6d4 70%, #e7dcc4 100%);
+    box-shadow:
+      inset 0 10px 22px -12px rgba(138,107,60,.6),
+      inset 0 -8px 16px -10px rgba(138,107,60,.45);
+  }
+
+  .empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    color: var(--ink-soft);
+    padding: 30px;
+    transition: opacity .4s ease;
+  }
+  .empty svg { opacity: .5; }
+  .empty .big {
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: .01em;
+  }
+  .empty .small {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 12.5px;
+    letter-spacing: .04em;
+  }
+  .tray.filled .empty { opacity: 0; pointer-events: none; }
+
+  .grain {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: drop .5s cubic-bezier(.22,.61,.36,1) backwards;
+  }
+  @keyframes drop {
+    0%   { transform: translateY(-26px) scale(.2); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .grain.out { animation: grainOut .35s ease forwards; }
+  @keyframes grainOut {
+    to { transform: scale(0); opacity: 0; }
+  }
+
+  /* ---------- Recipe + buy ---------- */
+  .recipe {
+    margin-top: 26px;
+    background: #fffdf9;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px 22px;
+  }
+  .recipe-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--line);
+    animation: rowIn .3s ease;
+  }
+  @keyframes rowIn { from { opacity: 0; transform: translateY(4px); } }
+  .recipe-row:last-of-type { border-bottom: 0; }
+  .recipe-row .label { display: flex; align-items: center; gap: 11px; }
+  .recipe-row .swatch {
+    width: 16px; height: 16px; border-radius: 50%;
+    box-shadow: inset 0 -3px 4px -2px rgba(0,0,0,.3);
+    flex: none;
+  }
+  .recipe-row .qty {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    margin-left: 2px;
+  }
+  .recipe-row .right { display: flex; align-items: center; gap: 12px; }
+  .recipe-row .lp { color: var(--ink-soft); }
+  .recipe-row button.rm {
+    border: 0; background: none; cursor: pointer;
+    color: var(--ink-soft); font-size: 17px; line-height: 1;
+    width: 24px; height: 24px; border-radius: 50%;
+    transition: background .2s, color .2s;
+  }
+  .recipe-row button.rm:hover { background: var(--paper-warm); color: var(--ink); }
+
+  .recipe .empty-recipe {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+
+  .totals {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .totals .t-label {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .totals .t-value { font-size: 26px; font-weight: 500; }
+
+  .gift-name {
+    width: 100%;
+    margin-top: 18px;
+    padding: 13px 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fffdf9;
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .gift-name::placeholder { color: var(--ink-soft); }
+  .gift-name:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .actions { display: flex; gap: 12px; margin-top: 16px; }
+
+  .btn {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    border-radius: 13px;
+    padding: 15px 22px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform .15s ease, background .25s ease, opacity .25s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    flex: 1;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 12px 22px -14px var(--accent-deep);
+  }
+  .btn-primary:hover { background: var(--accent-deep); }
+  .btn-primary:disabled {
+    background: var(--line);
+    color: var(--ink-soft);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border-color: var(--line);
+  }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+  /* ---------- Floating drag ghost ---------- */
+  .ghost {
+    position: fixed;
+    z-index: 999;
+    pointer-events: none;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 16px 28px -14px rgba(58,53,46,.6);
+    opacity: .96;
+  }
+
+  /* ---------- Modal ---------- */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(43, 39, 33, .42);
+    backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+    z-index: 1000;
+  }
+  .overlay.show { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: var(--paper);
+    border-radius: 22px;
+    max-width: 420px;
+    width: 100%;
+    padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 40px 70px -30px rgba(0,0,0,.5);
+    transform: translateY(14px) scale(.98);
+    transition: transform .35s cubic-bezier(.22,.61,.36,1);
+  }
+  .overlay.show .modal { transform: none; }
+  .modal .seal {
+    width: 64px; height: 64px; border-radius: 50%;
+    margin: 0 auto 22px;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px;
+  }
+  .modal h3 { font-size: 24px; font-weight: 500; margin-bottom: 12px; }
+  .modal p {
+    color: var(--ink-soft);
+    font-size: 15px; line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .modal .receipt {
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    text-align: left;
+    margin: 22px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 0;
+  }
+  .modal .receipt .r {
+    display: flex; justify-content: space-between;
+    font-size: 13.5px; padding: 5px 0; color: var(--ink);
+  }
+  .modal .receipt .r span:last-child { color: var(--ink-soft); }
+  .modal .receipt .r.tot {
+    font-weight: 700; font-size: 15px;
+    margin-top: 8px; padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .modal .receipt .r.tot span:last-child { color: var(--ink); }
+  .modal .btn-primary { width: 100%; margin-top: 6px; }
+
+  @media (max-width: 860px) {
+    .studio { grid-template-columns: 1fr; gap: 40px; }
+    .checkout { position: static; }
+    .checkout { order: -1; }
+    header { padding-top: 34px; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="eyebrow">Sensory Tray Studio</div>
+    <h1>Compose a calm little world</h1>
+    <p>Drag natural materials from the pantry into the tray. Build a quiet,
+       tactile invitation to play — then gift it to your child.</p>
+  </header>
+
+  <main class="studio">
+
+    <section class="pantry" aria-label="Pantry of materials">
+      <h2>The Pantry</h2>
+      <div class="shelf" id="shelf"></div>
+      <p class="hint-line">
+        Drag a material onto the tray, or simply tap it. Add a few — layering
+        textures is what makes a sensory tray sing.
+      </p>
+    </section>
+
+    <section class="checkout" aria-label="Your tray">
+      <h2>Your Tray</h2>
+
+      <div class="tray-wrap">
+        <div class="tray" id="tray">
+          <div class="tray-inner" id="trayInner">
+            <div class="empty" id="emptyState">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                <path d="M3 9h18M3 9l1.6 9.2A2 2 0 0 0 6.57 20h10.86a2 2 0 0 0 1.97-1.8L21 9M3 9l2-5h14l2 5"/>
+              </svg>
+              <div class="big">Your tray is waiting</div>
+              <div class="small ui">Drag or tap a material to begin</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe" id="recipe">
+        <div id="recipeRows">
+          <div class="empty-recipe" id="emptyRecipe">Nothing added yet</div>
+        </div>
+        <div class="totals">
+          <span class="t-label">Total</span>
+          <span class="t-value" id="totalValue">$0</span>
+        </div>
+        <input class="gift-name" id="giftName" type="text"
+               placeholder="Who is this tray for? (optional)" maxlength="24" />
+        <div class="actions">
+          <button class="btn btn-ghost ui" id="resetBtn">Empty tray</button>
+          <button class="btn btn-primary ui" id="buyBtn" disabled>
+            Gift this tray
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="seal">✓</div>
+      <h3 id="modalTitle">A tray on its way</h3>
+      <p id="modalText"></p>
+      <div class="receipt" id="modalReceipt"></div>
+      <button class="btn btn-primary ui" id="modalClose">Lovely — close</button>
+    </div>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var INGREDIENTS = [
+    { id: "rice",     name: "Organic Rice",   price: 4, color: "#efe2c6" },
+    { id: "lentils",  name: "Red Lentils",    price: 4, color: "#cf8163" },
+    { id: "beads",    name: "Wooden Beads",   price: 7, color: "#c39257" },
+    { id: "pebbles",  name: "River Pebbles",  price: 6, color: "#a7a097" },
+    { id: "lavender", name: "Dried Lavender", price: 8, color: "#9586a6" },
+    { id: "shells",   name: "Sea Shells",     price: 9, color: "#e7d4bd" },
+    { id: "chickpea", name: "Chickpeas",      price: 4, color: "#d8c08f" },
+    { id: "pinecone", name: "Pinecones",      price: 5, color: "#7c5d43" },
+    { id: "felt",     name: "Felt Balls",     price: 6, color: "#94a785" }
+  ];
+
+  var byId = {};
+  INGREDIENTS.forEach(function (i) { byId[i.id] = i; });
+
+  // scoops[id] = number of times added
+  var scoops = {};
+
+  var shelf       = document.getElementById("shelf");
+  var tray        = document.getElementById("tray");
+  var trayInner   = document.getElementById("trayInner");
+  var recipeRows  = document.getElementById("recipeRows");
+  var emptyRecipe = document.getElementById("emptyRecipe");
+  var totalValue  = document.getElementById("totalValue");
+  var buyBtn      = document.getElementById("buyBtn");
+  var resetBtn    = document.getElementById("resetBtn");
+  var giftName    = document.getElementById("giftName");
+  var overlay     = document.getElementById("overlay");
+  var modalText   = document.getElementById("modalText");
+  var modalTitle  = document.getElementById("modalTitle");
+  var modalReceipt= document.getElementById("modalReceipt");
+  var modalClose  = document.getElementById("modalClose");
+
+  function shade(hex, amt) {
+    var n = parseInt(hex.slice(1), 16);
+    var r = Math.min(255, Math.max(0, (n >> 16) + amt));
+    var g = Math.min(255, Math.max(0, ((n >> 8) & 255) + amt));
+    var b = Math.min(255, Math.max(0, (n & 255) + amt));
+    return "rgb(" + r + "," + g + "," + b + ")";
+  }
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  // ---- Build the pantry shelf ----
+  INGREDIENTS.forEach(function (ing) {
+    var btn = document.createElement("button");
+    btn.className = "ing ui";
+    btn.type = "button";
+    btn.setAttribute("data-id", ing.id);
+    btn.setAttribute("aria-label", "Add " + ing.name);
+
+    var dish = document.createElement("div");
+    dish.className = "dish";
+    dish.style.setProperty("--dish", ing.color);
+
+    // sprinkle a few specks so each material reads as a texture
+    for (var s = 0; s < 11; s++) {
+      var sp = document.createElement("span");
+      sp.className = "speck";
+      var d = rand(7, 14);
+      sp.style.width = d + "px";
+      sp.style.height = d + "px";
+      sp.style.left = rand(8, 76) + "%";
+      sp.style.top = rand(8, 76) + "%";
+      sp.style.background = shade(ing.color, Math.random() < .5 ? -26 : 22);
+      sp.style.opacity = 0.85;
+      dish.appendChild(sp);
+    }
+
+    var name = document.createElement("div");
+    name.className = "name";
+    name.textContent = ing.name;
+
+    var price = document.createElement("div");
+    price.className = "price";
+    price.textContent = "$" + ing.price + " · per scoop";
+
+    btn.appendChild(dish);
+    btn.appendChild(name);
+    btn.appendChild(price);
+    shelf.appendChild(btn);
+
+    attachDrag(btn, ing);
+  });
+
+  // ---- Pointer-based drag (works for mouse + touch) ----
+  function attachDrag(el, ing) {
+    var ghost = null;
+    var startX = 0, startY = 0, moved = false, dragging = false;
+
+    el.addEventListener("pointerdown", function (e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      dragging = true; moved = false;
+      startX = e.clientX; startY = e.clientY;
+      el.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    el.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      if (!moved && Math.hypot(dx, dy) < 7) return;
+
+      if (!moved) {
+        moved = true;
+        el.classList.add("dragging");
+        ghost = document.createElement("div");
+        ghost.className = "ghost";
+        ghost.style.background =
+          "radial-gradient(circle at 32% 28%, rgba(255,255,255,.5), rgba(255,255,255,0) 55%), " + ing.color;
+        document.body.appendChild(ghost);
+      }
+      ghost.style.left = e.clientX + "px";
+      ghost.style.top  = e.clientY + "px";
+      tray.classList.toggle("lift", overTray(e.clientX, e.clientY));
+    });
+
+    el.addEventListener("pointerup", function (e) {
+      if (!dragging) return;
+      dragging = false;
+      el.classList.remove("dragging");
+      tray.classList.remove("lift");
+      if (ghost) { ghost.remove(); ghost = null; }
+
+      // dropped on tray, or a plain tap on the material → add a scoop
+      if (overTray(e.clientX, e.clientY) || !moved) {
+        addScoop(ing.id);
+      }
+    });
+
+    el.addEventListener("pointercancel", function () {
+      dragging = false;
+      el.classList.remove("dragging");
+      tray.classList.remove("lift");
+      if (ghost) { ghost.remove(); ghost = null; }
+    });
+  }
+
+  function overTray(x, y) {
+    var r = tray.getBoundingClientRect();
+    return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  }
+
+  // ---- Add / remove materials ----
+  function addScoop(id) {
+    scoops[id] = (scoops[id] || 0) + 1;
+    tray.classList.add("filled");
+    spawnGrains(id, 13);
+    renderRecipe();
+  }
+
+  function removeIngredient(id) {
+    delete scoops[id];
+    var gs = trayInner.querySelectorAll('.grain[data-id="' + id + '"]');
+    gs.forEach(function (g) {
+      g.classList.add("out");
+      setTimeout(function () { g.remove(); }, 340);
+    });
+    if (Object.keys(scoops).length === 0) {
+      setTimeout(function () { tray.classList.remove("filled"); }, 200);
+    }
+    renderRecipe();
+  }
+
+  function spawnGrains(id, count) {
+    var ing = byId[id];
+    var rect = trayInner.getBoundingClientRect();
+    var pad = 16;
+    for (var i = 0; i < count; i++) {
+      var g = document.createElement("div");
+      g.className = "grain";
+      g.setAttribute("data-id", id);
+      var size = rand(8, 17);
+      g.style.width = size + "px";
+      g.style.height = size + "px";
+      g.style.left = rand(pad, rect.width - pad - size) + "px";
+      g.style.top  = rand(pad, rect.height - pad - size) + "px";
+      g.style.background = shade(ing.color, (Math.random() < .5 ? -1 : 1) * rand(6, 30));
+      g.style.borderRadius = (id === "pinecone" || id === "shells")
+        ? rand(20, 45) + "% " + rand(40, 60) + "%"
+        : "50%";
+      g.style.boxShadow = "inset 0 -3px 5px -2px rgba(0,0,0,.3)";
+      g.style.animationDelay = (i * 0.018) + "s";
+      g.style.zIndex = String(Math.floor(rand(1, 50)));
+      trayInner.appendChild(g);
+    }
+  }
+
+  function renderRecipe() {
+    var ids = Object.keys(scoops);
+    recipeRows.innerHTML = "";
+
+    if (ids.length === 0) {
+      var e = document.createElement("div");
+      e.className = "empty-recipe";
+      e.textContent = "Nothing added yet";
+      recipeRows.appendChild(e);
+      buyBtn.disabled = true;
+      totalValue.textContent = "$0";
+      return;
+    }
+
+    var total = 0;
+    ids.forEach(function (id) {
+      var ing = byId[id];
+      var qty = scoops[id];
+      var line = ing.price * qty;
+      total += line;
+
+      var row = document.createElement("div");
+      row.className = "recipe-row";
+
+      var label = document.createElement("div");
+      label.className = "label";
+      var sw = document.createElement("span");
+      sw.className = "swatch";
+      sw.style.background = ing.color;
+      var nm = document.createElement("span");
+      nm.innerHTML = ing.name +
+        ' <span class="qty">×' + qty + " scoop" + (qty > 1 ? "s" : "") + "</span>";
+      label.appendChild(sw);
+      label.appendChild(nm);
+
+      var right = document.createElement("div");
+      right.className = "right";
+      var lp = document.createElement("span");
+      lp.className = "lp";
+      lp.textContent = "$" + line;
+      var rm = document.createElement("button");
+      rm.className = "rm";
+      rm.type = "button";
+      rm.setAttribute("aria-label", "Remove " + ing.name);
+      rm.textContent = "×";
+      rm.addEventListener("click", function () { removeIngredient(id); });
+      right.appendChild(lp);
+      right.appendChild(rm);
+
+      row.appendChild(label);
+      row.appendChild(right);
+      recipeRows.appendChild(row);
+    });
+
+    totalValue.textContent = "$" + total;
+    buyBtn.disabled = false;
+  }
+
+  // ---- Reset ----
+  resetBtn.addEventListener("click", function () {
+    scoops = {};
+    trayInner.querySelectorAll(".grain").forEach(function (g) {
+      g.classList.add("out");
+      setTimeout(function () { g.remove(); }, 340);
+    });
+    setTimeout(function () { tray.classList.remove("filled"); }, 220);
+    renderRecipe();
+  });
+
+  // ---- Buy / gift ----
+  buyBtn.addEventListener("click", function () {
+    var ids = Object.keys(scoops);
+    if (ids.length === 0) return;
+
+    var total = 0;
+    modalReceipt.innerHTML = "";
+    ids.forEach(function (id) {
+      var ing = byId[id];
+      var line = ing.price * scoops[id];
+      total += line;
+      var r = document.createElement("div");
+      r.className = "r";
+      r.innerHTML = "<span>" + ing.name + " ×" + scoops[id] +
+                    "</span><span>$" + line + "</span>";
+      modalReceipt.appendChild(r);
+    });
+    var t = document.createElement("div");
+    t.className = "r tot";
+    t.innerHTML = "<span>Total</span><span>$" + total + "</span>";
+    modalReceipt.appendChild(t);
+
+    var who = giftName.value.trim();
+    modalTitle.textContent = who ? "For " + who + ", with care" : "A tray on its way";
+    modalText.textContent = who
+      ? "A calm, hand-composed sensory tray is being prepared for " + who +
+        ". May it bring many quiet, curious moments."
+      : "Your hand-composed sensory tray is being prepared. May it bring " +
+        "many quiet, curious moments of discovery.";
+
+    overlay.classList.add("show");
+  });
+
+  function closeModal() { overlay.classList.remove("show"); }
+  modalClose.addEventListener("click", closeModal);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeModal();
+  });
+
+  renderRecipe();
+})();
+</script>
+</body>
+</html>
