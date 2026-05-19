@@ -268,6 +268,25 @@
     min-width:36px; text-align:center; font-weight:700; font-size:15px;
     color:var(--ink); font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
   }
+  .kit-tools {
+    margin:0 0 18px; padding:14px 16px; border:1px solid var(--line);
+    border-radius:14px; background:var(--paper-warm);
+  }
+  .kit-tools[hidden] { display:none; }
+  .kit-tools label {
+    display:block; font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:12px; font-weight:700; color:var(--ink-soft);
+    margin-bottom:9px; letter-spacing:.02em;
+  }
+  .kt-row { display:flex; gap:10px; }
+  .kt-row input {
+    flex:1; min-width:0; border:1px solid var(--line); border-radius:11px;
+    padding:13px 14px; background:#fff;
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
+    font-size:16px; color:var(--ink);
+  }
+  .kt-row input:focus { outline:2px solid var(--magic); outline-offset:1px; }
+  .kt-row .btn { flex:0 0 auto; padding:13px 18px; }
   .gift-empty {
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif; color:var(--ink-soft);
     font-size:14px; text-align:center; padding:24px 6px; line-height:1.6;
@@ -506,6 +525,14 @@
         Elige cuántas unidades quieres de cada experimento: se entrega una
         bandeja a cada pequeño invitado para que todos jueguen y se la lleven a casa.
       </p>
+      <div class="kit-tools" id="kitTools" hidden>
+        <label for="kitGuests">Repartir 1 bandeja a cada invitado</label>
+        <div class="kt-row">
+          <input id="kitGuests" type="number" min="1" max="60" inputmode="numeric"
+                 placeholder="Nº de pequeños invitados" />
+          <button class="btn btn-ghost ui" type="button" id="applyGuests">Aplicar a todos</button>
+        </div>
+      </div>
       <div class="gift-grid" id="giftTrays">
         <div class="gift-empty" id="giftEmpty">
           Aún no hay experimentos en el kit. Crea uno arriba y súmalo; luego
@@ -716,7 +743,7 @@
       recipeRows=$("recipeRows"), trayTotal=$("trayTotal"),
       devSummary=$("devSummary"), devList=$("devList"),
       trayName=$("trayName"), clearBtn=$("clearBtn"), addTrayBtn=$("addTrayBtn"),
-      giftTrays=$("giftTrays"), giftEmpty=$("giftEmpty"),
+      giftTrays=$("giftTrays"), giftEmpty=$("giftEmpty"), kitTools=$("kitTools"),
       giftCount=$("giftCount"), giftTotal=$("giftTotal"),
       checkoutBtn=$("checkoutBtn"), overlay=$("overlay"),
       bar=$("bar"), barLabel=$("barLabel"), barVal=$("barVal"), barBtn=$("barBtn");
@@ -932,6 +959,14 @@
   }
   addTrayBtn.addEventListener("click", addTrayToGift);
 
+  $("applyGuests").addEventListener("click", function () {
+    var n = parseInt($("kitGuests").value, 10);
+    if (!n || n < 1) return;
+    n = Math.min(60, n);
+    gift.forEach(function (t) { t.qty = n; });
+    renderGift();
+  });
+
   function uniqueSkills(scoopsList) {
     var seen = {}, out = [];
     scoopsList.forEach(function (sc) {
@@ -944,6 +979,7 @@
   }
 
   function renderGift() {
+    kitTools.hidden = gift.length === 0;
     giftTrays.innerHTML = "";
     if (gift.length === 0) {
       giftTrays.appendChild(giftEmpty);
@@ -1056,6 +1092,8 @@
     var t = todayISO();
     $("birthday").min = t;
     $("deliveryDate").min = t;
+    var kg = $("kitGuests").value.trim();
+    if (kg && !$("guests").value) $("guests").value = kg;
     showStep(1);
     overlay.classList.add("show");
     document.body.classList.add("lock");
@@ -1231,7 +1269,7 @@
 
   $("finishBtn").addEventListener("click", function () {
     gift = []; current = {};
-    ["childName","childAge","guests","birthday","deliveryDate","phone","address","giftMsg",
+    ["childName","childAge","guests","kitGuests","birthday","deliveryDate","phone","address","giftMsg",
      "cardName","cardNumber","cardExp","cardCvc"].forEach(function (id) { $(id).value = ""; });
     $("dateNote").hidden = true;
     renderGift(); renderCurrent();
